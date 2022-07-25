@@ -12,7 +12,7 @@
 </head>
 <body>
         <div class="container lost">
-            <form action="#" method="post" name="lostpw">
+            <form action="pwfind.do" method="post" name="lostpw">
                 <label id="giude_text">이메일을 입력해주세요.</label>
                 <input type="email" name="email" id="email" class="form-control input" placeholder="Email 주소를 입력하세요." />
                 <input type="button" class="btn-danger col-12" value="비밀번호 찾기" onclick="lost_check()" />
