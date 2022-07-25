@@ -1,0 +1,4 @@
+.container{min-width:300px;max-width: 300px;}
+.lost{margin-top:100px;}
+label{font-size: 15px;font-weight: 700;padding:5px;}
+input[type="email"]{margin-bottom: 10px;}

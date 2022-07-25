@@ -1,0 +1,12 @@
+.container{width:100%;margin: auto;}
+    .sub-container{width:600px;margin: 55px auto 0;padding:20px;}
+    .head-info{height:110px;display: flex;justify-content: left;border-bottom:1px solid #666;}
+        .info{margin-top:30px;}
+            .name{color: black;font-size: 16px;}
+    .main-info{margin-top:20px;padding-left:20px;}
+        .main-info h5{font-weight: 800;}
+            .HR-info{margin:20px 0;}                                              
+                .info-box{padding-left:15px;display: flex;}                
+                    .title{width:150px;}
+                    .content{width:400px;color:slateblue;}
+                    
