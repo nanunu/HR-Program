@@ -27,9 +27,12 @@ function lost_pw(){
 }
 
 function logout(){
-    if(confirm('퇴근처리를 도와드릴까요?')){
-		alert("오늘도 수고하셨습니다!");
-        location.replace("logout.do");
+    if(confirm('퇴근처리를 도와드릴까요?\n 한번 퇴근하면 당일안으로 다시 로그인을 할 수 없습니다.')){
+		if(confirm('정말로 퇴근처리를 할까요?')){
+			alert("오늘도 수고하셨습니다!");
+        	location.replace("logout.do");
+        }
+        else{ return false; }                
     }
     else{ return false; }
 }

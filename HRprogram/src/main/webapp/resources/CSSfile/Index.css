@@ -20,7 +20,7 @@ a,a:hover,a:visited,a:default{display:inline-block; text-decoration: none;}
     .left-container{width:300px;height:100%;background-color: slateblue;position: relative;}
         .company-logo{
                 font-size:24px;font-weight: 900;margin:10px;height:100px;width:300px;display: block;margin-bottom:30px;
-                background-image: url("/resources/image/company/logo_transparent.png");
+                background-image: url("../image/company/logo_transparent.png");
                 background-repeat: no-repeat; background-position: left center;
                 background-size: 280px;
             }        

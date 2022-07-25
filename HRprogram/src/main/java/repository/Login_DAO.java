@@ -49,7 +49,7 @@ public class Login_DAO {
 		
 	}
 	
-	public Integer Cmtime_checking(String Ecode) {
+	public Integer Cmtime_checking(String Ecode) { //퇴근 시간이 null값인 오늘 날짜로 검색
 		LocalDateTime datetime = LocalDateTime.now();
 		
 		String month;
@@ -59,9 +59,9 @@ public class Login_DAO {
 		
 		String date = datetime.getYear()+"-"+month+"-"+datetime.getDayOfMonth();
 		
-		String sql = "select count(Ecode) from Commute where CmDay=?";
+		String sql = "select count(Ecode) from Commute where CmDay=? and Ecode=? and CmGetoffTime=null";
 		
-		return jt.queryForObject(sql, Integer.class, date);		
+		return jt.queryForObject(sql, Integer.class, date, Ecode);		
 	}
 	
 	

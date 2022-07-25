@@ -29,11 +29,10 @@ public class MvcConfig implements WebMvcConfigurer{
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/go_record.do").setViewName("time/work_record"); 
-		// go_record.do 요청이 오면 time/work_recode.jsp로 바로 이동.
-		registry.addViewController("/go_login.do").setViewName(""); 
-		// go_record.do 요청이 오면 time/work_recode.jsp로 바로 이동.
-		
+		// prefix 요청이 오면 subfix 바로이동.
+		registry.addViewController("/go_record.do").setViewName("time/work_record");
+		registry.addViewController("/error.do").setViewName("Exception/Exception_print");
+		 
 	}
 	
 	
