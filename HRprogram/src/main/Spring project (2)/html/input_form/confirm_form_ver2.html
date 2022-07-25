@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title>탄력근무제 신청란</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/ef95c4be0b.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/resources/JSfile/Index.js"></script>
+    <script type="text/javascript" src="/resources/JSfile/Confirm_form.js"></script>
+    <link rel="stylesheet"  href="/resources/CSSfile/Index.css" />
+    <link rel="stylesheet"  href="/resources/CSSfile/Confirm_form.css" />
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-container">
+            <a class="company-logo" href="/html/index.html"></a>
+            <div class="user-box">
+                <img src="/resources/image/staff/Sample_img.jpg" class="profile_img" />
+                <div class="profile_info">
+                    <p class="class">대표이사</p>
+                    <span class="name">김xx 이사</span>
+                </div>
+            </div>
+            <a class="title-menu" onclick="submenu_open('time')"><i class="fa-solid fa-calendar-check"></i><span class="title-text">근태관리</span><i class="fa-solid fa-angle-right angle"></i></a>
+            <a class="title-menu" onclick="submenu_open('money')"><i class="fa-solid fa-comment-dollar"></i><span class="title-text">급여관리</span><i class="fa-solid fa-angle-right angle"></i></a>
+            <a class="title-menu" onclick="submenu_open('view')"><i class="fa-solid fa-circle-question"></i><span class="title-text">직원조회</span><i class="fa-solid fa-angle-right angle"></i></a>
+            <a class="title-menu" onclick="submenu_open('etc')"><i class="fa-solid fa-circle-question"></i><span class="title-text">Sample_Menu</span><i class="fa-solid fa-angle-right angle"></i></a>                               
+            <!-- Index.js로 서브메뉴 추가. -->
+            <div class="sub-left-container" id="sub-menubar">
+                <ul class="sub-menu" id="ul">
+                    <!-- js참고 함수로 li추가. -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- main view -->
+        <div class="right-container">
+            <!-- 상단 메뉴바 출근 퇴근etc -->
+            <nav class="nav-bar">
+                <div class="nav-box">                        
+                    <a class="btn btn-link" href="/html/input_form/confirm_form.html">근태관련신청하기</a>
+                    <a class="button_log" href="#loout" onclick="logout()">퇴근하기</a>
+                </div>
+            </nav>
+            <!-- content 내용 출력구분.  -->
+
+            <div class="form-box">
+                <form action="#" name="form-data" method="post" class="box-control">
+                    <div class="read-only">
+                        <div class="title">
+                            <label>부서명</label>
+                            <label>직급<label>                                      
+                            <label>사원번호</label>
+                            <label>사원명</label>                                
+                        </div>
+                        <div class="content">
+                            <input type="text" class="form-control update-not" name="class" value="경영(인사)부" readonly />
+                            <input type="text" class="form-control update-not" name="rank" value="팀장" readonly />
+                            <input type="text" class="form-control update-not" name="number" value="220101A001B" readonly />
+                            <input type="text" class="form-control update-not" name="name" value="김현일" readonly />                                
+                        </div>                            
+                    </div>
+                    <div class="confirm_class">
+                        <div class="title">
+                            <label>근무신청유형</label>                            
+                        </div>
+                        <div>
+                            <input type="text" name="work_type" class="form-control" value="탄력근무신청" readonly />
+                        </div>
+                    </div>
+                    <div class="confirm_date">
+                        <div class="title">
+                            <label>신청일자</label>                                
+                        </div>
+                        <div class="tmp">
+                            <div class="flex-input content">                                
+                                <input type="date" class="form-control" name="startday" id="startday" onchange="Confirm_day(this)" />
+                                <span style="margin:0 5px;line-height:20px;">~</span>
+                                <input type="date" class="form-control" name="endday" id="endday"/>                                                                
+                            </div>
+                            <div class="flex-input content ">                                    
+                                <!-- 탄력근무신청 선택 > 신청일자(월요일)선택시 요일별 근무시간 설정하는 폼출력란. -->
+                                <div class="input-box" id="input-box">
+                                    <div>
+                                        <label class="weekday"></label><label class="worktime">근무시작시간</label>
+                                    </div>
+                                    <div>
+                                        <label class="weekday">월요일</label><input type='number' name='free-day-start' id='start_1' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(1)' />~<input type='number' name='free-day-end' id='end_1' class='form-control set-time' min='12' max='22' onchange='freetime(1)' /><label id="1"></label>
+                                    </div>
+                                    <div>
+                                        <label class="weekday">화요일</label><input type='number' name='free-day-start' id='start_2' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(2)' />~<input type='number' name='free-day-end' id='end_2' class='form-control set-time' min='12' max='22' onchange='freetime(2)' /><label id="2"></label>
+                                    </div>
+                                    <div>
+                                        <label class="weekday">수요일</label><input type='number' name='free-day-start' id='start_3' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(3)' />~<input type='number' name='free-day-end' id='end_3' class='form-control set-time' min='12' max='22' onchange='freetime(3)' /><label id="3"></label>
+                                    </div>
+                                    <div>
+                                        <label class="weekday">목요일</label><input type='number' name='free-day-start' id='start_4' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(4)' />~<input type='number' name='free-day-end' id='end_4' class='form-control set-time' min='12' max='22' onchange='freetime(4)' /><label id="4"></label>
+                                    </div>
+                                    <div>
+                                        <label class="weekday">금요일</label><input type='number' name='free-day-start' id='start_5' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(5)' />~<input type='number' name='free-day-end' id='end_5' class='form-control set-time' min='12' max='22' onchange='freetime(5)' /><label id="5"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-align">
+                        <input type="reset" class="btn btn-danger" />
+                        <input type="button" class="btn btn-primary" onclick ="Confirm_Checking()" value="결제승인요청" />                            
+                    </div>
+                </form>
+            </div>
+        </div><!-- right-container end -->
+    </div>
+</body>
+</html>

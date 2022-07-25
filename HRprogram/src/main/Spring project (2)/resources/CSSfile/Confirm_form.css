@@ -1,0 +1,21 @@
+.box-control{width:50%;margin: 0 auto;}
+    .read-only{display: flex;justify-content: left;width:100%;}
+        .title{width:150px;}
+            .title label{display:block;padding:5px 0;font-weight: 700;}
+        .content{width:50%;}
+            .update-not{border:none;}
+    .confirm_class{}
+        .confirm_class div{display: flex;justify-content: space-between;width:100%;text-align: left;}            
+            .confirm_class div.title label{width:350px;}            
+            .first-select{width:350px;display: inline-block;}
+            .second-select{width:350px;display:inline-block;}
+            
+    .confirm_date{}
+        .flex-input{display: flex;justify-content: left;width:100%;text-align: left;}
+            input[type="date"]{width:165px;}
+            .input-type{width:50px;}
+            .input-box{width:100%; margin-top:20px;}                         
+                .weekday{width:70px;padding-left:10px;font-weight: 700;}
+                .worktime{width:140px;font-weight: 700;}                
+                .set-time{width:120px;display:inline-flex;}
+    .btn-align{display: flex;justify-content: space-between;margin-top:20px;}

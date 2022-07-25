@@ -1,0 +1,9 @@
+
+*{font-size: 14px;}
+
+.nav-giude{padding:10px 20px;font-size: 12px;}
+.view-container{padding:30px 20px;}
+    .row{display: flex;justify-content: left;}    
+        .table-title{border:solid #666;border-width: 1px 0;display:inline-block;padding:4px;font-weight:700;width:130px;text-align: center;}
+        .content-text{display:inline-block;width:130px;text-align: center;padding:4px;}
+        
