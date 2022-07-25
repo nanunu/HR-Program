@@ -33,6 +33,9 @@ create table Employee(
     foreign key(Dcode) references Department(Dcode)
 );
 
+
+select Ename,Ecode from Employee;
+
 /*3. 휴가 : 휴가코드, 휴가명칭, 부여시간, 부여일*/
 create table Holiday(
 	Hcode varchar(10) not null,
