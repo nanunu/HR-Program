@@ -20,7 +20,7 @@
                 <label class="login-fail">비밀번호를 입력해주세요!</label>                            
             </form>
             <div class="form-button">
-                <a class="lost" onclick="lost_pw()">비밀번호 찾기</a>
+                <a class="lost" onclick="location.href='./lost_pw.jsp'">비밀번호 찾기</a>
                 <a class="login" onclick="login()"> 로그인</a>
             </div>
             <div class="copy">

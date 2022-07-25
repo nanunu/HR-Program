@@ -4,8 +4,8 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import controller.LoginController;
-import repository.Login_DAO;
+import controller.*;
+import repository.*;
 
 @Configuration
 public class AppCtx {
@@ -25,5 +25,9 @@ public class AppCtx {
 	@Bean
 	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
 	
+	@Bean
+	public StaffController StaffController() { return new StaffController(); }
 	
+	@Bean
+	public Staff_DAO Staff_DAO() { return new Staff_DAO(dataSource()); }	
 }

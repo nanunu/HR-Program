@@ -52,25 +52,25 @@ function page(page){
 }
 
 function timepage(page){     
-    if(page==1){location.href = "/html/"+menu_chek+"/work_record.html";}
-    else if(page==2){location.href = "/html/"+menu_chek+"/free_work.html";} 
-    else if(page==3){location.href = "/html/"+menu_chek+"/over_work.html";} 
-    else if(page==4){location.href = "/html/"+menu_chek+"/day_off.html"; }    
+    if(page==1){location.href = "/work_record.do";}
+    else if(page==2){location.href = "/free_work.do";} 
+    else if(page==3){location.href = "/over_work.do";} 
+    else if(page==4){location.href = "/day_off.do"; }    
 }    
 
 function moneypage(page){
-    if(page==1){location.href = "/html/"+menu_chek+"/pay_stub.html";}
-    else if(page==2){ location.href = "/html/"+menu_chek+"/staff_pay_stub.html"; }
+    if(page==1){location.href = "/pay_stub.do";}
+    else if(page==2){ location.href = "/staff_pay_stub.do"; }
 }
 
 function viewpage(page){
-    if(page==1){location.href = "/html/"+menu_chek+"/all_staff.html";}
-    else if(page==2){location.href = "/html/"+menu_chek+"/register_staff.html";}
+    if(page==1){location.href = "/all_staff.do";}
+    else if(page==2){location.href = "/register_staff.do";}
 }
 
 function etcpage(page){
-    if(page==1){location.href = "/html/"+menu_chek+"/work_record.html";}
-    else if(page==2){location.href = "/html/"+menu_chek+"/free_work.html";} 
-    else if(page==3){location.href = "/html/"+menu_chek+"/over_work.html";} 
-    else if(page==4){location.href = "/html/"+menu_chek+"/day_off.html"; }  
+    if(page==1){location.href = "/work_record.do";}
+    else if(page==2){location.href = "/free_work.do";} 
+    else if(page==3){location.href = "/over_work.do";} 
+    else if(page==4){location.href = "/day_off.do"; }  
 }

@@ -36,7 +36,8 @@ public class LoginController {
 		
 		if(dto==null) {
 			PrintWriter print = response.getWriter();
-			print.write("<script>alert('잘못된 정보입니다. 다시입력해주세요!');location.replace('./login.jsp');</script>");
+			print.write("<script>alert('잘못된 정보입니다. 다시입력해주세요!');"
+					+ "location.replace('./login.jsp');</script>");
 			print.close();
 			return "";
 		}
