@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import controller.LoginController;
+import mailService.MailUtil;
+import mailService.UserMailService;
 import repository.Login_DAO;
 
 @Configuration
@@ -24,6 +26,12 @@ public class AppCtx {
 	
 	@Bean
 	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
+	
+	@Bean
+	public MailUtil mailUtil() { return new MailUtil(); }
+	
+	@Bean
+	public UserMailService userMailService() { return new UserMailService(); }
 	
 	
 }
