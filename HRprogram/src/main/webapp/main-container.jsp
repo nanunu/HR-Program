@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<div class="main-container">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <div class="main-container">
         <div class="left-container">
             <a class="company-logo" href="/html/index.html"></a>
             <div class="user-box">
                 <img src="${path}/resources/image/staff/Sample_img.jpg" class="profile_img" />
-                <div class="profile_info">                
+                <div class="profile_info">
                     <p class="class">대표이사</p>
                     <span class="name">김xx 이사</span>
                 </div>
