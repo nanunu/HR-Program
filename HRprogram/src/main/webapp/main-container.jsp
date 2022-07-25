@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="model.SessionDTO" %>
+<%
+	SessionDTO dto = (SessionDTO) session.getAttribute("SessionDTO");	
+%>
     <div class="main-container">
         <div class="left-container">
             <a class="company-logo" href="/html/index.html"></a>
             <div class="user-box">
                 <img src="${path}/resources/image/staff/Sample_img.jpg" class="profile_img" />
                 <div class="profile_info">
-                    <p class="class">대표이사</p>
-                    <span class="name">김xx 이사</span>
+                    <p class="class"><%=dto.getPosition()%>  </p>
+                    <span class="name"><%=dto.getEname()%></span>
                 </div>
             </div>
             <a class="title-menu" onclick="submenu_open('time')"><i class="fa-solid fa-calendar-check"></i><span class="title-text">근태관리</span><i class="fa-solid fa-angle-right angle"></i></a>

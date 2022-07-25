@@ -13,10 +13,10 @@
 <body>
 	<div class="login-container">
             <div class="company-logo">Team_Company</div>
-            <form action="/html/index.html" method="post" id="login_form" name="login_form">
-                <input type="text" name="id" id="id" class="form-control" placeholder="사원번호" />
+            <form action="login.do" method="post" id="login_form" name="login_form">
+                <input type="text" name="Ecode" id="Ecode" class="form-control" placeholder="사원번호" />
                 <label class="login-fail">사원번호를 입력해주세요!</label>
-                <input type="password" name="pw" id="pw" class="form-control" placeholder="비밀번호" />
+                <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호" />
                 <label class="login-fail">비밀번호를 입력해주세요!</label>                            
             </form>
             <div class="form-button">

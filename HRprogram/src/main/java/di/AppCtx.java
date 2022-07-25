@@ -4,6 +4,9 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import controller.LoginController;
+import repository.Login_DAO;
+
 @Configuration
 public class AppCtx {
 	@Bean(destroyMethod = "close")
@@ -15,4 +18,12 @@ public class AppCtx {
 		ds.setPassword("1234");
 		return ds;
 	}
+	
+	@Bean
+	public LoginController loginController() { return new LoginController(); }
+	
+	@Bean
+	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
+	
+	
 }
