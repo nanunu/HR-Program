@@ -2,13 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ include file="/header.jsp" %>
-<title>Insert title here</title>
+	<%@ include file="/header.jsp" %>
+	<title>인사기록카드</title>        
+    <link rel="stylesheet"  href="/resources/CSSfile/Info_card.css" />
 </head>
 <body>
 	<%@ include file="/main-container.jsp" %>
-	
 	<%@ include file="/footer.jsp" %>
 </body>
 </html>
