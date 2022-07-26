@@ -21,10 +21,10 @@
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="class" value="경영(인사)부" readonly />
-                            <input type="text" class="form-control update-not" name="rank" value="팀장" readonly />
-                            <input type="text" class="form-control update-not" name="number" value="220101A001B" readonly />
-                            <input type="text" class="form-control update-not" name="name" value="김현일" readonly />                                
+                            <input type="text" class="form-control update-not" name="class" value="<%=dto.getDname() %>" readonly />
+                            <input type="text" class="form-control update-not" name="rank" value="<%=dto.getPosition() %>" readonly />
+                            <input type="text" class="form-control update-not" name="number" value="<%=dto.getEcode() %>" readonly />
+                            <input type="text" class="form-control update-not" name="name" value="<%=dto.getEname() %>" readonly />                                
                         </div>                            
                     </div>
                     <div class="confirm_class">
