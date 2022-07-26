@@ -24,8 +24,9 @@ function Confirm_select(type_tmp){
     탄력근무 신청시 사용되는함수
     신청일자 startday에 값이 입력이 되면, 날짜를 계산하는 함수
 */
-function Confirm_day(date){    
-    let end_day = document.getElementById("endday");
+function Confirm_day(date){ 
+	
+    var end_day = document.getElementById("endday");
     
     var week_day = new Date(date.value);// 2022-07-25.
     var end_date = new Date(date.value);// 2022-07-25.
@@ -47,9 +48,9 @@ function Confirm_day(date){
         if(end_date.getDate() < 10) { dd = "0"+end_date.getDate(); }// 01...09 형식으로 변환.
 
         var text = end_date.getFullYear()+"-"+MM+"-"+dd; // yyyy-mm-dd형식으로 만듦.        
-        end_day.value = text; // input date태그에 값 넣기
-        alert(text);
-        
+        end_day.value = text; // input date태그에 값 넣기        
+       	
+       	return true;        
         /*
             요일별로 근무 시간 입력폼 만들기.        
 	        var div_box = document.getElementById("input-box");
@@ -92,15 +93,15 @@ function freetime(day_class){
 	else{
 		let start = Number.parseInt(start_time[index].value);
 		let end = Number.parseInt(end_time[index].value);
-		 
+		
 		let time = end - start ;
 						
 		if(time<4){ 
-			label_out.innerHTML = "최소 4시간";
+			label_out.innerHTML = "4시간";
 			end_time[index].value = start+4;
 		}
 		else if(time>12){ 
-			label_out.innerHTML = "최대 12시간";
+			label_out.innerHTML = "12시간";
 			end_time[index].value = start+12;
 		 }
 		else{ label_out.innerHTML = time+" 시간"; }
@@ -110,13 +111,34 @@ function freetime(day_class){
 
 /*  */ 
 function Confirm_Checking(){
-	document.form_data.submit();
+	
+	var start_time = document.getElementsByName("freedaystart");	
+	var end_time = document.getElementsByName("freedayend");		
+
+	let total_time = 0;
+	for(var index=0;index<start_time.length;index++){
+		
+		let start = Number.parseInt(start_time[index].value);
+		let end = Number.parseInt(end_time[index].value);
+
+		if(start==null||end==null){ total_time=0; break; }
+		
+		let time = end - start ;		
+		total_time = total_time + time;	
+	}	
+
+	if(total_time==40){		
+		if(Confirm_day(document.getElementById("startday"))){
+			if(confirm('정말 결제요청을 하시겠습니까?')){ document.form_data.submit(); }
+			else{ return false; }
+		}
+	}
+	else{		
+		alert("근무시간을 40시간으로 맞춰주세요!");
+		return false;
+	}
+	
 }
-
-
-
-
-
 
 function day_free(date,end){     
     

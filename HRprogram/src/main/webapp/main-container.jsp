@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.SessionDTO" %>
 <%
-	SessionDTO dto = (SessionDTO) session.getAttribute("SessionDTO");	
+	SessionDTO dto = (SessionDTO) session.getAttribute("SessionDTO");
+	if(dto==null){ out.print("<script>location.replace('login.do');</script>"); }
 %>
     <div class="main-container">
         <div class="left-container">

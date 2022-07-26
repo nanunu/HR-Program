@@ -5,17 +5,17 @@ ul,ol,dt{text-decoration: none; list-style: none;}
 a,a:hover,a:visited,a:default{display:inline-block; text-decoration: none;}
 
 /*boot 적용 안시키기용*/
-.container{min-width:1300px;max-width: 1300px;}
+.container{min-width:1500px;max-width: 1500px;}
 
 /* 사원검색 폼 적용 css */
 .filter-form{}        
-        .form-box{width:1300px;padding:10px 20px;}
+        .form-box{width:100%;padding:10px 20px;}
             .classfy{}
                 .classfy-title{font-weight: 700;padding:0 5px;}
                 .classfy select{border-radius: 5px;padding:5px 0;width:120px;font-weight:900;}
             .search-btn{padding:5px;border-radius: 10px;margin:5px 0;width:120px;display: inline-block;}
 
-.main-container{width:100%;background-color: aliceblue;display: flex;height: 1000px;}
+.main-container{width:100vw;height: 1000px;display: flex;}
 
     .left-container{width:300px;height:100%;background-color: slateblue;position: relative;}
         .company-logo{
