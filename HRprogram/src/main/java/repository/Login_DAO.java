@@ -98,8 +98,8 @@ public class Login_DAO {
 	}
 	
 	/* 비밀번호 찾기 : 임시 비밀번호 업데이트*/
-	public void updateTemporaryPw(String pw) {
-		jt.update("update Emplyee set password=?", pw);
+	public void updateTemporaryPw(String email, String pw) {
+		jt.update("update Employee set password=? where email=?", pw, email);
 	}
 
 	

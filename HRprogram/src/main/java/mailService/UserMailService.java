@@ -30,7 +30,7 @@ public class UserMailService {
 			mailUtil.sendMail(email, tempPw);
 			
 			//임시 비밀번호 업데이트
-			login_DAO.updateTemporaryPw(tempPw);;
+			login_DAO.updateTemporaryPw(email, tempPw);;
 			
 			result = "Success";
 		}else {

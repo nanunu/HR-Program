@@ -30,6 +30,7 @@ public class MailUtil {
 			mail.setSmtpPort(465);
 			mail.setCharset(charSet);
 			mail.setAuthenticator(new DefaultAuthenticator(hostSMTPid, hostSMTPpwd));
+			mail.setSSL(true);
 			mail.setStartTLSEnabled(true);
 			mail.setFrom(fromEmail, fromName, charSet);
 			mail.setSubject(subject);
