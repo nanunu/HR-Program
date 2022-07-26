@@ -29,7 +29,7 @@ public class MvcConfig implements WebMvcConfigurer{
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		// prefix 요청이 오면 subfix 바로이동.
+		// prefix 요청이 오면 suffix 바로이동.
 		registry.addViewController("/go_record.do").setViewName("time/work_record");
 		registry.addViewController("/error.do").setViewName("Exception/Exception_print");
 		 

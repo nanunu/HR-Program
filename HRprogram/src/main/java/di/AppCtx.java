@@ -33,5 +33,4 @@ public class AppCtx {
 	@Bean
 	public UserMailService userMailService() { return new UserMailService(); }
 	
-	
 }
