@@ -46,27 +46,12 @@
                                 <input type="date" class="form-control" name="endday" id="endday"/>                                                                
                             </div>
                             <div class="flex-input content ">                                    
-                                <!-- 탄력근무신청 선택 > 신청일자(월요일)선택시 요일별 근무시간 설정하는 폼출력란. -->
+                                 <!-- 탄력근무신청 선택 > 신청일자(월요일)선택시 요일별 근무시간 설정하는 폼출력란. -->
                                 <div class="input-box" id="input-box">
                                     <div>
                                         <label class="weekday"></label><label class="worktime">근무시작시간</label><label class="worktime">근무종료시간</label>
                                     </div>
                                     <div>
-<<<<<<< HEAD
-                                        <label class="weekday">월요일</label><input type='number' name='freedaystart' id='start_1' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(1)' />~<input type='number' name='freedayend' id='end_1' class='form-control set-time' min='12' max='22' onchange='freetime(1)' /><label id="1"></label>
-                                    </div>
-                                    <div>
-                                        <label class="weekday">화요일</label><input type='number' name='freedaystart' id='start_2' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(2)' />~<input type='number' name='freedayend' id='end_2' class='form-control set-time' min='12' max='22' onchange='freetime(2)' /><label id="2"></label>
-                                    </div>
-                                    <div>
-                                        <label class="weekday">수요일</label><input type='number' name='freedaystart' id='start_3' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(3)' />~<input type='number' name='freedayend' id='end_3' class='form-control set-time' min='12' max='22' onchange='freetime(3)' /><label id="3"></label>
-                                    </div>
-                                    <div>
-                                        <label class="weekday">목요일</label><input type='number' name='freedaystart' id='start_4' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(4)' />~<input type='number' name='freedayend' id='end_4' class='form-control set-time' min='12' max='22' onchange='freetime(4)' /><label id="4"></label>
-                                    </div>
-                                    <div>
-                                        <label class="weekday">금요일</label><input type='number' name='freedaystart' id='start_5' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(5)' />~<input type='number' name='freedayend' id='end_5' class='form-control set-time' min='12' max='22' onchange='freetime(5)' /><label id="5"></label>
-=======
                                         <label class="weekday">월요일</label><input type='number' name='freedaystart' id='start_1' class='form-control set-time' min='8' max='18' value='8' onchange='freetime(1)' />~<input type='number' name='freedayend' id='end_1' class='form-control set-time' min='12' max='22' onchange='freetime(1)' /><label id="1" style="width:100px;height:20px;"></label>
                                     </div>
                                     <div>
@@ -80,7 +65,6 @@
                                     </div>
                                     <div>
                                         <label class="weekday">금요일</label><input type='number' name='freedaystart' id='start_5' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(5)' />~<input type='number' name='freedayend' id='end_5' class='form-control set-time' min='12' max='22' onchange='freetime(5)' /><label id="5" style="width:100px;height:20px;"></label>
->>>>>>> 8eff3247015f350f603db8f96cd65762c9b518de
                                     </div>
                                 </div>
                             </div>
