@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="model.DepartmentDTO" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
+<%
+	ArrayList<DepartmentDTO> dList = (ArrayList<DepartmentDTO>) request.getAttribute("dList");
+%>
 <html>
 <head>
 	<%@ include file="/header.jsp" %>
- 	<title>탄력근무제 조회 / 출력</title>
+ 	<title>탄력근무제 조회 / 승인</title>
     <script type="text/javascript" src="${path}/resources/JSfile/Description.js?ver=<%=System.currentTimeMillis()%>"></script>
     <link rel="stylesheet"  href="${path}/resources/CSSfile/Free_work.css" />
 </head>
 <body>
 	<%@ include file="/main-container.jsp" %>
 		            <!-- content 내용 출력구분.  -->
-            <div class="nav-giude">근태관리 > 탄력근무제 내역 및 신청</div>
+            <div class="nav-giude">근태관리 > 탄력근무제 조회 및 승인</div>
             <div class="filter-form">
                 <form action="#" class="form-control align">
                     <div class="form-box">
@@ -18,8 +23,13 @@
                             <span class="classfy-title">부서별</span>
                             <select name="class" class="form-select-sm">
                                 <option value="all">전체</option>
-                                <option value="business">경영(인사)부</option>
-                                <option value="development">개발부</option>
+                                <%
+                                	for(int i=0; i<dList.size(); i++){
+                                %>
+                                <option value="<%=dList.get(i).getDcode() %>"><%=dList.get(i).getDname() %></option>
+                                <%
+                                	}
+                                %>
                             </select>
                         </label>
                         <label class="classfy">

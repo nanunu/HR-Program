@@ -27,10 +27,13 @@ public class AppCtx {
 	public LoginController loginController() { return new LoginController(); }
 	
 	@Bean
-	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
+	public StaffController StaffController() { return new StaffController(); }
 	
 	@Bean
-	public StaffController StaffController() { return new StaffController(); }
+	public FlextimeController flextimeController() { return new FlextimeController(); }
+	
+	@Bean
+	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
 
 	@Bean
 	public MailUtil mailUtil() { return new MailUtil(); }
@@ -40,4 +43,8 @@ public class AppCtx {
 		
 	@Bean
 	public Staff_DAO Staff_DAO() { return new Staff_DAO(dataSource()); }	
+	
+	@Bean
+	public Flextime_DAO flextime_DAO() { return new Flextime_DAO(dataSource()); }
+	
 }

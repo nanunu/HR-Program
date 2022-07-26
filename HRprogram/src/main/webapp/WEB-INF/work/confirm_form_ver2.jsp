@@ -12,7 +12,7 @@
 	            <!-- content 내용 출력구분.  -->
 
             <div class="form-box">
-                <form action="#" name="form_data" method="post" class="box-control">
+                <form action="insertFlextime.do" name="form_data" method="post" class="box-control">
                     <div class="read-only">
                         <div class="title">
                             <label>부서명</label>
@@ -21,10 +21,10 @@
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="class" value="<%=dto.getDname() %>" readonly />
-                            <input type="text" class="form-control update-not" name="rank" value="<%=dto.getPosition() %>" readonly />
-                            <input type="text" class="form-control update-not" name="number" value="<%=dto.getEcode() %>" readonly />
-                            <input type="text" class="form-control update-not" name="name" value="<%=dto.getEname() %>" readonly />                                
+                            <input type="text" class="form-control update-not" name="Dname" value="<%=dto.getDname() %>" readonly />
+                            <input type="text" class="form-control update-not" name="position" value="<%=dto.getPosition() %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ecode" value="<%=dto.getEcode() %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ename" value="<%=dto.getEname() %>" readonly />                                
                         </div>                            
                     </div>
                     <div class="confirm_class">
@@ -46,7 +46,7 @@
                                 <input type="date" class="form-control" name="endday" id="endday"/>                                                                
                             </div>
                             <div class="flex-input content ">                                    
-                                <!-- 탄력근무신청 선택 > 신청일자(월요일)선택시 요일별 근무시간 설정하는 폼출력란. -->
+                                 <!-- 탄력근무신청 선택 > 신청일자(월요일)선택시 요일별 근무시간 설정하는 폼출력란. -->
                                 <div class="input-box" id="input-box">
                                     <div>
                                         <label class="weekday"></label><label class="worktime">근무시작시간</label><label class="worktime">근무종료시간</label>
