@@ -4,14 +4,12 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-<<<<<<< HEAD
 import controller.*;
 import repository.*;
-=======
-import controller.LoginController;
+
 import mailService.MailUtil;
 import mailService.UserMailService;
-import repository.Login_DAO;
+
 
 @Configuration
 public class AppCtx {

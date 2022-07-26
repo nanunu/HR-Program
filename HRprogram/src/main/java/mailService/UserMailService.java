@@ -19,8 +19,7 @@ public class UserMailService {
 		int x = login_DAO.existEmail(email);
 		String result = null;
 		
-		if(x==1) {
-			
+		if(x==1) {			
 			//임시비밀번호 UUID 기준으로 난수생성
 			//UUID : 각 개체를 고유하게 식별 가능한 값, 중복이 거의 발생하지 않음
 			String tempPw = UUID.randomUUID().toString().replace("-", "");
@@ -33,7 +32,8 @@ public class UserMailService {
 			login_DAO.updateTemporaryPw(email, tempPw);;
 			
 			result = "Success";
-		}else {
+		}
+		else {
 			result = "Fail";
 		}
 		return result;

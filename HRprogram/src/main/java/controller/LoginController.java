@@ -36,6 +36,7 @@ public class LoginController {
 	public String process_login(@RequestParam(value="Ecode") String Ecode, @RequestParam(value="password") String password,HttpSession session,HttpServletResponse response) throws IOException {
 		
 		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		
 		SessionDTO dto = dao.login(Ecode,password); //사원코드와 비밀번호로 DB조회.
 		
