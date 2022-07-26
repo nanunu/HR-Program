@@ -72,7 +72,7 @@
                     </div>
                     <div class="btn-align">
                         <input type="reset" class="btn btn-danger" />
-                        <input type="button" class="btn btn-primary" onclick ="Confirm_Checking()" value="결제승인요청" />                            
+                        <input type="button" class="btn btn-primary" onclick ="Confirm_Checking()" value="결재승인요청" />                            
                     </div>
                 </form>
             </div>

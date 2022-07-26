@@ -8,13 +8,14 @@ create table Department(
     primary key(Dcode)
 );
 
-/*2. 사원 정보 : 사원코드, 이름, 부서코드, 직급, 입사일, 연락처, 생년월일, 우편번호, 주소, 성별, 최종학력, 병역, 결혼여부, 면허자격, 은행, 계좌번호, 예금주, 차량*/
+/*2. 사원 정보 : 사원코드, 이름, 부서코드, 직급, 비밀번호, 이메일, 입사일, 연락처, 생년월일, 우편번호, 주소, 성별, 최종학력, 병역, 결혼여부, 면허자격, 은행, 계좌번호, 예금주, 차량*/
 create table Employee(
-	Ecode varchar(15) not null,
+   Ecode varchar(15) not null,
     Ename varchar(10) not null,
     Dcode varchar(20),
     position varchar(10) not null,
     password varchar(12) not null,
+    email varchar(50) not null,
     joinday date not null,
     phone varchar(20) not null,
     birth varchar(6),
@@ -65,7 +66,7 @@ create table holiRecord(
     holiRusetime int,
     holiRdays int, 
     holiRreason varchar(100) not null,
-    holiRapproval varchar(10) not null,
+    holiRapproval varchar(10) not null defalut 'waiting',
     primary key(holiRcode),
     foreign key(Ecode) references Employee(Ecode)
 ); 
@@ -112,7 +113,7 @@ create table PayStub(
     foreign key(Ecode) references Employee(Ecode)
 );
 
-/*10. 초과근무기록 : 초과근무기록코드, 사원코드, 초과근무일, 시작시간, 종료시간, 총 초과근무시간, 결재상태*/
+/*10. 초과근무기록 : 초과근무기록코드, 사원코드, 초과근무일, 시작시간, 종료시간, 총 초과근무시간, 초과근무사유 ,결재상태*/
 create table OverTime(
 	OTCode int auto_increment not null,
     Ecode varchar(15) not null,
@@ -120,12 +121,13 @@ create table OverTime(
     OTstartTime time not null,
     OTendTime time not null,
     TimeSum int not null,
-    OTapproval varchar(10) not null,
+    OTReason varchar(500),
+    OTapproval varchar(10) not null defalut 'waiting',
     primary key(OTCode),
     foreign key(Ecode) references Employee(Ecode)
 );
 
-/*11. 탄력근무신청 : 탄력근무기록코드, 사원코드, 탄력근무시작일, 탄력근무종료일, (월)근무시작시간, (월)근무종료시간, (화)근무시작시간, (화)근무종료시간, (수)근무시작시간, (수)근무종료시간, (목)근무시작시간, (목)근무종료시간, (금)근무시작시간, (금)근무종료시간*/
+/*11. 탄력근무신청 : 탄력근무기록코드, 사원코드, 탄력근무시작일, 탄력근무종료일, (월)근무시작시간, (월)근무종료시간, (화)근무시작시간, (화)근무종료시간, (수)근무시작시간, (수)근무종료시간, (목)근무시작시간, (목)근무종료시간, (금)근무시작시간, (금)근무종료시간, 결재상태, 결재승인일*/
 create table FlexTime(
 	FTCode int auto_increment not null,
     Ecode varchar(15) not null,

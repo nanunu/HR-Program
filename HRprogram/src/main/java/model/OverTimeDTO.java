@@ -11,5 +11,6 @@ public class OverTimeDTO {
 	private String otStartTime; //시작시간
 	private String otEndTime; //종료시간
 	private int timeSum; //총 초과근무시간
+	private String otReason; // 초과근무사유
 	private String otApproval; //결재상태
 }
