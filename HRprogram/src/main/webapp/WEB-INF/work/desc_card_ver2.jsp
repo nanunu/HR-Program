@@ -33,7 +33,7 @@
             <div class="btn-right">
                 <input type="button" value="승인완료" class="btn btn-secondary" disabled />                
                 <input type="button" value="승인확인" class="btn btn-primary" onclick="con('ok')" />
-                <input type="button" value="승인취소" class="btn btn-danger" onclick="con('no')" />
+                <input type="button" value="승인취소" class="btn btn-danger" onclick="con('no')" />	
             </div>
         </form>
     </div>

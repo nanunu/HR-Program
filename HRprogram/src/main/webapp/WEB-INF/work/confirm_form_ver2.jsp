@@ -12,7 +12,7 @@
 	            <!-- content 내용 출력구분.  -->
 
             <div class="form-box">
-                <form action="#" name="form_data" method="post" class="box-control">
+                <form action="insertFlextime.do" name="form_data" method="post" class="box-control">
                     <div class="read-only">
                         <div class="title">
                             <label>부서명</label>
@@ -21,10 +21,10 @@
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="class" value="경영(인사)부" readonly />
-                            <input type="text" class="form-control update-not" name="rank" value="팀장" readonly />
-                            <input type="text" class="form-control update-not" name="number" value="220101A001B" readonly />
-                            <input type="text" class="form-control update-not" name="name" value="김현일" readonly />                                
+                            <input type="text" class="form-control update-not" name="Dname" value="<%=dto.getDname() %>" readonly />
+                            <input type="text" class="form-control update-not" name="position" value="<%=dto.getPosition() %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ecode" value="<%=dto.getEcode() %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ename" value="<%=dto.getEname() %>" readonly />                                
                         </div>                            
                     </div>
                     <div class="confirm_class">
@@ -52,19 +52,19 @@
                                         <label class="weekday"></label><label class="worktime">근무시작시간</label>
                                     </div>
                                     <div>
-                                        <label class="weekday">월요일</label><input type='number' name='free-day-start' id='start_1' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(1)' />~<input type='number' name='free-day-end' id='end_1' class='form-control set-time' min='12' max='22' onchange='freetime(1)' /><label id="1"></label>
+                                        <label class="weekday">월요일</label><input type='number' name='freedaystart' id='start_1' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(1)' />~<input type='number' name='freedayend' id='end_1' class='form-control set-time' min='12' max='22' onchange='freetime(1)' /><label id="1"></label>
                                     </div>
                                     <div>
-                                        <label class="weekday">화요일</label><input type='number' name='free-day-start' id='start_2' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(2)' />~<input type='number' name='free-day-end' id='end_2' class='form-control set-time' min='12' max='22' onchange='freetime(2)' /><label id="2"></label>
+                                        <label class="weekday">화요일</label><input type='number' name='freedaystart' id='start_2' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(2)' />~<input type='number' name='freedayend' id='end_2' class='form-control set-time' min='12' max='22' onchange='freetime(2)' /><label id="2"></label>
                                     </div>
                                     <div>
-                                        <label class="weekday">수요일</label><input type='number' name='free-day-start' id='start_3' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(3)' />~<input type='number' name='free-day-end' id='end_3' class='form-control set-time' min='12' max='22' onchange='freetime(3)' /><label id="3"></label>
+                                        <label class="weekday">수요일</label><input type='number' name='freedaystart' id='start_3' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(3)' />~<input type='number' name='freedayend' id='end_3' class='form-control set-time' min='12' max='22' onchange='freetime(3)' /><label id="3"></label>
                                     </div>
                                     <div>
-                                        <label class="weekday">목요일</label><input type='number' name='free-day-start' id='start_4' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(4)' />~<input type='number' name='free-day-end' id='end_4' class='form-control set-time' min='12' max='22' onchange='freetime(4)' /><label id="4"></label>
+                                        <label class="weekday">목요일</label><input type='number' name='freedaystart' id='start_4' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(4)' />~<input type='number' name='freedayend' id='end_4' class='form-control set-time' min='12' max='22' onchange='freetime(4)' /><label id="4"></label>
                                     </div>
                                     <div>
-                                        <label class="weekday">금요일</label><input type='number' name='free-day-start' id='start_5' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(5)' />~<input type='number' name='free-day-end' id='end_5' class='form-control set-time' min='12' max='22' onchange='freetime(5)' /><label id="5"></label>
+                                        <label class="weekday">금요일</label><input type='number' name='freedaystart' id='start_5' class='form-control set-time' min='8' max='18' value='8'  onchange='freetime(5)' />~<input type='number' name='freedayend' id='end_5' class='form-control set-time' min='12' max='22' onchange='freetime(5)' /><label id="5"></label>
                                     </div>
                                 </div>
                             </div>
