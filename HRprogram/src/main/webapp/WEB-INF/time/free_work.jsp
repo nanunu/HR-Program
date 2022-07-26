@@ -4,7 +4,7 @@
 <head>
 	<%@ include file="/header.jsp" %>
  	<title>탄력근무제 조회 / 출력</title>
-    <script type="text/javascript" src="${path}/resources/JSfile/Description.js"></script>
+    <script type="text/javascript" src="${path}/resources/JSfile/Description.js?ver=<%=System.currentTimeMillis()%>"></script>
     <link rel="stylesheet"  href="${path}/resources/CSSfile/Free_work.css" />
 </head>
 <body>
