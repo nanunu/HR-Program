@@ -73,8 +73,42 @@ function Confirm_day(date){
 
 }
 
+/*  
+	탄력근무 시작시간과 종료시간 시간차를 구해서 jsp에 출력하는 함수
+*/
+function freetime(day_class){
+	
+	let start_time = document.getElementsByName("freedaystart");
+	let end_time = document.getElementsByName("freedayend");	
+	let label_out = document.getElementById(day_class);
+	let index = day_class-1;
+	
+	if(end_time[index].value == null||end_time[index].value==""){
+		return false;
+	}
+	else if(start_time[index].value==null||start_time[index].value==""){
+		return false;
+	}
+	else{
+		let start = Number.parseInt(start_time[index].value);
+		let end = Number.parseInt(end_time[index].value);
+		 
+		let time = end - start ;
+						
+		if(time<4){ 
+			label_out.innerHTML = "최소 4시간";
+			end_time[index].value = start+4;
+		}
+		else if(time>12){ 
+			label_out.innerHTML = "최대 12시간";
+			end_time[index].value = start+12;
+		 }
+		else{ label_out.innerHTML = time+" 시간"; }
+	}				 	
+}
 
 
+/*  */ 
 function Confirm_Checking(){
 	document.form_data.submit();
 }
@@ -113,26 +147,3 @@ function over_time_checking(){
     }
 }
 
-function freetime(weekday){
-    
-    var start = document.getElementById("start_"+weekday).value;
-    var end = document.getElementById("end_"+weekday).value;
-
-    var start_date = new Date(start);
-    var end_date = new Date(end);
-
-    if(start != null & end != null){ 
-        let code_option = document.getElementById("code_select")[document.getElementById("code_select").selectedIndex].value;
-        switch(code_option){
-            case "x": break;
-            case "x": break;
-            case "x": break;
-            case "x": break;
-            case "x": break;
-            case "x": break;
-            case "x": break;
-            case "x": break;
-        }
-    }
-
-}
