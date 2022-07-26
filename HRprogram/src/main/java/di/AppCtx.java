@@ -4,10 +4,12 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import controller.LoginController;
+import controller.*;
+import repository.*;
+
 import mailService.MailUtil;
 import mailService.UserMailService;
-import repository.Login_DAO;
+
 
 @Configuration
 public class AppCtx {
@@ -28,9 +30,14 @@ public class AppCtx {
 	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
 	
 	@Bean
+	public StaffController StaffController() { return new StaffController(); }
+
+	@Bean
 	public MailUtil mailUtil() { return new MailUtil(); }
 	
 	@Bean
 	public UserMailService userMailService() { return new UserMailService(); }
-	
+		
+	@Bean
+	public Staff_DAO Staff_DAO() { return new Staff_DAO(dataSource()); }	
 }

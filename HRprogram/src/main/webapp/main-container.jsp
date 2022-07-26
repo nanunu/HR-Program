@@ -29,8 +29,9 @@
         <div class="right-container">
             <!-- 상단 메뉴바 출근 퇴근etc -->
             <nav class="nav-bar">
-                <div class="nav-box">                        
-                    <a class="btn btn-link" href="/html/input_form/confirm_form.html">근태관련신청하기</a>
+                <div class="nav-box">
+                	<a class="btn btn-link" href="form_ver1.do">휴가/초과근무신청하기</a>                        
+                    <a class="btn btn-link" href="form_ver2.do">탄력근무신청하기</a>
                     <a class="button_log" href="#loout" onclick="logout()">퇴근하기</a>
                 </div>
             </nav>

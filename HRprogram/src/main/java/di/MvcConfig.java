@@ -32,7 +32,8 @@ public class MvcConfig implements WebMvcConfigurer{
 		// prefix 요청이 오면 suffix 바로이동.
 		registry.addViewController("/go_record.do").setViewName("time/work_record");
 		registry.addViewController("/error.do").setViewName("Exception/Exception_print");
-		 
+		registry.addViewController("/form_ver1.do").setViewName("work/confirm_form_ver1");//휴가/초과근무시 입력폼으로 이동
+		registry.addViewController("/form_ver2.do").setViewName("work/confirm_form_ver2");//탄력근무시 입력폼으로 이동
 	}
 	
 	

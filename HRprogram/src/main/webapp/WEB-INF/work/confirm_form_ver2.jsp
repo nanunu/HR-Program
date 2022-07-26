@@ -12,7 +12,7 @@
 	            <!-- content 내용 출력구분.  -->
 
             <div class="form-box">
-                <form action="#" name="form-data" method="post" class="box-control">
+                <form action="#" name="form_data" method="post" class="box-control">
                     <div class="read-only">
                         <div class="title">
                             <label>부서명</label>
