@@ -10,10 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import mailService.UserMailService;
 import model.SessionDTO;
 import repository.Login_DAO;
 
@@ -26,6 +28,9 @@ public class LoginController {
 	
 	@Autowired
 	Login_DAO dao;
+	
+	@Autowired
+	UserMailService user;
 	
 	@PostMapping("/login.do")
 	public String process_login(@RequestParam(value="Ecode") String Ecode, @RequestParam(value="password") String password,HttpSession session,HttpServletResponse response) throws IOException {
@@ -82,7 +87,23 @@ public class LoginController {
 		}
 		//if문에 부합하지 않으면 session의 문제가 있다는것.
 		return "redirect:/error.do"; // 예외처리 뷰출력
-		
 	}
 	
+	@RequestMapping("/pwfind.do")
+	public String findpw(Model model, @RequestParam String email, HttpServletResponse resp) throws Exception{
+		String result = user.findPw(email);
+		String addr ="";
+		if(result.equals("Success")){
+			model.addAttribute("mailsend", result);
+			addr = "redirect:/login.jsp";
+		}else {
+			resp.setCharacterEncoding("UTF-8");
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter print = resp.getWriter();
+			print.write("<script>alert('존재하지 않는 이메일입니다. 다시입력해주세요!'); location.replace('./lost_pw.jsp');</script>");
+			print.close();
+		}
+		return addr;
+	}
+
 }

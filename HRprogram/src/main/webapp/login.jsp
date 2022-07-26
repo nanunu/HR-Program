@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <c:set var="path" value="${pageContext.request.contextPath}" /> <!-- 서버의 루트경로 잡기 -->    
+<%
+	if((String) request.getParameter("mailsend") != null){
+%>
+	<script>alert('임시 비밀번호가 발송되었습니다! 이메일을 확인해주세요.');</script>
+<%		
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>

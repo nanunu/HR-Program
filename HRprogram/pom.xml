@@ -81,6 +81,14 @@
 	    <version>1.18.12</version>
 	    <optional>true</optional>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+	<!-- 아파치에서 제공하는 메일전송-->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-email</artifactId>
+	    <version>1.5</version>
+	</dependency>
 
   </dependencies>
   

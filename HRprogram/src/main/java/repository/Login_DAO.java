@@ -91,6 +91,16 @@ public class Login_DAO {
 		else { return jt.update(sql,Ecode,date,time); } // 아니라면 출근처리.
 		
 	}
+	
+	/* 비밀번호 찾기 : 이메일이 존재하는지 확인*/
+	public int existEmail(String email) {
+		return jt.queryForObject("select count(*) from Employee where email=?", Integer.class, email);
+	}
+	
+	/* 비밀번호 찾기 : 임시 비밀번호 업데이트*/
+	public void updateTemporaryPw(String email, String pw) {
+		jt.update("update Employee set password=? where email=?", pw, email);
+	}
 
 	
 }
