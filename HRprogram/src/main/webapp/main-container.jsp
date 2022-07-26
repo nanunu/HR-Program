@@ -6,7 +6,7 @@
 %>
     <div class="main-container">
         <div class="left-container">
-            <a class="company-logo" href="/html/index.html"></a>
+            <a class="company-logo" href="go_record.do"></a>
             <div class="user-box">
                 <img src="${path}/resources/image/staff/Sample_img.jpg" class="profile_img" />
                 <div class="profile_info">

@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="model.DepartmentDTO" %>
+<%@ page import="model.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <%
-	ArrayList<DepartmentDTO> dList = (ArrayList<DepartmentDTO>) request.getAttribute("dList");
+	List<DepartmentDTO> dList = (List<DepartmentDTO>) request.getAttribute("dList");
+	List<FlextimeDTO> fList = (List<FlextimeDTO>) request.getAttribute("fList");
+	Map<String, EmployeeDTO> map = (Map<String, EmployeeDTO>) request.getAttribute("map");
 %>
 <html>
 <head>
@@ -65,52 +67,25 @@
                         <div class="table-title confirm-width">승인여부</div>
                         <div class="table-title etc">상세내역</div>
                     </div>
-
+					<%
+						for(int i=0; i<fList.size(); i++){
+							String ecode = fList.get(i).getEcode();
+							EmployeeDTO eDTO = map.get(ecode);
+					%>
                     <div class="row">                
-                        <div class="content-text">경영(인사)부</div>
-                        <div class="content-text">220101A001B</div>
-                        <div class="content-text">김현일</div>
-                        <div class="content-text">팀장</div>
-                        <div class="content-text">2022.07.18 ~ 2022.07.22</div>                
-                        <div class="content-text">2022.07.17</div>
-                        <div class="content-text">승인완료</div>
+                        <div class="content-text">부서이름</div>
+                        <div class="content-text"><%=ecode %></div>
+                        <div class="content-text"><%=eDTO.getEname() %></div>
+                        <div class="content-text"><%=eDTO.getPosition() %></div>
+                        <div class="content-text"><%=fList.get(i).getFTstartday()%>~<%=fList.get(i).getFTendday() %></div>                
+                        <div class="content-text"><%=fList.get(i).getAdmissionDate() %></div>
+                        <div class="content-text"><%=fList.get(i).getFTapproval() %></div>
                         <!--사원번호 들고 이동함-->
-                        <div class="content-text" onclick="description('220101A001B','free')">상세내역보기</div>
+                        <div class="content-text" onclick="description('<%=fList.get(i).getEcode() %>','free')">상세내역보기</div>
                     </div>
-
-                    <div class="row">                
-                        <div class="content-text">경영(인사)부</div>
-                        <div class="content-text">220523A001C</div>
-                        <div class="content-text">박민후</div>
-                        <div class="content-text">사원</div>
-                        <div class="content-text">2022.07.25 ~ 2022.07.29</div>                
-                        <div class="content-text"></div>
-                        <div class="content-text">대기중</div>
-                        <div class="content-text" onclick="description('220101A001B','free')">상세내역보기</div>
-                    </div>
-
-                    <div class="row">                
-                        <div class="content-text">개발부</div>
-                        <div class="content-text">220101B001B</div>
-                        <div class="content-text">이창기</div>
-                        <div class="content-text">팀장</div>
-                        <div class="content-text">2022.07.25 ~ 2022.07.29</div>                
-                        <div class="content-text">2022.07.19</div>
-                        <div class="content-text">승인완료</div>
-                        <div class="content-text" onclick="description('220101A001B','free')">상세내역보기</div>                           
-                    </div>
-
-                    <div class="row">                
-                        <div class="content-text">개발부</div>
-                        <div class="content-text">220523B001C</div>
-                        <div class="content-text">김민호</div>
-                        <div class="content-text">사원</div>
-                        <div class="content-text">2022.07.25 ~ 2022.07.29</div>                
-                        <div class="content-text">2022.07.19</div>
-                        <div class="content-text">승인거부</div>
-                        <div class="content-text" onclick="description('220101A001B','free')">상세내역보기</div>                       
-                    </div>
-
+					<%
+						}
+					%>
                 </div><!-- container end -->
 
             </div><!-- view-container end -->

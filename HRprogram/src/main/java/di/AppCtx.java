@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.*;
 import repository.*;
-
 import mailService.MailUtil;
 import mailService.UserMailService;
 

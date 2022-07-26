@@ -1,18 +1,33 @@
 package model;
 
+import java.sql.Time;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
 public class FlextimeDTO {
 	private int FTCode;
-	private String Dname;
-	private String position;
 	private String Ecode;
-	private String Ename;
-	private String startday;
-	private String endday;
-	private String[] freedaystart;
-	private String[] freedayend;
 	private String FTapproval;
-	private String AdmissionDate;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date FTstartday;
+	private Date FTendday;
+	private Date AdmissionDate;
+	
+	@DateTimeFormat(pattern="hh:mm")
+	private Time MonStart;
+	private Time Monend;
+	private Time TueStart;
+	private Time Tueend;
+	private Time WedStart;
+	private Time Wedend;
+	private Time ThuStart;
+	private Time Thuend;
+	private Time FriStart;
+	private Time Friend;
+	
 }

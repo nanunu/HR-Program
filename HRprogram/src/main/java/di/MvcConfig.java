@@ -36,7 +36,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		registry.addViewController("/form_ver2.do").setViewName("work/confirm_form_ver2");//탄력근무시 입력폼으로 이동
 		
 		registry.addViewController("/work_record.do").setViewName("time/work_record");
-		registry.addViewController("/free_work.do").setViewName("time/free_work");
+		// registry.addViewController("/free_work.do").setViewName("time/free_work");
 		registry.addViewController("/over_work.do").setViewName("time/over_work");
 		registry.addViewController("/day_off.do").setViewName("time/day_off");
 		
