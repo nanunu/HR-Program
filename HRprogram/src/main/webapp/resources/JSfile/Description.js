@@ -5,3 +5,10 @@ function description(num,page){
     // 탄력근무제 신청시에만 신청사유없는 버전으로 팝업출력
     window.open(url,"_blank",option);
 }
+
+function description2(num,ecode){    
+    var url = "./desc_card_ver2.do?number="+num+"&ecode="+ecode;
+    var option = "width=500px,height=500px,left=700px,top=300px";
+    // 탄력근무제 신청시에만 신청사유없는 버전으로 팝업출력
+    window.open(url,"_blank",option);
+}

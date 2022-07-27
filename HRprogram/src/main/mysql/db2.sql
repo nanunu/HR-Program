@@ -81,8 +81,15 @@ insert into PayStub(PScode, Ecode, PsMonth, AllPayCode, AllDeCode, Sum, send, PS
 insert into PayStub(PScode, Ecode, PsMonth, AllPayCode, AllDeCode, Sum, send, PSStatus) values(7, '220701B001z01', 6, 'P0003,P0004', 'D0001,D0002,D0003,D0004', 2200000, true, true);
 
 /*10. 초과근무기록 : 초과근무기록코드, 사원코드, 초과근무일, 시작시간, 종료시간, 총 초과근무시간, 결재상태*/
-insert into OverTime(OTCode, Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values(1, '160201B001z01', '22-06-07', '17:00', '21:00', 4, '승인완료');
+insert into OverTime(OTCode, Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values(1, '160201B001z01', '22-06-07', '17:00', '21:00', 4, 'completed');
 
 /*11. 탄력근무신청 : 탄력근무기록코드, 사원코드, 탄력근무시작일, 탄력근무종료일, (월)근무시작시간, (월)근무종료시간, (화)근무시작시간, (화)근무종료시간, (수)근무시작시간, (수)근무종료시간, (목)근무시작시간, (목)근무종료시간, (금)근무시작시간, (금)근무종료시간*/
 insert into FlexTime(FTCode, Ecode, FTstartday, Ftendday, MonStart, MonEnd, TueStart, TueEnd, WedStart, WedEnd, ThuStart, ThuEnd, FriStart, FriEnd, FTapproval, AdmissionDate)
-		values(1, '140701A001z01', '22-06-13', '22-06-17', '09:00', '13:00', '08:00', '18:00', '08:00', '18:00', '08:00', '18:00', '08:00', '18:00', '결재승인', '22-06-10');
+		values(1, '140701A001z01', '22-06-13', '22-06-17', '09:00', '13:00', '08:00', '18:00', '08:00', '18:00', '08:00', '18:00', '08:00', '18:00', 'completed', '22-06-10');
+		
+/***
+결재대기 --> waiting
+결재승인 -->completed
+결재취소 -->cancel
+반려 --> back
+***/

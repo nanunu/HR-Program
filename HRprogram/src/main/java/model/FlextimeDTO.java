@@ -18,7 +18,7 @@ public class FlextimeDTO {
 	private Date FTendday;
 	private Date AdmissionDate;
 	
-	@DateTimeFormat(pattern="hh:mm")
+	@DateTimeFormat
 	private Time MonStart;
 	private Time Monend;
 	private Time TueStart;

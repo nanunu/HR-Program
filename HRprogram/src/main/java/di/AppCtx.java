@@ -67,9 +67,10 @@ public class AppCtx {
 	public UserMailService userMailService() { return new UserMailService(); }
 	
 	@Bean
-	public OverTimeService overTimeService() {return new OverTimeService();}
+	public OverTimeService overTimeService() { return new OverTimeService();}
 	
-	
+	@Bean
+	public FlexTimeService flexTimeService() { return new FlexTimeService();}
 	
 	
 	

@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ page import = "model.FlextimeDTO" %>
+<%@ page import = "model.EmployeeDTO" %>
 <c:set var="path" value="${pageContext.request.contextPath}" /> <!-- 서버의 루트경로 잡기 -->   
+<%
+	FlextimeDTO ftDTO = (FlextimeDTO) request.getAttribute("ftDTO");
+	EmployeeDTO eDTO = (EmployeeDTO) request.getAttribute("eDTO");
+	String dname = (String) request.getAttribute("dname");
+	long[] time = (long[]) request.getAttribute("time");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,23 +22,23 @@
     <div class="desc-container">
         <form action="#" name="descform" method="post">
             <div class="box">
-                <div class="title">부서명</div><div class="contents">경영(인사)부</div>                    
-                <div class="title">직급</div><div class="contents">팀장</div>
+                <div class="title">부서명</div><div class="contents"><%=dname%></div>                    
+                <div class="title">직급</div><div class="contents"><%=eDTO.getPosition()%></div>
             </div>
             <div class="box">
-                <div class="title">사원번호</div><div class="contents">220101A001B</div>
-                <div class="title">사원명</div><div class="contents">김현일</div>
+                <div class="title">사원번호</div><div class="contents"><%=eDTO.getEcode()%></div>
+                <div class="title">사원명</div><div class="contents"><%=eDTO.getEname()%></div>
             </div>
             <div class="box">
-                <div class="title">탄력근무적용일</div><div class="contents day">2022.07.18 ~ 2022.07.22</div>                    
+                <div class="title">탄력근무적용일</div><div class="contents day"><%=ftDTO.getFTstartday()%> ~ <%=ftDTO.getFTendday()%></div>                    
             </div>
             <div class="week-list">
-                <div class="title">월요일</div><div class="contents">08:00 ~ 12:00</div><div class="time">4시간</div>
-                <div class="title">화요일</div><div class="contents">08:00 ~ 12:00</div><div class="time">4시간</div>
-                <div class="title">수요일</div><div class="contents">08:00 ~ 12:00</div><div class="time">4시간</div>
-                <div class="title">목요일</div><div class="contents">08:00 ~ 12:00</div><div class="time">4시간</div>
-                <div class="title">금요일</div><div class="contents">08:00 ~ 12:00</div><div class="time">4시간</div>
-                <div class="title">총 근무시간</div><div class="contents"></div><div class="time">20시간</div>
+                <div class="title">월요일</div><div class="contents"><%=ftDTO.getMonStart()%> ~ <%=ftDTO.getMonend()%></div><div class="time"><%=time[0]%>시간</div>
+                <div class="title">화요일</div><div class="contents"><%=ftDTO.getTueStart()%> ~ <%=ftDTO.getTueend()%></div><div class="time"><%=time[1]%>시간</div>
+                <div class="title">수요일</div><div class="contents"><%=ftDTO.getWedStart()%> ~ <%=ftDTO.getWedend()%></div><div class="time"><%=time[2]%>시간</div>
+                <div class="title">목요일</div><div class="contents"><%=ftDTO.getThuStart()%> ~ <%=ftDTO.getThuend()%></div><div class="time"><%=time[3]%>시간</div>
+                <div class="title">금요일</div><div class="contents"><%=ftDTO.getFriStart()%> ~ <%=ftDTO.getFriend()%></div><div class="time"><%=time[4]%>시간</div>
+                <div class="title">총 근무시간</div><div class="contents"></div><div class="time"><%=time[5]%>시간</div>
             </div>
             <div class="btn-right">
                 <input type="button" value="승인완료" class="btn btn-secondary" disabled />                

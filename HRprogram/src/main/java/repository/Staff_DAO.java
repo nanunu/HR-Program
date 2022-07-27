@@ -38,29 +38,13 @@ public class Staff_DAO {
 		return jt.query(sql, mapper);
 	}
 	
-	/*Employee 테이블에서 사원정보를 들고오는 함수
-	  if(type)==1 : 탄력근무
-	  if(type)==2 : 인사기록카드
-	 */
-	public EmployeeDTO getEmployeeInfo(String Ecode, int type) {
+	/*Employee 테이블에서 사원정보를 들고오는 함수 - 인사기록카드*/
+	public EmployeeDTO getEmployeeInfo(String Ecode) {
 		
 		EmployeeDTO eDTO = null;
 		String sql = "select * from Employee where Ecode=?";
 		
-		RowMapper<EmployeeDTO> mapper1 = new RowMapper<EmployeeDTO>() {
-
-			@Override
-			public EmployeeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				EmployeeDTO dto = new EmployeeDTO();
-				dto.setEcode(rs.getString("Ecode"));
-				dto.setEname(rs.getString("Ename"));
-				dto.setDcode(rs.getString("Dcode"));
-				dto.setPosition(rs.getString("position"));
-				return dto;
-			}
-		};
-		
-		RowMapper<EmployeeDTO> mapper2 = new RowMapper<EmployeeDTO>() {
+		RowMapper<EmployeeDTO> mapper = new RowMapper<EmployeeDTO>() {
 
 			@Override
 			public EmployeeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -87,14 +71,8 @@ public class Staff_DAO {
 				return dto;
 			}
 		};
-		
-		if(type==1) {
-			eDTO = jt.queryForObject(sql, mapper1, Ecode);
-		}else if(type==2) {
-			eDTO = jt.queryForObject(sql, mapper2, Ecode);
-		}
+			eDTO = jt.queryForObject(sql, mapper, Ecode);
 		
 		return eDTO;
 	}
-	
 }

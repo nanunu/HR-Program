@@ -66,7 +66,7 @@ create table holiRecord(
     holiRusetime int,
     holiRdays int, 
     holiRreason varchar(100) not null,
-    holiRapproval varchar(10) not null defalut 'waiting',
+    holiRapproval varchar(10) not null default 'waiting',
     primary key(holiRcode),
     foreign key(Ecode) references Employee(Ecode)
 ); 
@@ -122,7 +122,7 @@ create table OverTime(
     OTendTime time not null,
     TimeSum int not null,
     OTReason varchar(500),
-    OTapproval varchar(10) not null defalut 'waiting',
+    OTapproval varchar(10) not null default 'waiting',
     primary key(OTCode),
     foreign key(Ecode) references Employee(Ecode)
 );

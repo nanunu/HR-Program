@@ -27,10 +27,10 @@
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="Dname" value="<%=dto.getDname() %>" readonly />
-                            <input type="text" class="form-control update-not" name="position" value="<%=dto.getPosition() %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ecode" value="<%=dto.getEcode() %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ename" value="<%=dto.getEname() %>" readonly />                                
+                            <input type="text" class="form-control update-not" name="Dname" value="<%=dname %>" readonly />
+                            <input type="text" class="form-control update-not" name="position" value="<%=position %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ecode" value="<%=ecode %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ename" value="<%=ename %>" readonly />                                
                         </div>                          
                     </div>
                     <div class="confirm_class">

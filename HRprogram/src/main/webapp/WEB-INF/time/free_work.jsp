@@ -3,6 +3,12 @@
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <%
+	String msg = (String)request.getAttribute("msg"); 
+	if(msg!=null){
+%>
+	<script>alert("<%=msg%>");</script>
+<%	
+	}
 	List<DepartmentDTO> dList = (List<DepartmentDTO>) request.getAttribute("dList");
 	List<FlextimeDTO> fList = (List<FlextimeDTO>) request.getAttribute("fList");
 	Map<String, EmployeeDTO> eDTOmap = (Map<String, EmployeeDTO>) request.getAttribute("eDTOmap");
@@ -70,12 +76,12 @@
                     </div>
 					<%
 						for(int i=0; i<fList.size(); i++){
-							String ecode = fList.get(i).getEcode();
-							EmployeeDTO eDTO = eDTOmap.get(ecode);
+							String ecode1 = fList.get(i).getEcode();
+							EmployeeDTO eDTO = eDTOmap.get(ecode1);
 					%>
                     <div class="row">                
                         <div class="content-text"><%=dmap.get(eDTO.getDcode()) %></div>
-                        <div class="content-text"><%=ecode %></div>
+                        <div class="content-text"><%=ecode1 %></div>
                         <div class="content-text"><%=eDTO.getEname() %></div>
                         <div class="content-text"><%=eDTO.getPosition() %></div>
                         <div class="content-text"><%=fList.get(i).getFTstartday()%>~<%=fList.get(i).getFTendday() %></div>                
@@ -92,7 +98,7 @@
                         %>
                         <div class="content-text"><%=fList.get(i).getFTapproval() %></div>
                         <!--사원번호 들고 이동함-->
-                        <div class="content-text" onclick="description('<%=fList.get(i).getEcode() %>','free')">상세내역보기</div>
+                        <div class="content-text" onclick="description2('<%=fList.get(i).getFTCode() %>','<%=fList.get(i).getEcode() %>')">상세내역보기</div>
                     </div>
 					<%
 						}

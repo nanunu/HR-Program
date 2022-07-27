@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="model.SessionDTO" %>
 <%
-	SessionDTO dto = (SessionDTO) session.getAttribute("SessionDTO");
-	if(dto==null){ out.print("<script>location.replace('login.do');</script>"); }
+   if(session.getAttribute("Ecode")==null){ out.print("<script>location.replace('login.do');</script>"); }
+   
+   String dname = (String) session.getAttribute("Dname");
+   String dcode = (String) session.getAttribute("Dcode");
+   String ename = (String) session.getAttribute("Ename");
+   String ecode = (String) session.getAttribute("Ecode");
+   String position = (String) session.getAttribute("position");
+   
 %>
     <div class="main-container">
         <div class="left-container">
@@ -10,8 +15,8 @@
             <div class="user-box">
                 <img src="${path}/resources/image/staff/Sample_img.jpg" class="profile_img" />
                 <div class="profile_info">
-                    <p class="class"><%=dto.getPosition()%>  </p>
-                    <span class="name"><%=dto.getEname()%></span>
+                    <p class="class"><%=position%>  </p>
+                    <span class="name"><%=ename%></span>
                 </div>
             </div>
             <a class="title-menu" onclick="submenu_open('time')"><i class="fa-solid fa-calendar-check"></i><span class="title-text">근태관리</span><i class="fa-solid fa-angle-right angle"></i></a>
@@ -31,7 +36,7 @@
             <!-- 상단 메뉴바 출근 퇴근etc -->
             <nav class="nav-bar">
                 <div class="nav-box">
-                	<a class="btn btn-link" href="form_ver1.do">휴가/초과근무신청하기</a>                        
+                   <a class="btn btn-link" href="form_ver1.do">휴가/초과근무신청하기</a>                        
                     <a class="btn btn-link" href="form_ver2.do">탄력근무신청하기</a>
                     <a class="button_log" href="#loout" onclick="logout()">퇴근하기</a>
                 </div>

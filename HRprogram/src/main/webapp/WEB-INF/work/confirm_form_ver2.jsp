@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<%
+	String msg = (String)request.getAttribute("msg"); 
+	if(msg!=null){
+%>
+	<script>alert("<%=msg%>");</script>
+<%
+	}
+%>
 <head>
 	<%@ include file="/header.jsp" %>
  	<title>탄력근무제 신청란</title>
@@ -12,7 +20,7 @@
 	            <!-- content 내용 출력구분.  -->
 
             <div class="form-box">
-                <form action="insertFlextime.do" name="form_data" method="post" class="box-control">
+                <form action="flextime1.do" name="form_data" method="post" class="box-control">
                     <div class="read-only">
                         <div class="title">
                             <label>부서명</label>
@@ -21,10 +29,10 @@
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="Dname" value="<%=dto.getDname() %>" readonly />
-                            <input type="text" class="form-control update-not" name="position" value="<%=dto.getPosition() %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ecode" value="<%=dto.getEcode() %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ename" value="<%=dto.getEname() %>" readonly />                                
+                            <input type="text" class="form-control update-not" name="Dname" value="<%=dname%>" readonly />
+                            <input type="text" class="form-control update-not" name="position" value="<%=position%>" readonly />
+                            <input type="text" class="form-control update-not" name="Ecode" value="<%=ecode%>" readonly />
+                            <input type="text" class="form-control update-not" name="Ename" value="<%=ename%>" readonly />                                
                         </div>                            
                     </div>
                     <div class="confirm_class">
