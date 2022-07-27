@@ -19,6 +19,11 @@ public class Flextime_DAO {
 		this.jt = new JdbcTemplate(datasource);
 	}
 	
+	public void checkFlexTime(FlextimeCMD command) {
+		String sql = "select count(*) from FlexTime where Ecode=? and FTstartday=?";
+		jt.queryForObject(sql, Integer.class, command.getEcode(), command.getStartday());
+	}
+	
 	/*사원이 신청한 탄력근무제를 DB에 넣는 함수*/
 	/*DB에 신청한 적이 있는지 없는지 확인하는 작업 거쳐야함*/
 	public void insertFlexTimeDAO(FlextimeCMD command) {

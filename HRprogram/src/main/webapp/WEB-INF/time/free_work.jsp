@@ -5,7 +5,8 @@
 <%
 	List<DepartmentDTO> dList = (List<DepartmentDTO>) request.getAttribute("dList");
 	List<FlextimeDTO> fList = (List<FlextimeDTO>) request.getAttribute("fList");
-	Map<String, EmployeeDTO> map = (Map<String, EmployeeDTO>) request.getAttribute("map");
+	Map<String, EmployeeDTO> eDTOmap = (Map<String, EmployeeDTO>) request.getAttribute("eDTOmap");
+	Map<String, String> dmap = (Map<String, String>) request.getAttribute("dmap");
 %>
 <html>
 <head>
@@ -19,11 +20,11 @@
 		            <!-- content 내용 출력구분.  -->
             <div class="nav-giude">근태관리 > 탄력근무제 조회 및 승인</div>
             <div class="filter-form">
-                <form action="#" class="form-control align">
+                <form action="flextimeProcess.do" class="form-control align">
                     <div class="form-box">
                         <label class="classfy">
                             <span class="classfy-title">부서별</span>
-                            <select name="class" class="form-select-sm">
+                            <select name="dcode" class="form-select-sm">
                                 <option value="all">전체</option>
                                 <%
                                 	for(int i=0; i<dList.size(); i++){
@@ -36,7 +37,7 @@
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">직급별</span>
-                            <select name="rank" class="form-select-sm">
+                            <select name="position" class="form-select-sm">
                                 <option value="all">전체</option>
                                 <option value="staff">사원</option>
                                 <option value="general">팀장</option>
@@ -49,7 +50,7 @@
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">사원번호 혹은 사원명</span>
-                            <input type="text" name="number" />
+                            <input type="text" name="ecodeNename" />
                         </label>
                         <input type="button" class="btn-white search-btn" value="조회하기"/>
                     </div>
@@ -70,15 +71,25 @@
 					<%
 						for(int i=0; i<fList.size(); i++){
 							String ecode = fList.get(i).getEcode();
-							EmployeeDTO eDTO = map.get(ecode);
+							EmployeeDTO eDTO = eDTOmap.get(ecode);
 					%>
                     <div class="row">                
-                        <div class="content-text">부서이름</div>
+                        <div class="content-text"><%=dmap.get(eDTO.getDcode()) %></div>
                         <div class="content-text"><%=ecode %></div>
                         <div class="content-text"><%=eDTO.getEname() %></div>
                         <div class="content-text"><%=eDTO.getPosition() %></div>
                         <div class="content-text"><%=fList.get(i).getFTstartday()%>~<%=fList.get(i).getFTendday() %></div>                
+                        <%
+                        	if(fList.get(i).getAdmissionDate()==null){
+                        %>
+                        <div class="content-text"></div>
+                        <%
+                        	}else{
+                        %>
                         <div class="content-text"><%=fList.get(i).getAdmissionDate() %></div>
+                        <%
+                        	}
+                        %>
                         <div class="content-text"><%=fList.get(i).getFTapproval() %></div>
                         <!--사원번호 들고 이동함-->
                         <div class="content-text" onclick="description('<%=fList.get(i).getEcode() %>','free')">상세내역보기</div>
