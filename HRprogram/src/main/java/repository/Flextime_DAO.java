@@ -83,5 +83,52 @@ public class Flextime_DAO {
 		return jt.queryForList(sql, String.class);
 	}
 	
+	/*
+	//입력받은 날짜가 탄력근무 하는 주간인지 검사하는 함수 return value 0/1
+	public Integer Select_WeekDay(String startday, String ecode) {
+		String sql = "select count(Ecode) from FlexTime where FTstartday <= ? and FTendday >= ? and Ecode =?";
+		return jt.queryForObject(sql, Integer.class, startday,startday, ecode);
+	}
+	*/
 	
-}
+	//입력받은 날짜가 탄력근무 하는 주간인지 검사하는 함수
+	public FlextimeDTO Select_WeekDay(String startday, String ecode) {
+		String sql = "select * from FlexTime where FTstartday <= ? and FTendday >= ? and Ecode =?";
+		RowMapper<FlextimeDTO> mapper = new RowMapper<FlextimeDTO>() {
+
+			@Override
+			public FlextimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				FlextimeDTO dto = new FlextimeDTO();
+				dto.setFTCode(rs.getInt("FTCode"));
+				dto.setFTapproval(rs.getString("FTapproval"));
+				dto.setFTstartday(rs.getDate("FTstartday"));
+				dto.setFTendday(rs.getDate("FTendday"));
+				dto.setAdmissionDate(rs.getDate("AdmissionDate"));
+				dto.setMonStart(rs.getTime("MonStart"));
+				dto.setMonend(rs.getTime("Monend"));
+				dto.setTueStart(rs.getTime("TueStart"));
+				dto.setTueend(rs.getTime("Tueend"));
+				dto.setWedStart(rs.getTime("WedStart"));
+				dto.setWedend(rs.getTime("Wedend"));
+				dto.setThuStart(rs.getTime("ThuStart"));
+				dto.setThuend(rs.getTime("Thuend"));
+				dto.setFriStart(rs.getTime("FriStart"));
+				dto.setFriend(rs.getTime("Friend"));
+				return dto;
+			}
+			
+		};
+		
+		List<FlextimeDTO> list = jt.query(sql,mapper, startday,startday, ecode);
+		
+		if(list!=null) { return list.get(0); }
+		else { return null; }
+
+	}	 
+	
+	
+	
+	
+	
+	
+}//class end

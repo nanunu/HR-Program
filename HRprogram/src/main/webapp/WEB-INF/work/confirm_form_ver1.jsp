@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.time.*" %>
-<%	
-	if(request.getParameter("message")!=null){
-		out.print("<script>alert('"+request.getParameter("message")+"')</script>");
-	}
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +9,14 @@
     <link rel="stylesheet"  href="${path}/resources/CSSfile/Confirm_form.css" />
 </head>
 <body>
+	<%	
+		if(request.getAttribute("message")!=null){
+	%>
+			<script>alert('<%=request.getAttribute("message")%>');</script>
+	<%
+		}
+	%>
+
 	<%@ include file="/main-container.jsp" %>
 	            <!-- content 내용 출력구분.  -->
 
@@ -27,10 +30,10 @@
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="Dname" value="<%=dto.getDname() %>" readonly />
-                            <input type="text" class="form-control update-not" name="position" value="<%=dto.getPosition() %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ecode" value="<%=dto.getEcode() %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ename" value="<%=dto.getEname() %>" readonly />                                
+                            <input type="text" class="form-control update-not" name="Dname" value="<%=dname %>" readonly />
+                            <input type="text" class="form-control update-not" name="position" value="<%=position %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ecode" value="<%=ecode %>" readonly />
+                            <input type="text" class="form-control update-not" name="Ename" value="<%=ename %>" readonly />                                
                         </div>                          
                     </div>
                     <div class="confirm_class">

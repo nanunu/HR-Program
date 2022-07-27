@@ -70,12 +70,12 @@
                     </div>
 					<%
 						for(int i=0; i<fList.size(); i++){
-							String ecode = fList.get(i).getEcode();
+							String ecode1 = fList.get(i).getEcode();
 							EmployeeDTO eDTO = eDTOmap.get(ecode);
 					%>
                     <div class="row">                
                         <div class="content-text"><%=dmap.get(eDTO.getDcode()) %></div>
-                        <div class="content-text"><%=ecode %></div>
+                        <div class="content-text"><%=ecode1 %></div>
                         <div class="content-text"><%=eDTO.getEname() %></div>
                         <div class="content-text"><%=eDTO.getPosition() %></div>
                         <div class="content-text"><%=fList.get(i).getFTstartday()%>~<%=fList.get(i).getFTendday() %></div>                

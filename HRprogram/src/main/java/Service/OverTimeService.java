@@ -4,10 +4,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import repository.OverTime_DAO;
 
-
+@Service
 public class OverTimeService {
 
 	@Autowired
@@ -50,10 +51,10 @@ public class OverTimeService {
 		LocalDate setMonday = LocalDate.of(startDay.getYear(),startDay.getMonth(),week_monday);
 		LocalDate setFriday = LocalDate.of(startDay.getYear(),startDay.getMonth(),week_friday);
 		/*
-		System.out.println(week.getValue());
-		System.out.println(startDay.toString());
-		System.out.println(setMonday.toString());
-		System.out.println(setFriday.toString());
+			System.out.println(week.getValue());
+			System.out.println(startDay.toString());
+			System.out.println(setMonday.toString());
+			System.out.println(setFriday.toString());
 		*/
 		return overTime_DAO.Select_OverTimeSum(Ecode,setMonday.toString(),setFriday.toString());
 		

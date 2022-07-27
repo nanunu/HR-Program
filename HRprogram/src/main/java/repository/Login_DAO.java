@@ -8,9 +8,11 @@ import java.util.List;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import model.SessionDTO;
 
+@Repository
 public class Login_DAO {
 	
 	public Login_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }

@@ -26,7 +26,8 @@ public class OverTimeController {
 	
 	@RequestMapping("/OverTime.do")
 	public String process_OverTime(@RequestParam Map<String,String> map, Model model) {
-		int time_def = 0; //시작시간 - 종료시간 시간차
+		
+		int time_def = 0; //시작시간 - 종료시간 시간차담는 변수
 		
 		int timeSum = overTimeService.Checking_TimeSum(map.get("Ecode"),map.get("startday"));
 		// 주단위로 검색하여 주간초과근무시간이 12시간 이상했을경우, if문실행. 등록처리 x
@@ -40,7 +41,7 @@ public class OverTimeController {
 			time_def = endTime-startTime;
 			
 			if(time_def+timeSum > 12) {				
-				model.addAttribute("message","요청하신 초과근무시간을 적용하면 주간 초과근무 가능한 시간이 12시간을 초과했습니다.");
+				model.addAttribute("message","요청하신 초과근무시간을 적용하면 주간 초과근무 가능한 시간이 12시간을 초과합니다.");
 				return "work/confirm_form_ver1";
 			}
 			

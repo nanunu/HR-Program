@@ -4,7 +4,9 @@ import java.util.Map;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class OverTime_DAO {
 
 	JdbcTemplate jt;
@@ -22,7 +24,7 @@ public class OverTime_DAO {
 	//사원코드로 총 초과근무시간 리턴받음. 주단위로 가져옴.
 	public Integer Select_OverTimeSum(String Ecode, String week_monday, String week_friday) {
 		
-		String sql = "select Sum(TimeSum) from OverTime where Ecode=? and OTday between ? and ?";
+		String sql = "select Sum(TimeSum) from OverTime where Ecode=? and otApproval='completed' and OTday between ? and ? ";
 		
 		Integer result = jt.queryForObject(sql,Integer.class,Ecode,week_monday,week_friday);
 		
@@ -34,9 +36,9 @@ public class OverTime_DAO {
 	
 	public Integer Insert_OverTime(Map<String,String> map, int time_def) {
 		
-		String sql = "insert into OverTime(Ecode,OTDay,OTStartTime,OTEndTime,TimeSum,OTReason) valuse(?,?,?,?,?,?)";
+		String sql = "insert into OverTime(Ecode,OTDay,OTStartTime,OTEndTime,TimeSum,OTReason) values(?,?,?,?,?,?)";
 		
-		return jt.update(sql,map.get("Ecode"),map.get("startday"),map.get("starttime"),map.get("endtime"),time_def,map.get("Reason"));
+		return jt.update(sql,map.get("Ecode"),map.get("startday"),String.format("%s:00:00",map.get("starttime")),String.format("%s:00:00",map.get("endtime")),time_def,map.get("Reason"));
 		
 	}
 	

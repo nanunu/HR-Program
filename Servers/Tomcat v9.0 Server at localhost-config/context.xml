@@ -21,6 +21,11 @@
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
     <WatchedResource>WEB-INF/tomcat-web.xml</WatchedResource>
     <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+    <!-- 
+	<Manager className="org.apache.catalina.session.PersistentManager" debug="0" saveOnRestart="true" maxActiveSessions="-1" minIdleSwap="-1" maxIdleSwap="-1" maxIdleBackup="-1">
+		<Store className="org.apache.catalina.session.FileStore"/>
+	</Manager>
+ 	-->
 
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
     <!--
