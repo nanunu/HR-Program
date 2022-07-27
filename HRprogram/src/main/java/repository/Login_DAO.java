@@ -59,7 +59,7 @@ public class Login_DAO {
 		
 		String date = datetime.getYear()+"-"+month+"-"+datetime.getDayOfMonth();
 		
-		String sql = "select count(Ecode) from Commute where CmDay=? and Ecode=? and CmGetoffTime=null";
+		String sql = "select count(Ecode) from Commute where CmDay=? and Ecode=?";
 		
 		return jt.queryForObject(sql, Integer.class, date, Ecode);		
 	}

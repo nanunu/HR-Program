@@ -20,20 +20,23 @@ public class OverTime_DAO {
 	}
 	
 	//사원코드로 총 초과근무시간 리턴받음. 주단위로 가져옴.
-	public Integer Select_OverTimeSum(String Ecode) {
+	public Integer Select_OverTimeSum(String Ecode, String week_monday, String week_friday) {
 		
-		String sql = "select TimeSum form OverTime where Ecode=? and OTday beteewn ? and ?";
+		String sql = "select Sum(TimeSum) from OverTime where Ecode=? and OTday between ? and ?";
 		
-		return jt.queryForObject(sql,Integer.class,Ecode);
+		Integer result = jt.queryForObject(sql,Integer.class,Ecode,week_monday,week_friday);
+		
+		if(result==null) { return 0; }
+		else { return result; }
 		
 	}
 	
 	
-	public Integer Insert_OverTime(Map<String,String> map) {
+	public Integer Insert_OverTime(Map<String,String> map, int time_def) {
 		
 		String sql = "insert into OverTime(Ecode,OTDay,OTStartTime,OTEndTime,TimeSum,OTReason) valuse(?,?,?,?,?,?)";
 		
-		return jt.update(sql,map.get(sql),map.get(sql),map.get(sql),map.get(sql),map.get(sql));
+		return jt.update(sql,map.get("Ecode"),map.get("startday"),map.get("starttime"),map.get("endtime"),time_def,map.get("Reason"));
 		
 	}
 	
