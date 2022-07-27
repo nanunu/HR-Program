@@ -11,8 +11,7 @@
             .second-select{width:350px;display:inline-block;}
             
     .confirm_date{}
-        .flex-input{display: flex;justify-content: left;width:100%;text-align: left;}
-            input[type="date"]{width:165px;}
+        .flex-input{display: flex;justify-content: left;width:100%;text-align: left;}            
             .input-type{width:50px;}
             .input-box{width:100%; margin-top:20px;}                         
                 .weekday{width:70px;padding-left:10px;font-weight: 700;}

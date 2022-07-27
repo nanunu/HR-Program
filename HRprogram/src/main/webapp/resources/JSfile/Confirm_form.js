@@ -1,24 +1,106 @@
+
+
+
+
+// ============= Comfirm_form_ver1 용 JS ============= //
+
+
+
+function Confirm_startday(start_day){
+	let end_day = document.getElementById("endday");
+	alert(start_day);
+	let start = new Date(start_day.value);
+	let end = new Date(start_day.value);
+	let type = document.getElementById("work")[document.getElementById("work").selectedIndex].value;
+	alert(type);
+	
+	if(type=="OverTime"){
+	 	let MM = end.getMonth()+1; 
+        let dd = end.getDate();  
+        
+        //MM 이 1~9월이면 if문 실행
+        //+1을 해주는 이유 - Date객체는 월을 0부터 시작함.
+        if(end.getMonth()+1 < 10) { MM = "0"+(end.getMonth()+1); }// 01...09 형식으로 변환.
+        
+        //dd가 9일이하면 if 문 실행
+        //일자를 가져오는 함수. 
+        if(end.getDate() < 10) { dd = "0"+end.getDate(); }// 01...09 형식으로 변환.
+
+        var text = end.getFullYear()+"-"+MM+"-"+dd; // yyyy-mm-dd형식으로 만듦.        
+        end_day.value = text; // input date태그에 값 넣기
+	}
+	else{
+		let code_value = HolidayDay_getvalue;
+		alert(code_value);
+	}
+	
+}
+/*
+	근무코드 value값 반환하는 함수
+*/
+function Holiday_getvalue(){
+	return document.getElementById("Hcode_select")[document.getElementById("Hcode_select").selectIndex].value;
+}
+
 /*
     근무신청 유형 select값에 따라 근무코드 활성화/비활성화 시키는 함수
 */
 function Confirm_select(type_tmp){
-        
-    var code_tmp=document.getElementById('code_select'); 
-    var type = type_tmp[type_tmp.selectedIndex].value;
-
+    
+    var type = type_tmp[type_tmp.selectedIndex].value;        
+    var code_tmp=document.getElementById('Hcode_select'); 
+    
     //근무신청이 바뀔때마다 신청일자삭제.
     document.getElementById("startday").value="";
     document.getElementById("endday").value="";
 
-    //근무신청유형 - 탄력근무선택후 생성된 div를 삭제하는 로직
-    var div_box = document.getElementById('input-box');
-    while(div_box.hasChildNodes()) { div_box.removeChild(div_box.firstChild); }
-
-    //근무신청유형 - 휴가근무선택시 근무코드 활성화시키는 코드. 아닐시 비활성화
-    if(type!="off"){ code_tmp.value="not"; code_tmp.setAttribute("disabled","true"); }
-    else{ code_tmp.removeAttribute("disabled","flase"); }
+    //근무신청유형이 휴가근무신청이 아닐경우 근무코드 비활성화시키는 함수.
+    if(type!="HoliRecord"){ 
+		code_tmp.value=null; 
+		code_tmp.setAttribute("disabled",null);
+	}
+    else{ code_tmp.removeAttribute("disabled",null); }
 
 }
+
+/*
+    근무신청 유형 select값 - over (초과근무일때)실행되는 함수
+    당일 처리되는 근무임으로 시작일과 종료일이 같다. 8시간.(08시~17시)
+*/
+function over_time_checking(){
+    var select = document.getElementById('confirm_select');
+    var select_value = select[select.selectedIndex].value;
+
+    if(select_value!="over"){
+        alert("이 항목란은 초과 시간근무일 경우에만 작성 할 수 있습니다.");
+        select_value=null;
+        document.getElementById('confirm_select').focus();
+        return false;
+    }
+}
+/*
+ 	최종 유효성감사하는 함수.
+*/
+function Confirm_Checking_ver1(){
+	/*
+	let start_day= document.getElementById("startday")[document.getElementById("startday").selectedIndex].value;
+	let end_day= document.getElementById("endday")[document.getElementById("endday").selectedIndex].value;
+	let work= document.getElementById("work")[document.getElementById("work").selectedIndex].value;
+	let Hcode= document.getElementById("Hode")[document.getElementById("Hcode").selectedIndex].value;
+	let start_time= document.getElementById("starttime")[document.getElementById("starttime").selectedIndex].value;
+	let end_time= document.getElementById("endtime")[document.getElementById("endtime").selectedIndex].value;
+	*/
+	let work =  document.getElementById("confirm_select");
+	
+	document.form_data.action = work[work.selectedIndex].value+".do";
+	document.form_data.submit();
+}
+
+
+
+// ============= Comfirm_form_ver2 용 JS ============= //
+
+
 
 /*
     탄력근무 신청시 사용되는함수
@@ -33,7 +115,8 @@ function Confirm_day(date){
 
     var week_text = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
 	
-    if(week_day.getDay() == 1){ //    	 
+    if(week_day.getDay() == 1){
+    	 
         end_date.setDate(week_day.getDate()+4); 
         
         var MM = end_date.getMonth()+1; 
@@ -108,8 +191,9 @@ function freetime(day_class){
 	}				 	
 }
 
-
-/*  */ 
+/*
+	탄력근무 신청버튼 누른후 최종 유효성검사 함수 
+ */ 
 function Confirm_Checking(){
 	
 	var start_time = document.getElementsByName("freedaystart");	
@@ -139,33 +223,3 @@ function Confirm_Checking(){
 	}
 	
 }
-
-function day_free(date,end){     
-    
-}
-/*
-
-*/
-function day_off(date,end){
-
-    var code = document.getElementById('code_select');
-    var code_value = code[code.selectedIndex].value;
-
-}
-
-/*
-    근무신청 유형 select값 - over (초과근무일때)실행되는 함수
-    당일 처리되는 근무임으로 시작일과 종료일이 같다. 8시간.(08시~17시)
-*/
-function over_time_checking(){
-    var select = document.getElementById('confirm_select');
-    var select_value = select[select.selectedIndex].value;
-
-    if(select_value!="over"){
-        alert("이 항목란은 초과 시간근무일 경우에만 작성 할 수 있습니다.");
-        select_value=null;
-        document.getElementById('confirm_select').focus();
-        return false;
-    }
-}
-

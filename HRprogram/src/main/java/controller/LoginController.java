@@ -59,11 +59,15 @@ public class LoginController {
 				// 트랜젝션 적용해볼것.!!!!!!!!!!!!!!
 				return "redirect:/error.do"; // 예외처리 뷰를 출력하기.
 			}
-
-			//오늘하루 출근처리는 하였으나 퇴근처리는 안되었을경우 혹은 오늘 출근한적 없으면 실행.			
-			session.setAttribute("SessionDTO", dto); //session 에 DTO저장.
-			return "redirect:/go_record.do";
-			
+			else if(checking_counting == 1) { // 오늘 처음으로 출근한경우.			
+				session.setAttribute("SessionDTO", dto); //session 에 DTO저장.
+				return "redirect:/go_record.do";	
+			}
+			else { // insert취소해야됨!!!!
+				//	오늘하루 출근처리는 하였으나 퇴근처리는 안되었을경우.			
+				session.setAttribute("SessionDTO", dto); //session 에 DTO저장.
+				return "redirect:/go_record.do";
+			}
 		}
 	}
 	

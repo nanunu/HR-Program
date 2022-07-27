@@ -8,7 +8,7 @@ public class HolidayRecordDTO {
 	private int holiRcode; //휴가기록코드
 	private String ecode; //사원코드
 	private String holicode; //휴가코드
-	private String holiRuseday; //휴가적용일
+	private String holiRuseday; //휴가적용일  --> 끝나는 시간 은 사용일수에 + 경조사 1 /// 결혼 3
 	private String holiRstarttime; //휴가시작시간
 	private String holiRendtime; //휴가종료시간
 	private int holiRusetime; //휴가사용시간
