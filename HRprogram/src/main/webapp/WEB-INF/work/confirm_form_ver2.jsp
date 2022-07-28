@@ -30,7 +30,7 @@
                         </div>
                         <div class="content">
                             <input type="text" class="form-control update-not" name="Dname" value="<%=dname%>" readonly />
-                            <input type="text" class="form-control update-not" name="position" value="<%=position%>" readonly />
+                            <input type="text" class="form-control update-not" name="Pname" value="<%=pname%>" readonly />
                             <input type="text" class="form-control update-not" name="Ecode" value="<%=ecode%>" readonly />
                             <input type="text" class="form-control update-not" name="Ename" value="<%=ename%>" readonly />                                
                         </div>                            

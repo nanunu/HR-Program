@@ -48,6 +48,7 @@ public class LoginController {
       }
       else { 
          dto.setDname(dao.getDname(dto.getDcode()));   //부서코드를 통해 부서이름 찾기.
+         dto.setPname(dao.getPname(dto.getPosition()));
          
          dao.CmTime(Ecode,"CmAtTime"); // 출근처리 insert실행.
          
@@ -70,7 +71,8 @@ public class LoginController {
             session.setAttribute("Ename", dto.getEname());//session에 사워명
             session.setAttribute("Dcode", dto.getDcode());//session에 부서코드
             session.setAttribute("Dname", dto.getDname());//session에 부서이름
-            session.setAttribute("position", dto.getPosition());//session에 직급
+            session.setAttribute("position", dto.getPosition());//session에 직급코드
+            session.setAttribute("Pname", dto.getPname());//session에 부서이름
             return "redirect:/go_record.do";
          
       }

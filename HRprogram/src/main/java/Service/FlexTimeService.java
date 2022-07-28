@@ -82,11 +82,11 @@ public class FlexTimeService {
 	public long[] calculatorTime(FlextimeDTO ftDTO) {
 		long[] time = new long[6];
 	
-		time[0] = ChronoUnit.HOURS.between(ftDTO.getMonStart().toLocalTime(), ftDTO.getMonend().toLocalTime());
-		time[1] = ChronoUnit.HOURS.between(ftDTO.getTueStart().toLocalTime(), ftDTO.getTueend().toLocalTime());
-		time[2] = ChronoUnit.HOURS.between(ftDTO.getWedStart().toLocalTime(), ftDTO.getWedend().toLocalTime());
-		time[3] = ChronoUnit.HOURS.between(ftDTO.getThuStart().toLocalTime(), ftDTO.getThuend().toLocalTime());
-		time[4] = ChronoUnit.HOURS.between(ftDTO.getFriStart().toLocalTime(), ftDTO.getFriend().toLocalTime());
+		time[0] = ChronoUnit.HOURS.between(ftDTO.getMonStart(), ftDTO.getMonend());
+		time[1] = ChronoUnit.HOURS.between(ftDTO.getTueStart(), ftDTO.getTueend());
+		time[2] = ChronoUnit.HOURS.between(ftDTO.getWedStart(), ftDTO.getWedend());
+		time[3] = ChronoUnit.HOURS.between(ftDTO.getThuStart(), ftDTO.getThuend());
+		time[4] = ChronoUnit.HOURS.between(ftDTO.getFriStart(), ftDTO.getFriend());
 		time[5] = 0;
 		for(int i=0; i<5; i++) {
 			time[5] += time[i];

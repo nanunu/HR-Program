@@ -7,6 +7,7 @@
    String ename = (String) session.getAttribute("Ename");
    String ecode = (String) session.getAttribute("Ecode");
    String position = (String) session.getAttribute("position");
+   String pname = (String) session.getAttribute("Pname");
    
 %>
     <div class="main-container">
@@ -15,7 +16,7 @@
             <div class="user-box">
                 <img src="${path}/resources/image/staff/Sample_img.jpg" class="profile_img" />
                 <div class="profile_info">
-                    <p class="class"><%=position%>  </p>
+                    <p class="class"><%=pname%>  </p>
                     <span class="name"><%=ename%></span>
                 </div>
             </div>

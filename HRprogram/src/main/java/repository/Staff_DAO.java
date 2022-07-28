@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import model.DepartmentDTO;
 import model.EmployeeDTO;
+import model.PositionDTO;
 
 public class Staff_DAO {
 
@@ -20,7 +21,7 @@ public class Staff_DAO {
 	
 	private JdbcTemplate jt;
 	
-	/*부서DTO를 어레이리스트로 돌려주는 함수*/
+	/*부서DTO를 리스트로 돌려주는 함수*/
 	public List<DepartmentDTO> getDepartmentList() {
 		String sql = "select * from Department";
 		
@@ -35,6 +36,23 @@ public class Staff_DAO {
 			}
 		};
 
+		return jt.query(sql, mapper);
+	}
+	
+	/*직급DTO를 리스트로 돌려주는 함수*/
+	public List<PositionDTO> getPositionList(){
+		String sql = "select * from PositionT";
+		
+		RowMapper<PositionDTO> mapper = new RowMapper<PositionDTO>() {
+
+			@Override
+			public PositionDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PositionDTO dto = new PositionDTO();
+				dto.setPosition(rs.getString("position"));
+				dto.setPname(rs.getString("Pname"));
+				return dto;
+			}
+		};
 		return jt.query(sql, mapper);
 	}
 	

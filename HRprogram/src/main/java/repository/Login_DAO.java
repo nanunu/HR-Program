@@ -49,6 +49,12 @@ public class Login_DAO {
 		
 	}
 	
+	/*직급코드로 직급명 찾기*/
+	public String getPname(String position) {
+		String sql = "select Pname from PositionT where position=?";
+		return jt.queryForObject(sql, String.class, position);
+	}
+	
 	public Integer Cmtime_checking(String Ecode) { //퇴근 시간이 null값인 오늘 날짜로 검색
 		LocalDateTime datetime = LocalDateTime.now();
 		
