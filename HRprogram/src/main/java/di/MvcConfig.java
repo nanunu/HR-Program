@@ -47,7 +47,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		//registry.addViewController("/register_staff.do").setViewName("management/"); input 안만듦
 		
 		registry.addViewController(".desc_card_ver1.do").setViewName("work/desc_card_ver1");
-		registry.addViewController("/desc_card_ver2.do").setViewName("work/desc_card_ver2");
+		//registry.addViewController("/desc_card_ver2.do").setViewName("work/desc_card_ver2");
 		
 	}
 	

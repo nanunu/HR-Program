@@ -9,5 +9,6 @@ public class SessionDTO {
 	private String ename; //사원이름
 	private String dcode; //부서코드
 	private String dname; //부서이름
-	private String position; //직급
+	private String position; //직급코드
+	private String pname;
 }

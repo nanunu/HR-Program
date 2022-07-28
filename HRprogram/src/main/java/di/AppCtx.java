@@ -13,6 +13,7 @@ import mailService.UserMailService;
 
 @Configuration
 public class AppCtx {
+	
 	@Bean(destroyMethod = "close")
 	public DataSource dataSource() {
 		DataSource ds = new DataSource();
@@ -71,6 +72,10 @@ public class AppCtx {
 	
 	@Bean
 	public HolidayService holidayService() { return new HolidayService(); }
+	
+	@Bean
+	public FlexTimeService flexTimeService() { return new FlexTimeService();}
+
 	
 	
 	

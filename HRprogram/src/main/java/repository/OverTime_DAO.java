@@ -48,13 +48,12 @@ public class OverTime_DAO {
 		
 		return jt.update(sql,map.get("Ecode"),map.get("startday"),String.format("%s:00:00",map.get("starttime")),String.format("%s:00:00",map.get("endtime")),time_dif,map.get("Reason"));
 		
-	}
-	
+	}	
+
 	//startday, endday사이의 특정사원의 초과근무를 삭제하는 함수
 	public Integer Delete_OverTime(String Ecode, String startday, String endday) {
 		String sql = "delete from OverTime where Ecode=? and OTDay between ? and  ?";
 		return jt.update(sql, Ecode, startday, endday);
 	}
-	
-	
+
 }

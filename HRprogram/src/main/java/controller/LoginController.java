@@ -98,21 +98,22 @@ public class LoginController {
 		return "redirect:/error.do"; // 예외처리 뷰출력
 	}
 	
-	@RequestMapping("/pwfind.do")
-	public String findpw(Model model, @RequestParam String email, HttpServletResponse resp) throws Exception{
-		String result = user.findPw(email);
-		String addr ="";
-		if(result.equals("Success")){
-			model.addAttribute("mailsend", result);
-			addr = "redirect:/login.jsp";
-		}else {
-			resp.setCharacterEncoding("UTF-8");
-			resp.setContentType("text/html; charset=UTF-8");
-			PrintWriter print = resp.getWriter();
-			print.write("<script>alert('존재하지 않는 이메일입니다. 다시입력해주세요!'); location.replace('./lost_pw.jsp');</script>");
-			print.close();
-		}
-		return addr;
-	}
+	   @RequestMapping("/pwfind.do")
+	   public String findpw(Model model, @RequestParam String email, HttpServletResponse resp) throws Exception{
+	      String result = user.findPw(email);
+	      String addr ="";
+	      if(result.equals("Success")){
+	         model.addAttribute("mailsend", result);
+	         addr = "redirect:/login.jsp";
+	      }else {
+	         resp.setCharacterEncoding("UTF-8");
+	         resp.setContentType("text/html; charset=UTF-8");
+	         PrintWriter print = resp.getWriter();
+	         print.write("<script>alert('존재하지 않는 이메일입니다. 다시입력해주세요!'); location.replace('./lost_pw.jsp');</script>");
+	         print.close();
+	      }
+	      return addr;
+	   }
+
 
 }

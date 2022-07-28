@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class FlextimeCMD {
 	private String Dname;
-	private String position;
+	private String Pname;
 	private String Ecode;
 	private String Ename;
 	private String startday;

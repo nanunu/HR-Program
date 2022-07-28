@@ -17,7 +17,7 @@ public class Holiday_DAO {
 	JdbcTemplate jt;
 	
 	public Holiday_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
-	
+
 	// 특정사원의 연차현황 DTO로 가져오기
 	public EmployeeHolidayDTO Select_Holiday(String Ecode) {
 		String sql = "select * from EH where Ecode=?";
@@ -61,5 +61,11 @@ public class Holiday_DAO {
 		return jt.update(sql,Ecode,Hcode,useday,String.format("%s:00:00", starttime),String.format("%s:00:00", endtime),settime,Rday,reason);
 	}
 	
+	/*한 주 시작일과 종료일 사이에 휴가신청이력(결재대기, 결재승인)이 몇 개 존재하는지 확인하는 함수*/
+	public int checkHoliday(String Ecode, String monday, String friday) {
+		String sql = "select count(*) from  holiRecord where Ecode=? and holiRuseday between ? and ? and (holiRapproval in ('completed','waiting'))";
+		return jt.queryForObject(sql, Integer.class, Ecode, monday, friday);
+	}
 	
 }//class end
+
