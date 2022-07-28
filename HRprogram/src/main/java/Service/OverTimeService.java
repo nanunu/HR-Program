@@ -58,9 +58,28 @@ public class OverTimeService {
 		
 	}
 	
-	
-	
-	
-	
-	
+	/*오버로딩 : 선택된날짜를 기준으로 월요일에 해당하는 날짜를 돌려줌*/
+	public String Checking_TimeSum(String pickDay) {
+		LocalDate startDay = LocalDate.parse(pickDay);	
+		int week_monday = startDay.getDayOfMonth();
+
+		switch(startDay.getDayOfWeek().getValue()) { // 1: 월요일 .......7: 일요일 /// 일요일과 토요일은 js에서 걸러 줄거임..아마도.			
+			case 1: //월요일
+					break;
+			case 2: //화요일
+					week_monday -=1;
+					break;
+			case 3: 
+					week_monday -=2;
+					break;
+			case 4: 
+					week_monday -=3;
+					break;
+			case 5:	
+					week_monday -=4;
+					break;			 		
+		}
+		return LocalDate.of(startDay.getYear(),startDay.getMonth(),week_monday).toString();
+	}
+
 }//class end

@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -86,9 +87,16 @@ public class Flextime_DAO {
 	}
 	
 	/*탄력근무제를 진행하고 있는 사원들의 탄력근무데이터 들고오는 함수*/
-	public List<FlextimeDTO> getAllFlextime(){
+	public ArrayList<FlextimeDTO> getAllFlextime(){
 		String sql = "select * from FlexTime order by FTCode DESC";
-		List<FlextimeDTO> fList = jt.query(sql, mapper1); 
+		ArrayList<FlextimeDTO> fList = (ArrayList<FlextimeDTO>) jt.query(sql, mapper1); 
+		return fList;
+	}
+	
+	public ArrayList<FlextimeDTO> getAllFlextime(String dcode){
+		System.out.println();
+		String sql = "select * from FlexTime where Ecode like '%"+dcode+"%' order by FTCode DESC";
+		ArrayList<FlextimeDTO> fList = (ArrayList<FlextimeDTO>) jt.query(sql, mapper1); 
 		return fList;
 	}
 	
@@ -102,7 +110,7 @@ public class Flextime_DAO {
 		return eList;
 	}
 	
-	/*탄력근무기록코드(FTCode)로 해당 근무기록코드 가져오는 함수*/
+	/*탄력근무기록코드(FTCode)로 해당 근무기록코드 가져오는 함수==>예외처리 해보자......;;*/
 	public FlextimeDTO getFlextimeDTO(int FTCode) {
 		String sql = "select * from FlexTime where FTCode=?"; 
 		return jt.queryForObject(sql, mapper1, FTCode);
@@ -113,5 +121,19 @@ public class Flextime_DAO {
 		String sql = "select * from Employee where Ecode=?";
 		return jt.queryForObject(sql, mapper2, Ecode);
 	}
+	
+	/*검색 : 부서별*/
+	public List<FlextimeDTO> selectDepartment(String dcode){
+		String sql = "select * from FlexTime where Ecode like '%"+dcode+"%'";
+		return jt.query(sql, mapper1);
+	}
+	
+	/*검색 : 직급별*/
+	public ArrayList<FlextimeDTO> selectPosition(String position){
+		String sql = "select * from FlexTime where Ecode in (select Ecode from Employee where position = ?) order by FTCode DESC";
+		return (ArrayList<FlextimeDTO>) jt.query(sql, mapper1, position);
+	}
+	
+
 	
 }

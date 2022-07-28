@@ -2,6 +2,7 @@ package Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,9 @@ public class FlexTimeService {
 	
 	@Autowired
 	Holiday_DAO holi_dao;
+	
+	@Autowired
+	OverTimeService over_Serv;
 	
 	public int insertFlexTime(FlextimeCMD command) {
 		LocalDate today = LocalDate.now();
@@ -92,5 +96,92 @@ public class FlexTimeService {
 			time[5] += time[i];
 		}
 		return time;
+	}
+
+	/*검색 프로세스*/
+	public ArrayList<FlextimeDTO> flextime_Process(String dcode, String position, String pickdate, String ecodeNename) {
+		ArrayList<FlextimeDTO> fList;
+		
+		/*직급별*/
+		if(!position.equals("all")) {
+			fList = flextime_dao.selectPosition(position);
+		}else {
+			fList = flextime_dao.getAllFlextime();
+		}
+		
+		/*부서별*/
+		if(!dcode.equals("all")) {
+			fList = searchDepartment(fList, dcode);
+		}
+		
+		/*날짜*/
+		if(pickdate != null && !pickdate.equals("")) {
+			pickdate = over_Serv.Checking_TimeSum(pickdate);
+			fList = searchDate(fList, pickdate);
+		}
+		
+		/*사원코드 OR 사원명*/
+		if(ecodeNename != null && !ecodeNename.equals("")) {
+			/*if : 사원코드, else : 사원명*/
+			if((ecodeNename.charAt(0)>='0' && ecodeNename.charAt(0)<='9')||ecodeNename.charAt(0)=='z') {
+				fList = searchEcode(fList, ecodeNename);
+			}else {
+				fList = searchEname(fList, ecodeNename);
+			}
+		}
+		
+		return fList;
+	}
+	
+	/*부서별 검색이 전체("all")이 아닌 경우 - 부서별 검색할 경우*/
+	public ArrayList<FlextimeDTO> searchDepartment(ArrayList<FlextimeDTO> fList, String dcode) {
+		//ArrayList<Integer> numlist = new ArrayList<Integer>();
+		
+		for(int i=0; i<fList.size(); i++) {
+			if(!(fList.get(i).getEcode().substring(6, 10)).equals(dcode)) {
+				fList.remove(i);
+				i--;
+			}
+		}
+		return fList;
+	}
+	
+	/*날짜를 포함하여 검색할 경우*/
+	public ArrayList<FlextimeDTO> searchDate(ArrayList<FlextimeDTO> fList, String pickdate){
+		for(int i=0; i<fList.size(); i++) {
+			if(!(fList.get(i).getFTstartday().toString().equals(pickdate))) {
+				fList.remove(i);
+				i--;
+			}
+		}
+		return fList;
+	}
+	
+	/*사원코드를 포함하여 검색*/
+	public ArrayList<FlextimeDTO> searchEcode(ArrayList<FlextimeDTO> fList, String ecodeNename){
+		for(int i=0; i<fList.size(); i++) {
+			if(!(fList.get(i).getEcode().contains(ecodeNename))) {
+				fList.remove(i);
+				i--;
+			}
+		}
+		return fList;
+	}
+	
+	/*사원이름을 포함하여 검색 - 사원이름이 포함되어있지 않으면 삭제 */
+	public ArrayList<FlextimeDTO> searchEname(ArrayList<FlextimeDTO> fList, String ecodeNename){
+		ArrayList<EmployeeDTO> employList = staff_dao.getEmployList();
+		
+		for(int i=0; i<employList.size(); i++) {
+			for(int j=0; j<fList.size(); j++) {
+				if(employList.get(i).getEcode().equals(fList.get(j).getEcode())) {
+					if(!(employList).get(i).getEname().contains(ecodeNename)) {
+						fList.remove(j);
+						j--;
+					}
+				}
+			}
+		}
+		return fList;
 	}
 }

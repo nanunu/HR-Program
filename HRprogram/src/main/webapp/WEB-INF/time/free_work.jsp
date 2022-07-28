@@ -9,10 +9,12 @@
 	<script>alert("<%=msg%>");</script>
 <%	
 	}
-	List<DepartmentDTO> dList = (List<DepartmentDTO>) request.getAttribute("dList");
 	List<FlextimeDTO> fList = (List<FlextimeDTO>) request.getAttribute("fList");
 	Map<String, EmployeeDTO> eDTOmap = (Map<String, EmployeeDTO>) request.getAttribute("eDTOmap");
-	Map<String, String> dmap = (Map<String, String>) request.getAttribute("dmap");
+	Map<String, String> dMap = (Map<String, String>) request.getAttribute("dMap");
+	Map<String, String> pMap = (Map<String, String>) request.getAttribute("pMap");
+	String dc = (String) request.getAttribute("dc");
+	String po = (String) request.getAttribute("po");
 %>
 <html>
 <head>
@@ -33,9 +35,16 @@
                             <select name="dcode" class="form-select-sm">
                                 <option value="all">전체</option>
                                 <%
-                                	for(int i=0; i<dList.size(); i++){
+	                                Iterator<String> dkeys = dMap.keySet().iterator();
+	                       			while (dkeys.hasNext()) {
+	                       				String text="";
+		                       			String key = dkeys.next();
+		                       			if(key.equals(dc)){ 
+		                       				text="selected";
+		                       			}
+		                       			String value = dMap.get(key);
                                 %>
-                                <option value="<%=dList.get(i).getDcode() %>"><%=dList.get(i).getDname() %></option>
+                                <option value="<%=key%>" <%=text%>><%=value%></option>
                                 <%
                                 	}
                                 %>
@@ -45,9 +54,20 @@
                             <span class="classfy-title">직급별</span>
                             <select name="position" class="form-select-sm">
                                 <option value="all">전체</option>
-                                <option value="staff">사원</option>
-                                <option value="general">팀장</option>
-                                <option value="ceo">대표이사</option>
+                                <%
+                                	Iterator<String> pkeys = pMap.keySet().iterator();
+                            		while (pkeys.hasNext()) {
+                            			String text="";
+                            			String key = pkeys.next();
+                            			if(key.equals(po)){
+                            				text="selected";
+                            			}
+                            			String value = pMap.get(key);
+                                %>
+                                <option value="<%=key%>" <%=text%>><%=value%></option>
+								<%
+                            		}
+								%>
                             </select>
                         </label>
                         <label class="classfy">
@@ -58,7 +78,7 @@
                             <span class="classfy-title">사원번호 혹은 사원명</span>
                             <input type="text" name="ecodeNename" />
                         </label>
-                        <input type="button" class="btn-white search-btn" value="조회하기"/>
+                        <input type="submit" class="btn-white search-btn" value="조회하기"/>
                     </div>
                 </form>
             </div>
@@ -80,10 +100,10 @@
 							EmployeeDTO eDTO = eDTOmap.get(ecode1);
 					%>
                     <div class="row">                
-                        <div class="content-text"><%=dmap.get(eDTO.getDcode()) %></div>
+                        <div class="content-text"><%=dMap.get(eDTO.getDcode()) %></div>
                         <div class="content-text"><%=ecode1 %></div>
                         <div class="content-text"><%=eDTO.getEname() %></div>
-                        <div class="content-text"><%=eDTO.getPosition() %></div>
+                        <div class="content-text"><%=pMap.get(eDTO.getPosition()) %></div>
                         <div class="content-text"><%=fList.get(i).getFTstartday()%>~<%=fList.get(i).getFTendday() %></div>                
                         <%
                         	if(fList.get(i).getAdmissionDate()==null){
