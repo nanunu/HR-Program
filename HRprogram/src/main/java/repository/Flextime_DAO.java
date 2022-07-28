@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import model.FlextimeCMD;
 import model.FlextimeDTO;
+import model.WeekFlextimeDTO;
 
 public class Flextime_DAO {
 	
@@ -19,11 +21,11 @@ public class Flextime_DAO {
 		this.jt = new JdbcTemplate(datasource);
 	}
 	
-	public void checkFlexTime(FlextimeCMD command) {
+	public Integer checkFlexTime(FlextimeCMD command) {
 		String sql = "select count(*) from FlexTime where Ecode=? and FTstartday=?";
-		jt.queryForObject(sql, Integer.class, command.getEcode(), command.getStartday());
+		return jt.queryForObject(sql, Integer.class, command.getEcode(), command.getStartday());
 	}
-	
+
 	/*사원이 신청한 탄력근무제를 DB에 넣는 함수*/
 	/*DB에 신청한 적이 있는지 없는지 확인하는 작업 거쳐야함*/
 	public void insertFlexTimeDAO(FlextimeCMD command) {
@@ -83,49 +85,72 @@ public class Flextime_DAO {
 		return jt.queryForList(sql, String.class);
 	}
 	
-	/*
-	//입력받은 날짜가 탄력근무 하는 주간인지 검사하는 함수 return value 0/1
+	//해당사원이 입력한 날짜가 탄력근무 하는 주간인지 검사하는 함수 return value 0/1
 	public Integer Select_WeekDay(String startday, String ecode) {
 		String sql = "select count(Ecode) from FlexTime where FTstartday <= ? and FTendday >= ? and Ecode =?";
 		return jt.queryForObject(sql, Integer.class, startday,startday, ecode);
 	}
-	*/
 	
-	//입력받은 날짜가 탄력근무 하는 주간인지 검사하는 함수
-	public FlextimeDTO Select_WeekDay(String startday, String ecode) {
-		String sql = "select * from FlexTime where FTstartday <= ? and FTendday >= ? and Ecode =?";
-		RowMapper<FlextimeDTO> mapper = new RowMapper<FlextimeDTO>() {
+	
+	//특정요일의 특정근무시간들고오는 함수
+	public WeekFlextimeDTO Select_Worktime(String Ecode, String startday,String worktime) {
+		String sql = "select "+worktime+" from FlexTime where Ecode=? and FTstartday <= ? and FTendday >= ?";
+		RowMapper<WeekFlextimeDTO> mapper = new RowMapper<WeekFlextimeDTO>() {
 
 			@Override
-			public FlextimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				FlextimeDTO dto = new FlextimeDTO();
-				dto.setFTCode(rs.getInt("FTCode"));
-				dto.setFTapproval(rs.getString("FTapproval"));
-				dto.setFTstartday(rs.getDate("FTstartday"));
-				dto.setFTendday(rs.getDate("FTendday"));
-				dto.setAdmissionDate(rs.getDate("AdmissionDate"));
-				dto.setMonStart(rs.getTime("MonStart"));
-				dto.setMonend(rs.getTime("Monend"));
-				dto.setTueStart(rs.getTime("TueStart"));
-				dto.setTueend(rs.getTime("Tueend"));
-				dto.setWedStart(rs.getTime("WedStart"));
-				dto.setWedend(rs.getTime("Wedend"));
-				dto.setThuStart(rs.getTime("ThuStart"));
-				dto.setThuend(rs.getTime("Thuend"));
-				dto.setFriStart(rs.getTime("FriStart"));
-				dto.setFriend(rs.getTime("Friend"));
+			public WeekFlextimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WeekFlextimeDTO dto = new WeekFlextimeDTO();
+				dto.setStart(rs.getString(1));
+				dto.setEnd(rs.getString(2));
 				return dto;
 			}
 			
 		};
 		
-		List<FlextimeDTO> list = jt.query(sql,mapper, startday,startday, ecode);
+		List<WeekFlextimeDTO> list =(List<WeekFlextimeDTO>) jt.queryForObject(sql, mapper ,Ecode,startday,startday); 
 		
-		if(list!=null) { return list.get(0); }
-		else { return null; }
+		if(list==null) { return null; }
+		else { return list.get(0); }
+		
+	} 
 
-	}	 
 	
+	//입력받은 날짜가 탄력근무 하는 주간인지 검사하는 함수
+	/*
+		public FlextimeDTO Select_WeekDay(String startday, String ecode) {
+			String sql = "select * from FlexTime where FTstartday <= ? and FTendday >= ? and Ecode =? and FTappoval='completed'or FTappoval='waiting'";
+			RowMapper<FlextimeDTO> mapper = new RowMapper<FlextimeDTO>() {
+	
+				@Override
+				public FlextimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+					FlextimeDTO dto = new FlextimeDTO();
+					dto.setFTCode(rs.getInt("FTCode"));
+					dto.setFTapproval(rs.getString("FTapproval"));
+					dto.setFTstartday(rs.getDate("FTstartday"));
+					dto.setFTendday(rs.getDate("FTendday"));
+					dto.setAdmissionDate(rs.getDate("AdmissionDate"));
+					dto.setMonStart(rs.getTime("MonStart"));
+					dto.setMonend(rs.getTime("Monend"));
+					dto.setTueStart(rs.getTime("TueStart"));
+					dto.setTueend(rs.getTime("Tueend"));
+					dto.setWedStart(rs.getTime("WedStart"));
+					dto.setWedend(rs.getTime("Wedend"));
+					dto.setThuStart(rs.getTime("ThuStart"));
+					dto.setThuend(rs.getTime("Thuend"));
+					dto.setFriStart(rs.getTime("FriStart"));
+					dto.setFriend(rs.getTime("Friend"));
+					return dto;
+				}
+				
+			};
+			
+			List<FlextimeDTO> list = jt.query(sql,mapper, startday,startday, ecode);
+			
+			if(list!=null) { return list.get(0); }
+			else { return null; }
+	
+		}	 
+	*/
 	
 	
 	

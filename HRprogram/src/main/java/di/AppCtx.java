@@ -69,7 +69,8 @@ public class AppCtx {
 	@Bean
 	public OverTimeService overTimeService() {return new OverTimeService();}
 	
-	
+	@Bean
+	public HolidayService holidayService() { return new HolidayService(); }
 	
 	
 	

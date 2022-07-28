@@ -70,7 +70,7 @@ public class Login_DAO {
 	public int CmTime(String Ecode, String type) {
 		LocalDateTime datetime = LocalDateTime.now();
 		
-		String sql = "insert into Commute(Ecode,CmDay,CmAtTime) value(?,?,?)"; //기본값 출근처리용
+		String sql = "insert into Commute(Ecode,CmDay,CmAtTime) values(?,?,?)"; //기본값 출근처리용
 		
 		String month, minute;
 		int mon = datetime.getMonth().getValue();
@@ -93,6 +93,13 @@ public class Login_DAO {
 		else { return jt.update(sql,Ecode,date,time); } // 아니라면 출근처리.
 		
 	}
+	
+	//휴가신청시 미리 출석값 넣어주는 함수. 부작용 --> 해당날짜에 로그인이 되질않음.
+	public int Insert_alreadyLogin(String Ecode, String CmDay, String CmAtTime, String CmGetoffTime) {
+		String sql = "insert into Commute(Ecode,CmDay,CmAtTime,CmGetoffTime) values(?,?,?,?)";
+		return jt.update(sql,Ecode,CmDay,CmAtTime,CmGetoffTime);
+	}
+	
 	
 	/* 비밀번호 찾기 : 이메일이 존재하는지 확인*/
 	public int existEmail(String email) {

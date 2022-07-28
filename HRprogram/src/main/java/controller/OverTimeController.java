@@ -47,7 +47,8 @@ public class OverTimeController {
 			
 		}
 	
-		if(overTimeDAO.Select_OverTime(map.get("Ecode"),map.get("startday"))==0) { // 오늘 날짜를 기준으로 이미 신청했는지 확인
+		if(overTimeDAO.Select_OverTime(map.get("Ecode"),map.get("startday"))==0) {
+			// 오늘 날짜를 기준으로 이미 신청했는지 확인
 			
 			overTimeDAO.Insert_OverTime(map,time_def);
 			

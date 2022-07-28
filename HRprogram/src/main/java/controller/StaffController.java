@@ -12,12 +12,5 @@ public class StaffController {
 	@Autowired
 	Staff_DAO dao;
 	
-	/*
-	@RequestMapping("all_staff.do")
-	public String process_all_staff(M) {
-		
-		
-		return "";
-	}
-	*/
+
 }

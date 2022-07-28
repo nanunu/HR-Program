@@ -46,11 +46,11 @@
                                 <option value="OverTime">초과근무신청</option>                                
                                 <option value="HoliRecord">휴가근무신청</option>                                                             
                             </select>                                                         
-                            <select name="Holiday" id = "Hcode_select" class="form-select second-select" disabled >                                                       
+                            <select name="Hcode" id = "Hcode_select" class="form-select second-select" disabled >                                                                                  
                                 <option value="H0001">연차</option>
-                                <option value="H0002">반차</option>
-                                <option value="H0003">외출</option>
-                                <option value="H0004">지참</option>
+                                <option value="H0002">반차</option> 
+                                <option value="H0003">외출</option> 
+                                <option value="H0004">지참</option> 
                                 <option value="H0005">조퇴</option>
                                 <option value="H1001">본인결혼</option>
                                 <option value="H1002">조사</option>                             

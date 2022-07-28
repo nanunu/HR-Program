@@ -21,6 +21,14 @@ public class OverTime_DAO {
 		return jt.queryForObject(sql, Integer.class, Ecode, OTday);
 	}
 	
+	public Integer Select_OverTime(String Ecode, String startday, String endday) {
+		
+		String sql = "select count(Ecode) from OverTime where Ecode=? and OTDay >= ? and OTDay <= ?";
+		
+		return jt.queryForObject(sql, Integer.class, Ecode, startday, endday);
+		
+	}
+	
 	//사원코드로 총 초과근무시간 리턴받음. 주단위로 가져옴.
 	public Integer Select_OverTimeSum(String Ecode, String week_monday, String week_friday) {
 		
@@ -34,12 +42,18 @@ public class OverTime_DAO {
 	}
 	
 	
-	public Integer Insert_OverTime(Map<String,String> map, int time_def) {
+	public Integer Insert_OverTime(Map<String,String> map, int time_dif) {
 		
 		String sql = "insert into OverTime(Ecode,OTDay,OTStartTime,OTEndTime,TimeSum,OTReason) values(?,?,?,?,?,?)";
 		
-		return jt.update(sql,map.get("Ecode"),map.get("startday"),String.format("%s:00:00",map.get("starttime")),String.format("%s:00:00",map.get("endtime")),time_def,map.get("Reason"));
+		return jt.update(sql,map.get("Ecode"),map.get("startday"),String.format("%s:00:00",map.get("starttime")),String.format("%s:00:00",map.get("endtime")),time_dif,map.get("Reason"));
 		
+	}
+	
+	//startday, endday사이의 특정사원의 초과근무를 삭제하는 함수
+	public Integer Delete_OverTime(String Ecode, String startday, String endday) {
+		String sql = "delete from OverTime where Ecode=? and OTDay between ? and  ?";
+		return jt.update(sql, Ecode, startday, endday);
 	}
 	
 	

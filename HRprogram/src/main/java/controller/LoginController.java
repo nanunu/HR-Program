@@ -79,13 +79,13 @@ public class LoginController {
 	@RequestMapping("/logout.do")
 	public String process_logout(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException {
 		
-		SessionDTO dto = (SessionDTO) session.getAttribute("SessionDTO");
+		String Ecode = (String) session.getAttribute("Ecode");
 		
-		if(dto!=null) {			
+		if(Ecode!=null) {			
 			
 			// 오늘 출근 - 퇴근하였는지 확인하는 함수
-			if(dao.Cmtime_checking(dto.getEcode()) == 0) { //출근은하였으나 퇴근처리가 되지않은 상태. 0값
-				dao.CmTime(dto.getEcode(),"CmGetoffTime");//퇴근처리하기
+			if(dao.Cmtime_checking(Ecode) == 0) { //출근은하였으나 퇴근처리가 되지않은 상태. 0값
+				dao.CmTime(Ecode,"CmGetoffTime");//퇴근처리하기
 				session.invalidate();//세션 삭제
 				return "redirect:/login.jsp";
 			}
