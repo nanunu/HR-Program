@@ -18,8 +18,6 @@
                 <img src="${path}/resources/image/staff/Sample_img.jpg" class="profile_img" />
                 <div class="profile_info">
 
-                    <p class="class"><%=position%>  </p>
-
                     <p class="class"><%=pname%>  </p>
 
                     <span class="name"><%=ename%></span>

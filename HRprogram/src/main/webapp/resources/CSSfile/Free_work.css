@@ -22,5 +22,46 @@
             .content-text:nth-child(5){width:250px;}
             .content-text:nth-child(6){width:100px;}
             .content-text:nth-child(7){width:100px;}
-            .content-text:nth-child(8){width:200px;}       
+            .content-text:nth-child(8){width:200px;}
+
+
+.pages {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.pages > div {
+	margin-top: 20px;
+}
+.pages > div > a{
+	margin: 0 10px;
+	
+}
+.pages > div > a > b {
+	font-size: 20px;
+	color : gray;
+	cursor: pointer;
+}
+
+.pages > div > a > b:hover {
+	color : red;
+}
+.pages > div > a > i {
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border: 2px solid gray;
+	color: gray;
+	border-radius: 50%;
+	padding: 13px;
+	transition : all 0.3s;
+}  
+.pages > div > a > i:hover {
+	border : 2px solid red;
+	color : red;
+	cursor: pointer;
+}
         

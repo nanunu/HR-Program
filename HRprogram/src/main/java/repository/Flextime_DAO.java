@@ -2,7 +2,7 @@ package repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,6 @@ public class Flextime_DAO {
 	}
 	
 	public ArrayList<FlextimeDTO> getAllFlextime(String dcode){
-		System.out.println();
 		String sql = "select * from FlexTime where Ecode like '%"+dcode+"%' order by FTCode DESC";
 		ArrayList<FlextimeDTO> fList = (ArrayList<FlextimeDTO>) jt.query(sql, mapper1); 
 		return fList;
@@ -120,8 +119,8 @@ public class Flextime_DAO {
 		return eList;
 	}
 	
-	/*탄력근무기록코드(FTCode)로 해당 근무기록코드 가져오는 함수==>예외처리 해보자......;;*/
-	public FlextimeDTO getFlextimeDTO(int FTCode) {
+	/*탄력근무기록코드(FTCode)로 해당 근무기록코드 가져오는 함수*/
+	public FlextimeDTO getFlextimeDTO(int FTCode) throws Exception, SQLException{
 		String sql = "select * from FlexTime where FTCode=?"; 
 		return jt.queryForObject(sql, mapper1, FTCode);
 	}
@@ -166,7 +165,34 @@ public class Flextime_DAO {
 		else { return list.get(0); }
 		
 	} 
-
+	
+	/*결재승인을 하는 경우 : 결재대기 ==> 승인*/
+	public void updateFlexApproval1(String FTcode) {
+		String today = LocalDate.now().toString();
+		String sql = "update FlexTime set FTapproval='completed', AdmissionDate=? where FTcode=?";
+		jt.update(sql, today, FTcode);
+	}
+	
+	/*결재승인을 하는 경우 : 결재대기(waiting) ==> 반려(back)*/
+	/*결재승인을 하는 경우 : 결재완료(completed) ==> 결재취소(cancel)*/
+	public void updateFlexApproval2(String FTcode, String FTapproval){
+		String sql = "update FlexTime set FTapproval='back', AdmissionDate=null where FTcode=?";
+		if(FTapproval.equals("completed")) {
+			sql = "update FlextTime set FTapproval='cancel', AdmissionDate=null where FTcode=?";
+		}
+		jt.update(sql, FTcode);
+	}
+	
+	/*결재요청을 하는 경우 : 결재대기(waiting) ==> 결재취소(DB삭제)*/
+	/*결재요청을 하는 경우 : 결재완료(completed) ==> 결재취소(cancel)*/
+	public void updateFlexApproval3(String FTcode, String FTapproval){
+		String sql = "delete from FlexTime where FTcode=?";
+		if(FTapproval.equals("completed")) {
+			sql = "update FlexTime set FTapproval='cancel', AdmissionDate=null where FTcode=?";
+		}
+		jt.update(sql, FTcode);
+	}
+	
 	
 	//입력받은 날짜가 탄력근무 하는 주간인지 검사하는 함수
 	/*
@@ -204,9 +230,5 @@ public class Flextime_DAO {
 	
 		}	 
 	*/
-	
-	
-	
-	
-	
+		
 }//class end

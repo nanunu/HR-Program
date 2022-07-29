@@ -184,4 +184,15 @@ public class FlexTimeService {
 		}
 		return fList;
 	}
+
+	/*페이징 처리 : 탄력근무제목록을 'limit'개씩 잘라서 돌려주는 함수*/
+	public ArrayList<FlextimeDTO> cutPage(ArrayList<FlextimeDTO> fList, int limit, int page){
+		int first = (page-1)*limit; //page : 1 - 0번기록부터, psge : 2 - 5번기록부터
+		ArrayList<FlextimeDTO> cutList= new ArrayList<FlextimeDTO>();
+		for(int i=first; i<limit; i++ ) {
+			cutList.add(fList.get(i));
+		}
+		return cutList;
+	}
+	
 }

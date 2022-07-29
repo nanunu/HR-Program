@@ -2,6 +2,7 @@
 <%@ page import="model.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
+<html>
 <%
 	String msg = (String)request.getAttribute("msg"); 
 	if(msg!=null){
@@ -15,8 +16,20 @@
 	Map<String, String> pMap = (Map<String, String>) request.getAttribute("pMap");
 	String dc = (String) request.getAttribute("dc");
 	String po = (String) request.getAttribute("po");
+	String pi = (String) request.getAttribute("pi");
+	String eNe = (String) request.getAttribute("eNe");
+	
+	int pageNum = (Integer) request.getAttribute("pageNum");
+	int total_page = (Integer) request.getAttribute("total");
+	
+	int start=1;
+	int end=10;
+	
+	if(total_page<=end){
+		end=total_page;
+	}
+	
 %>
-<html>
 <head>
 	<%@ include file="/header.jsp" %>
  	<title>탄력근무제 조회 / 승인</title>
@@ -90,8 +103,8 @@
                         <div class="table-title name-width">사원명</div>
                         <div class="table-title rank-width">직급</div>
                         <div class="table-title date-width">신청일자</div>
-                        <div class="table-title confirmday-width">승인일자</div>
-                        <div class="table-title confirm-width">승인여부</div>
+                        <div class="table-title confirmday-width">결재일자</div>
+                        <div class="table-title confirm-width">결재상태</div>
                         <div class="table-title etc">상세내역</div>
                     </div>
 					<%
@@ -123,8 +136,76 @@
 					<%
 						}
 					%>
+					<div class="pages">
+					<%
+					
+					%>
+					</div>
                 </div><!-- container end -->
-
+				<div class="pages">
+					<%
+						if(pageNum==1){
+					%>
+					<div class="left"><a><i class="fa-solid fa-angle-left"></i></a></div>
+					<%
+						}else{
+							if(pi!=null && eNe!=null){
+					%>
+					<div class="left"><a href="flextimeProcess.do?pageNum=<%=pageNum-1%>&dcode=<%=dc%>&position=<%=po%>&pickdate=<%=pi%>&ecodeNename=<%=eNe%>"><i class="fa-solid fa-angle-left"></i></a></div>
+					<%			
+							}else{
+									
+					%>
+					<div class="left"><a href="free_work.do?pageNum=<%=pageNum-1%>"><i class="fa-solid fa-angle-left"></i></a></div>	
+					<%
+							}
+						}
+						for(int j=start; j<=end; j++){
+							if(j==pageNum){
+								if(pi!=null && eNe!=null){
+					%>
+					<div class="number"><a href="flextimeProcess.do?pageNum=<%=j%>&dcode=<%=dc%>&position=<%=po%>&pickdate=<%=pi%>&ecodeNename=<%=eNe%>"><b style="color:red;"><%=j%></b></a></div>
+					<%
+								}else{
+					%>
+					<div class="number"><a href="free_work.do?pageNum=<%=j%>"><b style="color:red;"><%=j%></b></a></div>
+					<%
+								}
+							}else{
+								if(pi!=null && eNe!=null){
+					%>
+					<div class="number"><a href="flextimeProcess.do?pageNum=<%=j%>&dcode=<%=dc%>&position=<%=po%>&pickdate=<%=pi%>&ecodeNename=<%=eNe%>"><b style="color:black;"><%=j%></b></a></div>
+					<%				
+								}else{
+					%>
+					<div class="number"><a href="free_work.do?pageNum=<%=j%>"><b style="color:black;"><%=j%></b></a></div>
+					<%
+								}
+							}
+						}
+					%>
+					
+					<!-- <div class="right"><a><i class="fa-solid fa-angle-right"></i></a></div> -->
+					<%
+						if(pageNum==end){
+					%>
+					<div class="right"><a><i class="fa-solid fa-angle-right"></i></a></div>
+					<%
+						}else{
+							if(pi!=null && eNe!=null){
+					%>
+					<div class="right"><a href="flextimeProcess.do?pageNum=<%=pageNum+1%>&dcode=<%=dc%>&position=<%=po%>&pickdate=<%=pi%>&ecodeNename=<%=eNe%>"><i class="fa-solid fa-angle-right"></i></a></div>
+					<%			
+							}else{
+									
+					%>
+					<div class="right"><a href="free_work.do?pageNum=<%=pageNum+1%>"><i class="fa-solid fa-angle-right"></i></a></div>	
+					<%
+							}
+						}
+					%>
+					
+				</div>
             </div><!-- view-container end -->
 	<%@ include file="/footer.jsp" %>
 </body>
