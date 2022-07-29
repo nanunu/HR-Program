@@ -83,7 +83,7 @@
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
-	<!-- 아파치에서 제공하는 메일전송-->
+	<!-- 아파치에서 제공하는 메일전송 api-->
 	<dependency>
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-email</artifactId>
