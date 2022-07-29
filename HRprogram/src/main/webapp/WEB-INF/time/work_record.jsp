@@ -15,7 +15,7 @@
                         <div class="form-box">
                             <label class="classfy">
                                 <span class="classfy-title">부서명</span>
-                                <select name="class" class="form-select-sm">
+                                <select name="dcode" class="form-select-sm">
                                     <option value="all">전체</option>
                                     <option value="business">경영(인사)부</option>
                                     <option value="development">개발부</option>
@@ -23,7 +23,7 @@
                             </label>
                             <label class="classfy">
                                 <span class="classfy-title">직급별</span>
-                                <select name="rank" class="form-select-sm">
+                                <select name="position" class="form-select-sm">
                                     <option value="all">전체</option>
                                     <option value="staff">사원</option>
                                     <option value="general">팀장</option>

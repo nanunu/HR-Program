@@ -14,8 +14,8 @@
                 <form action="#" class="form-control align">
                     <div class="form-box">
                         <label class="classfy">
-                            <span class="classfy-title">사원번호</span>
-                            <select name="class" class="form-select-sm">
+                            <span class="classfy-title">부서별</span>
+                            <select name="dcode" class="form-select-sm">
                                 <option value="all">전체</option>
                                 <option value="business">경영(인사)부</option>
                                 <option value="development">개발부</option>
@@ -23,7 +23,7 @@
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">직급별</span>
-                            <select name="rank" class="form-select-sm">
+                            <select name="position" class="form-select-sm">
                                 <option value="all">전체</option>
                                 <option value="staff">사원</option>
                                 <option value="general">팀장</option>
@@ -36,7 +36,7 @@
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">사원번호 혹은 사원명</span>
-                            <input type="text" name="number" />
+                            <input type="text" name="ecodeNename" />
                         </label>
                         <input type="button" class="btn-white search-btn" value="조회하기"/>
                     </div>

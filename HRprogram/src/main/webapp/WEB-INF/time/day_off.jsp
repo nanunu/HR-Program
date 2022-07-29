@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="model.*" %>
+<%
+	List<DepartmentDTO> DepartList = (List<DepartmentDTO>) request.getAttribute("DepartLIST");
+	List<PositionDTO> PositionList = (List<PositionDTO>) request.getAttribute("PositionLIST");
+	
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,20 +23,27 @@
                 <form action="#" class="form-control align">
                     <div class="form-box">
                         <label class="classfy">
-                            <span class="classfy-title">사원번호</span>
-                            <select name="class" class="form-select-sm">
+                            <span class="classfy-title">부서별</span>
+                            <select name="dcode" class="form-select-sm">
                                 <option value="all">전체</option>
-                                <option value="business">경영(인사)부</option>
-                                <option value="development">개발부</option>
+                                <%
+                                	for(int i=0;i<DepartList.size();i++){
+                                		DepartmentDTO dto = DepartList.get(i);                                		
+                                		out.print("<option value='"+dto.getDcode()+"'>"+dto.getDname()+"</option>");
+                                	}
+                                %>
                             </select>
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">직급별</span>
-                            <select name="rank" class="form-select-sm">
+                            <select name="position" class="form-select-sm">
                                 <option value="all">전체</option>
-                                <option value="staff">사원</option>
-                                <option value="general">팀장</option>
-                                <option value="ceo">대표이사</option>
+                                <%
+                                	for(int i=0;i<PositionList.size();i++){
+                                		PositionDTO dto = PositionList.get(i);                                		
+                                		out.print("<option value='"+dto.getPosition()+"'>"+dto.getPname()+"</option>");
+                                	}
+                                %>
                             </select>
                         </label>
                         <label class="classfy">
@@ -37,7 +52,7 @@
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">사원번호 혹은 사원명</span>
-                            <input type="text" name="number" />
+                            <input type="text" name="ecodeNename" />
                         </label>
                         <input type="button" class="btn-white search-btn" value="조회하기"/>
                     </div>
@@ -51,7 +66,7 @@
                         <div class="table-title name-width">사원명</div>
                         <div class="table-title rank-width">직급</div>
                         <div class="table-title date-width">신청일자</div>
-                        <div class="table-title confirmday-width">승인일자</div>
+                        <div class="table-title confirmday-width">결재일자</div>
                         <div class="table-title confirm-width">승인여부</div>
                         <div class="table-title etc">상세내역</div>
                     </div>

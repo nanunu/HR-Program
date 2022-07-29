@@ -11,6 +11,5 @@ public class StaffController {
 	
 	@Autowired
 	Staff_DAO dao;
-	
 
 }

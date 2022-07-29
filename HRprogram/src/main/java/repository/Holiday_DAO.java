@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import model.EmployeeHolidayDTO;
+import model.HolidayRecordDTO;
 
 @Repository
 public class Holiday_DAO {
@@ -49,6 +51,7 @@ public class Holiday_DAO {
 		if(result == null) { return 0.0; }
 		else { return result; }
 	}
+	
 	//특정사원의 잔여연차수량 과 사용수량 수정하는 함수.
 	public int Update_ResidualHoliday(EmployeeHolidayDTO dto) {
 		String sql = "update EH set residualholiday=?, usenumOfholiday=? where Ecode=?";
@@ -61,11 +64,57 @@ public class Holiday_DAO {
 		return jt.update(sql,Ecode,Hcode,useday,String.format("%s:00:00", starttime),String.format("%s:00:00", endtime),settime,Rday,reason);
 	}
 	
+	//특정사원의 특정기간의 휴가레코드 가져오기 
+	public HolidayRecordDTO Select_HolidayRecord(String Ecode, String startday) {
+		String sql = "select * from HoliRecored where Ecode=? and holiRuseday >= ? and ? <= holiRuseday ";
+		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
+
+			@Override
+			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				HolidayRecordDTO dto = new HolidayRecordDTO();
+				return dto;
+			}
+			
+		};
+		
+		List<HolidayRecordDTO> list = jt.query(sql, mapper, Ecode);
+		
+		if(list==null) { return null; }
+		else { return list.get(0); }
+		
+	} 
+	
+	//휴가코드가져오기
+	public String Select_Hcode(String Ecode, String startday) {
+		String sql = "select Hcode from HoliRecored where Ecode=? and holiRuseday >= ? and ? <= holiRuseday";	
+		return jt.queryForObject(sql, String.class, Ecode, startday);
+	}
+	
 	/*한 주 시작일과 종료일 사이에 휴가신청이력(결재대기, 결재승인)이 몇 개 존재하는지 확인하는 함수*/
 	public int checkHoliday(String Ecode, String monday, String friday) {
 		String sql = "select count(*) from  holiRecord where Ecode=? and holiRuseday between ? and ? and (holiRapproval in ('completed','waiting'))";
 		return jt.queryForObject(sql, Integer.class, Ecode, monday, friday);
 	}
+	
+	// 휴가레코드 다 가져오는 함수
+	public ArrayList<HolidayRecordDTO> Select_AllHoliRecord() {
+		String sql = "select * from HoliRecord";
+		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
+
+			@Override
+			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				HolidayRecordDTO dto = new HolidayRecordDTO();
+				
+				return dto;
+			}
+			
+		};
+		ArrayList<HolidayRecordDTO> list = (ArrayList<HolidayRecordDTO>) jt.query(sql,mapper); 
+		if(list!=null) { return list; }
+		else { return new ArrayList<HolidayRecordDTO>(); }		
+	}
+	
+
 	
 }//class end
 

@@ -40,8 +40,7 @@ public class OverTime_DAO {
 		else { return result; }
 		
 	}
-	
-	
+		
 	public Integer Insert_OverTime(Map<String,String> map, int time_dif) {
 		
 		String sql = "insert into OverTime(Ecode,OTDay,OTStartTime,OTEndTime,TimeSum,OTReason) values(?,?,?,?,?,?)";

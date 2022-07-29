@@ -71,8 +71,7 @@ public class Login_DAO {
 		
 		return jt.queryForObject(sql, Integer.class, date, Ecode);		
 	}
-	
-	
+		
 	public int CmTime(String Ecode, String type) {
 		LocalDateTime datetime = LocalDateTime.now();
 		
@@ -105,8 +104,7 @@ public class Login_DAO {
 		String sql = "insert into Commute(Ecode,CmDay,CmAtTime,CmGetoffTime) values(?,?,?,?)";
 		return jt.update(sql,Ecode,CmDay,CmAtTime,CmGetoffTime);
 	}
-	
-	
+		
 	/* 비밀번호 찾기 : 이메일이 존재하는지 확인*/
 	public int existEmail(String email) {
 		return jt.queryForObject("select count(*) from Employee where email=?", Integer.class, email);

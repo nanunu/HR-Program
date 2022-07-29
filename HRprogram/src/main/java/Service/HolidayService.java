@@ -33,8 +33,8 @@ public class HolidayService {
 	// 휴가코드가 결혼/조사일때 실행할 함수
 	public String Hcode_event(Map<String,String> map, String Hcode) {
 		String message = "";// model객체에 담아서 보낼 alert창 메세지	
-		String useDay = "1";
-		if(Hcode.equals("H1001")) { useDay = "3"; }// 결혼은 3일 조사는 1일
+		String useDay = "3";
+		if(Hcode.equals("H1001")) { useDay = "5"; }// 결혼은 5일 조사는 3일
 		
 		//해당일자안에 초과근무하는지 확인
 		if(overTime_DAO.Select_OverTime(map.get("Ecode"), map.get("startday"), map.get("endday"))!=0) {
@@ -92,7 +92,7 @@ public class HolidayService {
 		
 	}// alread_attendance() end
 	
-	private String WeekDay_column(int weekday_value) {
+	public String WeekDay_column(int weekday_value) {
 		String weekday_text="";
 	
 		switch(weekday_value) {

@@ -1,7 +1,12 @@
 package controller;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import Service.HolidayService;
-import Service.OverTimeService;
-import repository.Flextime_DAO;
-import repository.Holiday_DAO;
-import repository.Login_DAO;
-import repository.OverTime_DAO;
+import Service.*;
+import repository.*;
+import model.DepartmentDTO;
+import model.EmployeeDTO;
+import model.FormSearchCMD;
+import model.HolidayRecordDTO;
+import model.PositionDTO;
+
 
 @Controller
 public class HolidayController {
@@ -36,6 +43,12 @@ public class HolidayController {
 	
 	@Autowired
 	Flextime_DAO flexTime_DAO;
+	
+	@Autowired
+	Staff_DAO staff_DAO;
+	
+	@Autowired
+	SearchService searchService;
 	
 	@RequestMapping("/HoliRecord.do")
 	public String process_HoliRecord(@RequestParam Map<String,String> map, Model model) {		
@@ -166,6 +179,45 @@ public class HolidayController {
 		return "redirect:/work/confirm_form_ver1.jsp";
 		
 	}//process_Holirecode()end
+	
+	@RequestMapping("/day_off.do")
+	public void processs_dayoff(FormSearchCMD cmd, Model modle, HttpSession session) {
+		String Dcode="all";
+		String Position = "all";
+		String today = null;
+		String EcodeNeame = null;
+		
+		//휴가레코드 전체 데이터 가져오기. + 사원정보와 비교를위해 사원전체 데이터가져오기
+		ArrayList<HolidayRecordDTO> holiday_list = holiday_DAO.Select_AllHoliRecord();
+		//ArrayList<EmployeeDTO> staff_list = staff_DAO.getEmployList();
+		Map<String,String> staff_list = staff_DAO.Select_EmployMap();
+		
+		if(!cmd.getDcode().equals("all")) { // 부서명으로 검색했을시 실행 할 함수 
+			Dcode=cmd.getDcode();
+			holiday_list = searchService.Remove_Dcode(holiday_list,Dcode,staff_list);
+		}
+		if(!cmd.getPosition().equals("all")) {// 직급명으로 검색했을시 실행 할 함수 
+			Position = cmd.getPosition();
+			holiday_list = searchService.Remove_Position(holiday_list, Position, staff_list);
+		}
+		if(cmd.getDate()!=null) { // 날짜별로 검색했을시 실행 할 함수 
+			today = cmd.getDate();
+			holiday_list = searchService.Remove_Date(holiday_list, today, staff_list);
+		}
+		if(cmd.getEcodeNeame()!=null) { // 사원코드 혹은 사원명으로 검색했을시			
+			EcodeNeame = cmd.getEcodeNeame().trim(); //좌우 공백제거
+			
+			
+			
+			holiday_list = searchService.Remove_EcodeNeame(holiday_list, EcodeNeame, staff_list);
+		}
+		
+				
+		modle.addAttribute("DepartLIST",staff_DAO.getDepartmentList());// 부서리스트가져오는함수
+		modle.addAttribute("PositionLIST",staff_DAO.getPositionList());// 직급리스트가져오는함수	
+
+	}
+	
 	
 	
 }//class end

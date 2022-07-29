@@ -120,4 +120,28 @@ public class Staff_DAO {
 	
 		return (ArrayList<EmployeeDTO>) jt.query(sql, mapper);
 	}
+	
+	public Map<String, String> Select_EmployMap(){
+		String sql ="select Ecode,Dcode,position,Ename from Employee";		
+		Map<String,String> map = new HashMap<String,String>();		
+		
+		RowMapper<String> mapper = new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				String Ecode = rs.getString("Ecode");
+				map.put(Ecode+"_Ecode",rs.getString("Ecode"));
+				map.put(Ecode+"_Dcode",rs.getString("Dcode"));
+				map.put(Ecode+"_position",rs.getString("position"));
+				map.put(Ecode+"_Ename",rs.getString("Ename"));
+				return "";
+			}
+			
+		};
+		
+		jt.query(sql, mapper);
+		return map;
+	}
+	
+	
 }
