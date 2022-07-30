@@ -2,8 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +21,7 @@ import Service.FlexTimeService;
 import model.EmployeeDTO;
 import model.FlextimeCMD;
 import model.FlextimeDTO;
+import model.PagingDTO;
 import repository.Flextime_DAO;
 import repository.Login_DAO;
 import repository.Staff_DAO;
@@ -40,6 +41,7 @@ public class FlextimeController {
 	@Autowired
 	Login_DAO logindao;
 	
+	/*탄력근무 신청*/
 	@RequestMapping("/flextime1.do")
 	public String FlexTime1(Model model, FlextimeCMD command, RedirectAttributes re) {
 		
@@ -82,10 +84,11 @@ public class FlextimeController {
 		return addr;
 	}
 	
-	/*탄력근무 페이지로 이동*/
+	/*탄력근무 페이지로 이동--->나중에 searchProcess랑 합칠 것!*/
 	@RequestMapping("/free_work.do")
-	public String FlexTime2(Model model, HttpSession session, @RequestParam(defaultValue = "1") int pageNum) {
+	public String FlexTime2(Model model, HttpSession session, @RequestParam(defaultValue = "1") String pageNum) {
 		
+		//주석수정예정
 		/* 1. 부서리스트 가져옴
 		 * 2. Map<부서코드, 부서이름> 저장
 		 * 3. 직급리스트 가져옴
@@ -94,61 +97,42 @@ public class FlextimeController {
 		 * 6. 탄력근무제를 적용하고 있는 사원들의 사원코드를 중복없이 Employee 테이블에서 사원들의 정보를 들고옴
 		 * 7. Map<사원코드, 사원DTO> 저장
 		 */
-		
-		int limit = 5;
-		int TotalOfFlex=0; // 총 탄력근무기록 갯수구하기
-		int total_page;
-		
+
 		String msg = (String) model.getAttribute("msg");
 		if(msg!=null) {
 			model.addAttribute("msg", msg);
 		}
 		
+		int limit = 5;
+
+		ArrayList<FlextimeDTO> flexList = (ArrayList<FlextimeDTO>) model.getAttribute("flexList");
+		String dcode;
+		String position=null;
+		
+		if(flexList!=null) {
+			Map<String, String> searchMap = (Map<String, String>) model.getAttribute("searchMap");
+			dcode = searchMap.get("dcode");
+			position = searchMap.get("position");
+			pageNum = searchMap.get("pageNum");
+			model.addAttribute("searchMap", searchMap);
+		}else {
+			dcode = (String) session.getAttribute("Dcode");
+			flexList = flextime_dao.getAllFlextime(dcode);
+		}
+		
+		ArrayList<FlextimeDTO> cutList = ftService.cutPage(flexList, limit, pageNum);
+		int TotalOfFlex = flexList.size();
+		PagingDTO pageDTO = ftService.paging(TotalOfFlex, limit, pageNum);
+
 		Map<String, String> dMap = staff_dao.getDepartmentMap(staff_dao.getDepartmentList());
 		Map<String, String> pMap = staff_dao.getPositionMap(staff_dao.getPositionList());
-	
-		
-		ArrayList<FlextimeDTO> flexList = (ArrayList<FlextimeDTO>) model.getAttribute("flexList");
-		ArrayList<FlextimeDTO> cutList = new ArrayList<FlextimeDTO>();
-		if(flexList!=null) {
-			String dcode = (String) model.getAttribute("dcode");
-			String position = (String) model.getAttribute("position");
-			String pickdate = (String) model.getAttribute("pickdate");
-			String ecodeNename = (String) model.getAttribute("ecodeNename");
-			pageNum = (Integer) model.getAttribute("pageNum");
-			TotalOfFlex = flexList.size();
-			cutList = ftService.cutPage(flexList, limit, pageNum);
-			model.addAttribute("fList", cutList);
-			model.addAttribute("dc", dcode);
-			model.addAttribute("po", position);
-			model.addAttribute("pi", pickdate);
-			model.addAttribute("eNe", ecodeNename);
-		}else {
-			String dcode2 = (String) session.getAttribute("Dcode");
-			ArrayList<FlextimeDTO> fList = flextime_dao.getAllFlextime(dcode2);
-			//List<FlextimeDTO> fList = flextime_dao.getAllFlextime(dcode2);
-			TotalOfFlex = fList.size();
-			cutList = ftService.cutPage(fList, limit, pageNum);
-			model.addAttribute("fList", cutList);
-			model.addAttribute("dc", dcode2);
-		}
-		
-		if(TotalOfFlex==0) {
-			total_page=1;
-		}
-		else if(TotalOfFlex % limit == 0) {
-			total_page = TotalOfFlex/limit;
-		}
-		else {
-			total_page =TotalOfFlex/limit;
-			total_page =  total_page + 1;
-		}
-		
 		List<EmployeeDTO> eList = flextime_dao.getEList_FlexTime();
 		Map<String, EmployeeDTO> eDTOmap = ftService.changeListToMap(eList);
 		
-		model.addAttribute("total", total_page);
-		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageDTO", pageDTO);
+		model.addAttribute("fList", cutList);
+		model.addAttribute("dc", dcode);
+		model.addAttribute("po", position);
 		model.addAttribute("dMap", dMap);
 		model.addAttribute("pMap", pMap);
 		model.addAttribute("eDTOmap", eDTOmap);
@@ -187,11 +171,13 @@ public class FlextimeController {
 	
 	/*탄력근무 검색*/
 	@RequestMapping("/flextimeProcess.do")
-	public String FlexTime4(@RequestParam(defaultValue="all") String dcode, 
+	public String FlexTime4(
+			@RequestParam(defaultValue="all") String dcode, 
 			@RequestParam(defaultValue="all") String position,
-			@RequestParam(required=false, value="date") String pickdate, 
+			@RequestParam(required=false) String pickdate, 
 			@RequestParam(required=false) String ecodeNename,
-			RedirectAttributes re, @RequestParam(defaultValue="1") int pageNum) {
+			@RequestParam(defaultValue="1") String pageNum,
+			RedirectAttributes re) {
 		/*
 		 * 1. 부서별 , 직급별, 날짜별, 사원번호 또는 사원명 조회
 		 * 2. 부서별 & (직급, 날짜, 사원번호 또는 사원명) 조회
@@ -204,13 +190,14 @@ public class FlextimeController {
 		 */
 		
 		ArrayList<FlextimeDTO> flexList = ftService.flextime_Process(dcode, position, pickdate, ecodeNename);
+		Map<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("pickdate", pickdate);
+		searchMap.put("position", position);
+		searchMap.put("dcode", dcode);
+		searchMap.put("ecodeNename", ecodeNename);
+		searchMap.put("pageNum", pageNum);
 		re.addFlashAttribute("flexList", flexList);
-		re.addFlashAttribute("dcode", dcode);
-		re.addFlashAttribute("position", position);
-		
-		re.addFlashAttribute("pickdate", pickdate);
-		re.addFlashAttribute("ecodeNename", ecodeNename);
-		re.addFlashAttribute("pageNum", pageNum);
+		re.addFlashAttribute("searchMap", searchMap);
 		return "redirect:/free_work.do";
 	}
 	
@@ -251,4 +238,6 @@ public class FlextimeController {
 	       		+ "window.close(); opener.location.reload();</script>");
 	    print.close();
 	}
+
+	/**/
 }
