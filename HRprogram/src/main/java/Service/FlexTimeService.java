@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import model.EmployeeDTO;
 import model.FlextimeCMD;
 import model.FlextimeDTO;
+import model.PagingDTO;
 import repository.Flextime_DAO;
 import repository.Holiday_DAO;
 import repository.OverTime_DAO;
@@ -186,6 +187,60 @@ public class FlexTimeService {
 	}
 
 
+	/*페이징 처리 : 탄력근무제목록을 'limit'개씩 잘라서 돌려주는 함수*/
+	public ArrayList<FlextimeDTO> cutPage(ArrayList<FlextimeDTO> fList, int limit, String page){
+		int pageNum = Integer.parseInt(page);
+		int first = (pageNum-1)*limit; //page : 1 - 0번기록부터, page : 2 - 5번기록부터
+		int index = first+limit;
+		if(index>fList.size()) {
+			index = fList.size();
+		}
+		ArrayList<FlextimeDTO> cutList= new ArrayList<FlextimeDTO>();
+		for(int i=first; i<index; i++ ) {
+			cutList.add(fList.get(i));
+		}
+		return cutList;
+	}
+	
+	/*시작페이지, 끝페이지를 정해주는 함수*/
+	public PagingDTO paging(int TotalOfFlex, int limit, String page) {
 
+		int pageNum = Integer.parseInt(page);
+		int total_page = 1;
+		int startpage = 1;
+		int endpage = 5;
+		
+		if(TotalOfFlex==0) {
+			total_page = 1;
+		}else if(TotalOfFlex % limit ==0) {
+			total_page = TotalOfFlex/limit;
+		}else {
+			total_page = TotalOfFlex/limit + 1;
+		}
+		
+		if(total_page<=5) {
+			endpage = total_page;
+		}
+		
+		if(total_page>5) {
+			if(pageNum>=4) {
+				startpage=pageNum-2;
+				endpage=pageNum+2;
+			}
+			if(pageNum>=total_page-2) {
+				endpage=total_page;
+				startpage=endpage-4;
+				
+			}
+		}
+		
+		PagingDTO pageDTO = new PagingDTO();
+		pageDTO.setTotal_page(total_page);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setStartpage(startpage);
+		pageDTO.setEndpage(endpage);
+		
+		return pageDTO;
+	}
 
 }

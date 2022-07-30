@@ -114,6 +114,8 @@ public class Login_DAO {
 	public void updateTemporaryPw(String email, String pw) {
 		jt.update("update Employee set password=? where email=?", pw, email);
 	}
+	
+	
 
 	
 }

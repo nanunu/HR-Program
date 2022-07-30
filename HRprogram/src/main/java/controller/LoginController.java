@@ -70,7 +70,7 @@ public class LoginController {
 				session.setAttribute("Dname", dao.getDname(dto.getDcode()));//session에 부서이름 //부서코드를 통해 부서이름 찾기.
 				session.setAttribute("position", dto.getPosition());//session에 직급
 				session.setAttribute("Pname", dao.getPname(dto.getPosition()));// session직급이름찾기.
-				
+
 				return "redirect:/go_record.do";
 			
 		}
@@ -80,20 +80,20 @@ public class LoginController {
 	public String process_logout(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException {
 		
 		String Ecode = (String) session.getAttribute("Ecode");
-		
-		if(Ecode!=null) {
+	
+		if(Ecode!=null) {			
 			session.invalidate();
-			return "redirect:/login.jsp";
-			/*
-			// 오늘 출근 - 퇴근하였는지 확인하는 함수
-			if(dao.Cmtime_checking(Ecode) == 0) { //출근은하였으나 퇴근처리가 되지않은 상태. 0값
-				dao.CmTime(Ecode,"CmGetoffTime");//퇴근처리하기
-				session.invalidate();//세션 삭제
-				return "redirect:/login.jsp";
-			}
-			else { // 0값이 아닐경우 무조건 예외처리!
-				return "redirect:/error.do"; // 예외처리 뷰출력
-			}
+	         return "redirect:/login.jsp";
+	         /*
+	         // 오늘 출근 - 퇴근하였는지 확인하는 함수
+	         if(dao.Cmtime_checking(Ecode) == 0) { //출근은하였으나 퇴근처리가 되지않은 상태. 0값
+	            dao.CmTime(Ecode,"CmGetoffTime");//퇴근처리하기
+	            session.invalidate();//세션 삭제
+	            return "redirect:/login.jsp";
+	         }
+	         else { // 0값이 아닐경우 무조건 예외처리!
+	            return "redirect:/error.do"; // 예외처리 뷰출력
+	         }
 			*/
 		}
 		//if문에 부합하지 않으면 session의 문제가 있다는것.
