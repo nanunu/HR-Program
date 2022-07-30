@@ -2,12 +2,14 @@ package Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.WeekFlextimeDTO;
 import repository.Flextime_DAO;
+import repository.Holiday_DAO;
 import repository.OverTime_DAO;
 
 @Service
@@ -24,6 +26,9 @@ public class OverTimeService {
 	
 	@Autowired
 	HolidayService holidayService;
+	
+	@Autowired
+	Holiday_DAO holiday_DAO;
 	
 	//입력받은 날짜 StartDay기준으로 월요일과 금요일을 구하는 함수
 	//ex) StartDay = 2022-07-25(수요일) 일경우, 2022-07-22(월요일)~ 2022-07-29(금요일)사이 해당사원의 총근무시간을 구한다.
@@ -117,6 +122,55 @@ public class OverTimeService {
 		
 	}// Checking_CantOverTime() end
 	
+	//휴가신청이력이 없을경우 실행
+	public String NotHoliday(Map<String,String> map) {
+		String message="";
+		
+		int time_def = 0; //시작시간 - 종료시간 시간차담는 변수
+
+		if(flexTime_DAO.Select_WeekDay(map.get("startday"), map.get("Ecode"))==0) {//탄력근무제인지 확인.
+			if(overTime_DAO.Insert_OverTime(map,time_def)==1) { message="정상등록되었습니다."; }
+			else { message="등록이 정상적으로 되지않았습니다. error!"; }
+		}
+		else { //탄력근무제일경우				
+			if(overTimeService.Checking_CantOverTime(map.get("Ecode"), "", map.get("startday"), map.get("startime"), true)) {//신청이 가능하면
+				if(overTime_DAO.Insert_OverTime(map,time_def)==1) { message="정상등록되었습니다."; }
+				else { message="등록이 정상적으로 되지않았습니다. error!"; }				
+			}
+			else { message = "탄력근무 업무종료시간보다 빠르게 설정되어있습니다. 다시 시도해주세요."; }
+		}
+						
+		return message;
+	}
+	
+	// 휴가신청이력이 있는경우
+	public String HaveHoliday(Map<String,String> map, String Hcode, int time_def) {
+		String message="";
+		
+		if(flexTime_DAO.Select_WeekDay(map.get("startday"), map.get("Ecode"))==0) {	//신청한날이 탄력근무인지아닌지 확인.
+			//현재상황 휴가신청이력+탄력근무는 아닌경우
+			// 휴가신청이 무엇인지보고 시간에 맞춰서 결과전송.
+			if(overTimeService.Checking_CantOverTime(map.get("Ecode"), Hcode, map.get("startday"), map.get("starttime"), false)) {
+				if(overTime_DAO.Insert_OverTime(map,time_def)==1) { // 드디어 등록
+					message="정상등록되었습니다.";
+				}
+				else { message="등록이 정상적으로 되지않았습니다. error!"; }
+			}
+			else { message = "탄력근무 업무종료시간보다 빠르게 설정되어있습니다. 다시 시도해주세요."; }
+		}
+		else {// 휴가신청 + 탄력근무가 맞을때
+			//휴가신청이 무엇인지보고 탄력근무 시간에 맞춰서 결과전송.
+			if(overTimeService.Checking_CantOverTime(map.get("Ecode"), Hcode, map.get("startday"), map.get("starttime"), true)) {
+				if(overTime_DAO.Insert_OverTime(map,time_def)==1) { // 드디어 등록
+					message="정상등록되었습니다.";
+				}
+				else { message="등록이 정상적으로 되지않았습니다. error!"; }
+			}
+			else { message = "탄력근무 업무종료시간보다 빠르게 설정되어있습니다. 다시 시도해주세요."; }
+		}			
+		
+		return message;
+	}
 	
 	
 }//class end

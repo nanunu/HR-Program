@@ -102,7 +102,6 @@ public class Flextime_DAO {
 		return fList;
 	}
 	
-
 	//해당사원이 입력한 날짜가 탄력근무 하는 주간인지 검사하는 함수 return value 0/1
 	public Integer Select_WeekDay(String startday, String ecode) {
 		String sql = "select count(Ecode) from FlexTime where FTstartday <= ? and FTendday >= ? and Ecode =?";

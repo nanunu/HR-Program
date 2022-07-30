@@ -33,12 +33,6 @@ public class OverTimeController {
 	@Autowired
 	Holiday_DAO holiday_DAO;
 	
-	@Autowired
-	Flextime_DAO flexTime_DAO;
-	
-	@Autowired
-	HolidayService holidayService;
-	
 	/* * 
 	 * 
 	 * 탄력근무일경우 , 탄력근무 일과시간에 맞춰서 끝나는시간인지 아닌지 확인.
@@ -71,7 +65,7 @@ public class OverTimeController {
 		// 주단위로 검색하여 주간초과근무시간이 12시간 이상했을경우, if문실행. 등록처리 x
 		if( timeSum >= 12 ) {			
 			model.addAttribute("message","주간 초과근무 가능한 12시간 중 12시간을 이미 했습니다.");
-			return "work/confirm_form_ver1";
+			return "redirect:/form_ver1.do";
 		}
 		else{
 			int startTime = Integer.parseInt(map.get("starttime"));
@@ -80,44 +74,20 @@ public class OverTimeController {
 			
 			if(time_def+timeSum > 12) {				
 				model.addAttribute("message","요청하신 초과근무시간을 적용하면 주간 초과근무 가능한 시간이 12시간을 초과합니다.");
-				return "work/confirm_form_ver1";
+				return "redirect:/form_ver1.do";
 			}
 			
 		}
-	
-		if(overTimeDAO.Select_OverTime(map.get("Ecode"),map.get("startday"))==0) { // 오늘 날짜를 기준으로 이미 신청했는지 확인			
-			
+		
+		// 오늘 날짜를 기준으로 이미 신청했는지 확인
+		if(overTimeDAO.Select_OverTime(map.get("Ecode"),map.get("startday"))==0) {			
 			LocalDate date = LocalDate.parse(map.get("startday"));
-			LocalDate now = LocalDate.parse(map.get("startday"));
-			//1이 월요일...
-			now = now.minusDays(4);
+			LocalDate now = LocalDate.parse(map.get("startday"));		
+			now = now.minusDays(4);//1이 월요일...
 			
-			
-			if(holiday_DAO.checkHoliday(map.get("Ecode"), date.toString(), now.toString())==0) {//휴가신청이력이 없을경우.
-				if(flexTime_DAO.Select_WeekDay(map.get("startday"), map.get("Ecode"))==0) {//탄력근무제인지 확인.
-					//탄력근무 아님.
-
-					//드디어 등록
-					if(overTimeDAO.Insert_OverTime(map,time_def)==1) { message="정상등록되었습니다."; }
-					else { message="등록이 정상적으로 되지않았습니다. error!"; }
-					
-				}
-				else { //탄력근무제일경우				
-					
-					if(overTimeService.Checking_CantOverTime(map.get("Ecode"), "", map.get("startday"), map.get("startime"), true)) {
-						//신청이 가능하면
-						
-						// 드디어 등록
-						if(overTimeDAO.Insert_OverTime(map,time_def)==1) { message="정상등록되었습니다."; }
-						else { message="등록이 정상적으로 되지않았습니다. error!"; }
-						
-					}
-					else { message = "탄력근무 업무종료시간보다 빠르게 설정되어있습니다. 다시 시도해주세요."; }
-				}
-							
-			}
-			else {// 휴가신청이력이 있는경우
-				
+			//휴가신청이력이 없을경우.
+			if(holiday_DAO.checkHoliday(map.get("Ecode"), date.toString(), now.toString())==0) { message = overTimeService.NotHoliday(map); }
+			else {
 				//휴가코드가져오기
 				String Hcode = holiday_DAO.Select_Hcode(map.get("Ecode"), map.get("startday"));
 				//holiday_DAO.Select_HolidayRecord(map.get("Ecode"));								
@@ -126,40 +96,22 @@ public class OverTimeController {
 				if(Hcode_f.equals("H1")) {// 결혼/조사 일경우.--> 안됨. 
 					message="신청하신 날과 중복되는 날에 경조사 휴가신청이 있습니다.";
 					model.addAttribute("message",message);
-					return "redirect:/work/confirm_form_ver1.jsp";
+					return "redirect:/form_ver1.do";
 				}				
 				else if(Hcode.equals("H0001")||Hcode.equals("H0002")||Hcode.equals("H0005")) {//연차,반차,조퇴 일경우 초과근무신청 안됨
 					message = "신청하신 날과 중복되는 날에 연차/반차/조퇴 신청이 있습니다.";
 					model.addAttribute("message",message);
-					return "redirect:/work/confirm_form_ver1.jsp"; 
+					return "redirect:/form_ver1.do";
 				}
-				else {
-					if(flexTime_DAO.Select_WeekDay(map.get("startday"), map.get("Ecode"))==0) {	//신청한날이 탄력근무인지아닌지 확인.
-						//현재상황 휴가신청이력+탄력근무는 아닌경우
-						// 휴가신청이 무엇인지보고 시간에 맞춰서 결과전송.
-						if(overTimeService.Checking_CantOverTime(map.get("Ecode"), Hcode, map.get("startday"), map.get("starttime"), false)) {
-							if(overTimeDAO.Insert_OverTime(map,time_def)==1) { // 드디어 등록
-								message="정상등록되었습니다.";
-							}
-							else { message="등록이 정상적으로 되지않았습니다. error!"; }
-						}
-						else { message = "탄력근무 업무종료시간보다 빠르게 설정되어있습니다. 다시 시도해주세요."; }
-					}
-					else {// 휴가신청 + 탄력근무가 맞을때
-						//휴가신청이 무엇인지보고 탄력근무 시간에 맞춰서 결과전송.
-						if(overTimeService.Checking_CantOverTime(map.get("Ecode"), Hcode, map.get("startday"), map.get("starttime"), true)) {
-							if(overTimeDAO.Insert_OverTime(map,time_def)==1) { // 드디어 등록
-								message="정상등록되었습니다.";
-							}
-							else { message="등록이 정상적으로 되지않았습니다. error!"; }
-						}
-						else { message = "탄력근무 업무종료시간보다 빠르게 설정되어있습니다. 다시 시도해주세요."; }
-					}			
-				}
-					
+				else { message = overTimeService.HaveHoliday(map, Hcode, time_def); }
 			}
-				
-		}// if( Select_Overtime () ) end
+			
+		}
+		else {
+			message=" 이미 같은날에 등록한 초과근무가있습니다.";
+			model.addAttribute("message",message);
+			return "redirect:/form_ver1.do";
+		}
 			
 		model.addAttribute("message",message);
 		
