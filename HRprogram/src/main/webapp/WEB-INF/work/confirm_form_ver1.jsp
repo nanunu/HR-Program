@@ -10,9 +10,9 @@
 </head>
 <body>
 	<%	
-		if(request.getAttribute("message")!=null){
+		if(request.getParameter("message")!=null){
 	%>
-			<script>alert('<%=request.getAttribute("message")%>');</script>
+			<script>alert('<%=request.getParameter("message")%>');</script>
 	<%
 		}
 	%>

@@ -54,12 +54,81 @@ public class HolidayService {
 	
 	}//Hcode_event() end
 	
-	// 휴가코드가 그외일때 실행할 함수
-	public String Hcode_event(Map<String,String> map, String Hcode, boolean hasOverTime) {
+	// 잔여연차수가 차감가능하면 Insert실행하는 함수
+	public String cannot_Insert(Map<String,String> map, String Hcode) {
+		String message;
+		if(hasResidualholiday(map)) {//잔여연차수가 차감가능하면 DB에 삽입
+			if(holiday_DAO.Insert_Holidayrecode(map.get("Ecode"), Hcode, map.get("startday"), map.get("starttime"), map.get("endtime"),(Integer.valueOf(map.get("endtime"))-Integer.valueOf(map.get("starttime"))), "1", map.get("Reason"))==1) {
+				message="휴가신청을 완료했습니다.";
+			}
+			else { message="휴가신청을 완료못했습니다!"; }
+		}
+		else{ message="사용할 연차가 부족합니다."; }
 		
-		
-		return Hcode;	
+		return message;
 	}	
+	
+	// 휴가등록시 탄력근무 여부에 따라 // 정규근무자의 휴가등록 process와 탄력근무자의 휴가등록 process로 구분됨.
+	// boolean isFlextime --> false . 정규근무자 // true. 탄력근무자
+	public String hasFlexTime(Map<String,String> map, String Hcode, boolean isFlextime) {
+		String message;
+		
+		if(!isFlextime) { //정규근무자이면
+			//step2. 초과근무가 있는지 없는지 확인. 
+			if(overTime_DAO.Select_OverTime(map.get("Ecode"), map.get("startday"), map.get("endday"))==0) {
+				//step3. 초과근무가 없을경우, 연차확인.
+
+				message = cannot_Insert(map, Hcode);// 잔여연차수가 차감가능하면 Insert실행하는 함수
+				
+			}
+			else {//step3. 초과근무가 있는경우 연차, 조퇴 x / 반차는 오전만가능 / 나머지는 정규근무종료시간 이전에 끝나야함.
+				//연차,조퇴일경우 실행 x
+				if(Hcode.equals("H0001")||Hcode.equals("H0005")) { message="해당 날짜와 중복되는 초과근무가있습니다! 다시 시도해주세요./연차/조퇴는 안됩니다."; }
+				else if(Hcode.equals("H0002")) { //반차일경우 오전만 가능.
+					LocalTime halftime = LocalTime.of(Integer.valueOf(map.get("endtime")), 0);
+					LocalTime time = LocalTime.of(13, 0);// 점심시간 이전.
+					if(!halftime.isBefore(time)) { message="해당날짜와 중복되는 초과근무가 있습니다. 반차는 오전에만 가능합니다."; }
+					else {
+						message = cannot_Insert(map, Hcode);// 잔여연차수가 차감가능하면 Insert실행하는 함수
+					}
+				}
+				else { // 나머지는 정규근무종료시간이전
+					LocalTime halftime = LocalTime.of(Integer.valueOf(map.get("endtime")), 0);
+					LocalTime time = LocalTime.of(17, 0);// 정규퇴근시간 이전.
+					if(halftime.isBefore(time)) { message="해당시간와 중복되는 초과근무가 있습니다.정규시간이전"; }
+					else {
+						message = cannot_Insert(map, Hcode);// 잔여연차수가 차감가능하면 Insert실행하는 함수
+					}
+				}
+			}
+		}
+		else { // 탄력근무자일경우
+			if(Hcode.equals("H0001")||Hcode.equals("H0002")) { message="탄력근무제인 직원은 연차와 반차를 사용할수없습니다."; }
+			else { //step2. 초과근무가 있는지 없는지 확인. 있으면, 조퇴x / 외출,지각(탄력근무종료시간 이전에 끝나야함)
+				
+				if(overTime_DAO.Select_OverTime(map.get("Ecode"), map.get("startday"), map.get("endday"))==0) {
+					//step3. 초과근무가 없을경우, 연차확인.
+					
+					message = cannot_Insert(map, Hcode);// 잔여연차수가 차감가능하면 Insert실행하는 함수
+				}
+				else {
+					//step3. 초과근무가 있는경우 조퇴 x / 나머지는 정규근무종료시간 이전에 끝나야함.
+					//조퇴일경우
+					if(Hcode.equals("H0005")) { message="해당날짜와 중복되는 초과근무가 있습니다. 조퇴를 할수없습니다."; }						
+					else { // 나머지는 정규근무종료시간이전
+						LocalTime halftime = LocalTime.of(Integer.valueOf(map.get("endday")), 0);
+						LocalTime time = LocalTime.of(17, 0);// 점심시간 이전.
+						if(!halftime.isBefore(time)) { message="해당시간와 중복되는 초과근무가 있습니다."; }
+						else {
+							message = cannot_Insert(map, Hcode);// 잔여연차수가 차감가능하면 Insert실행하는 함수
+						}
+					}
+				}
+			}
+		}
+		
+		return message;
+	}
 	
 	//휴가 결제 승인받을시, 미리 출석해놓을 함수.
 	public void alread_attendance(String Ecode, String startday, String endday, String starttime, String endtime) {
@@ -92,6 +161,7 @@ public class HolidayService {
 		
 	}// alread_attendance() end
 	
+	//int값으로 요일값가져오기
 	public String WeekDay_column(int weekday_value) {
 		String weekday_text="";
 	
@@ -111,7 +181,7 @@ public class HolidayService {
 		
 		// 사원번호로 연차정보불러온다
 		EmployeeHolidayDTO dto = holiday_DAO.Select_Holiday(map.get("Ecode"));
-		double holiday_count = dto.getResidualholiday(); // 잔여연차수담기
+		double holiday_count = dto.getNumOfmyholiday()-dto.getUsenumOfholiday(); // 잔여연차수담기
 		
 		String Hcode = map.get("Hcode");		
 		String Hcode_frist = Hcode.substring(0, 2);
@@ -124,9 +194,9 @@ public class HolidayService {
 			// 시간차 = (입력받은 종료시간 - 시작시간);
 			//시간차를 구하는이유 시간단위로 0.125를 곱한단위로 연차를 계산할것임.
 			double time_dif = Integer.valueOf(map.get("endtime"))-Integer.valueOf(map.get("starttime"));
-
+		
 			//잔여 연차수 - (시간차*0.125) 가 0보다 같거나 커야 통과가능
-			if(holiday_count-(time_dif*0.125) <=0.0) {
+			if(holiday_count-(time_dif*0.125) >= 0.0) {
 				/*
 				dto.setUsenumOfholiday(dto.getUsenumOfholiday()+(holiday_count-(time_dif*0.125)));
 				dto.setResidualholiday(dto.getNumOfmyholiday()-dto.getUsenumOfholiday());

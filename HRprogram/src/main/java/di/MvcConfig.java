@@ -37,8 +37,8 @@ public class MvcConfig implements WebMvcConfigurer{
 		
 		registry.addViewController("/work_record.do").setViewName("time/work_record");
 		// registry.addViewController("/free_work.do").setViewName("time/free_work");
-		registry.addViewController("/over_work.do").setViewName("time/over_work");
-		registry.addViewController("/day_off.do").setViewName("time/day_off");
+		//registry.addViewController("/overtime_work.do").setViewName("time/over_work");
+		//registry.addViewController("/dayoff_work.do").setViewName("time/day_off");
 		
 		registry.addViewController("/pay_stub.do").setViewName("paystub/pay_stub");
 		registry.addViewController("/staff_pay_stub.do").setViewName("paystub/staff_pay_stub");

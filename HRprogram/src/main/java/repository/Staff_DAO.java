@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import model.DepartmentDTO;
 import model.EmployeeDTO;
 import model.PositionDTO;
+import model.SessionDTO;
 
 public class Staff_DAO {
 
@@ -121,6 +122,7 @@ public class Staff_DAO {
 		return (ArrayList<EmployeeDTO>) jt.query(sql, mapper);
 	}
 	
+	//모든사원의 사원번호, 부서코드, 직급, 이름을 가져와 MAP에 넣는 함수
 	public Map<String, String> Select_EmployMap(){
 		String sql ="select Ecode,Dcode,position,Ename from Employee";		
 		Map<String,String> map = new HashMap<String,String>();		
@@ -142,6 +144,6 @@ public class Staff_DAO {
 		jt.query(sql, mapper);
 		return map;
 	}
-	
+
 	
 }

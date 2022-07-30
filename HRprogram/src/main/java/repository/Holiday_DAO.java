@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import model.EmployeeHolidayDTO;
 import model.HolidayRecordDTO;
+import model.SessionDTO;
 
 @Repository
 public class Holiday_DAO {
@@ -29,8 +30,7 @@ public class Holiday_DAO {
 			public EmployeeHolidayDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				EmployeeHolidayDTO dto = new EmployeeHolidayDTO();
 				dto.setEcode(rs.getString("ecode"));
-				dto.setNumOfmyholiday(rs.getDouble("numOfmyholiday"));
-				dto.setResidualholiday(rs.getDouble("residualholiday"));
+				dto.setNumOfmyholiday(rs.getDouble("numOfmyholiday"));				
 				dto.setUsenumOfholiday(rs.getDouble("usenumOfholiday"));
 				return dto;
 			}
@@ -66,20 +66,31 @@ public class Holiday_DAO {
 	
 	//특정사원의 특정기간의 휴가레코드 가져오기 
 	public HolidayRecordDTO Select_HolidayRecord(String Ecode, String startday) {
-		String sql = "select * from HoliRecored where Ecode=? and holiRuseday >= ? and ? <= holiRuseday ";
+		String sql = "select * from HoliRecord where Ecode=? and holiRuseday >= ? and ? <= holiRuseday ";
+		
 		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
 
 			@Override
-			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {				
 				HolidayRecordDTO dto = new HolidayRecordDTO();
+				dto.setHoliRcode(rs.getInt("holiRcode"));
+				dto.setEcode(rs.getString("Ecode"));
+				dto.setHolicode(rs.getString("holicode"));
+				dto.setHoliRuseday(rs.getString("holiRuseday"));
+				dto.setHoliRstarttime(rs.getString("holiRstarttime"));
+				dto.setHoliRendtime(rs.getString("holiRendtime"));
+				dto.setHoliRusetime(rs.getInt("holiRusetime"));
+				dto.setHoliRdays(rs.getInt("holiRdays"));
+				dto.setHoliRreason(rs.getString("holiRreason"));
+				dto.setHoliRapproval(rs.getString("holiRapproval"));
 				return dto;
 			}
 			
 		};
 		
-		List<HolidayRecordDTO> list = jt.query(sql, mapper, Ecode);
+		List<HolidayRecordDTO> list = jt.query(sql, mapper, Ecode, startday, startday);
 		
-		if(list==null) { return null; }
+		if(list==null||list.size()==0) { return null; }
 		else { return list.get(0); }
 		
 	} 
@@ -99,22 +110,60 @@ public class Holiday_DAO {
 	// 휴가레코드 다 가져오는 함수
 	public ArrayList<HolidayRecordDTO> Select_AllHoliRecord() {
 		String sql = "select * from HoliRecord";
+		
 		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
 
 			@Override
 			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				HolidayRecordDTO dto = new HolidayRecordDTO();
-				
+				dto.setHoliRcode(rs.getInt("holiRcode"));
+				dto.setEcode(rs.getString("Ecode"));
+				dto.setHolicode(rs.getString("holicode"));
+				dto.setHoliRuseday(rs.getString("holiRuseday"));
+				dto.setHoliRstarttime(rs.getString("holiRstarttime"));
+				dto.setHoliRendtime(rs.getString("holiRendtime"));
+				dto.setHoliRusetime(rs.getInt("holiRusetime"));
+				dto.setHoliRdays(rs.getInt("holiRdays"));
+				dto.setHoliRreason(rs.getString("holiRreason"));
+				dto.setHoliRapproval(rs.getString("holiRapproval"));
 				return dto;
 			}
 			
 		};
+		
 		ArrayList<HolidayRecordDTO> list = (ArrayList<HolidayRecordDTO>) jt.query(sql,mapper); 
+		
 		if(list!=null) { return list; }
 		else { return new ArrayList<HolidayRecordDTO>(); }		
 	}
-	
+		
+	//사원번호 or 사원명을 동시 검색해서 일치하는 사원번호 받아오는 함수
+	public ArrayList<HolidayRecordDTO> Select_HoliRecord(String EcodeName){
+		String sql = "select * from HoliRecord where Ecode like '%"+EcodeName+"%' or Ecode in (select Ecode from Employee where Ename like '%"+EcodeName+"%')";
+		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
 
+			@Override
+			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				HolidayRecordDTO dto = new HolidayRecordDTO();
+				dto.setHoliRcode(rs.getInt("holiRcode"));
+				dto.setEcode(rs.getString("Ecode"));
+				dto.setHolicode(rs.getString("holicode"));
+				dto.setHoliRuseday(rs.getString("holiRuseday"));
+				dto.setHoliRstarttime(rs.getString("holiRstarttime"));
+				dto.setHoliRendtime(rs.getString("holiRendtime"));
+				dto.setHoliRusetime(rs.getInt("holiRusetime"));
+				dto.setHoliRdays(rs.getInt("holiRdays"));
+				dto.setHoliRreason(rs.getString("holiRreason"));
+				dto.setHoliRapproval(rs.getString("holiRapproval"));
+				return dto;
+			}
+			
+		};
+		ArrayList<HolidayRecordDTO> list = (ArrayList<HolidayRecordDTO>) jt.query(sql, mapper);
+		
+		if(list==null) { return new ArrayList<HolidayRecordDTO>(); }
+		else { return list; }
+	}
 	
 }//class end
 

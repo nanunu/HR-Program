@@ -75,6 +75,9 @@ public class AppCtx {
 	
 	@Bean
 	public FlexTimeService flexTimeService() { return new FlexTimeService();}
+	
+	@Bean
+	public SearchService searchService() { return new SearchService(); }
 
 	
 	

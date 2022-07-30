@@ -71,6 +71,6 @@ function viewpage(page){
 function etcpage(page){
     if(page==1){location.href = "/work_record.do";}
     else if(page==2){location.href = "/free_work.do";} 
-    else if(page==3){location.href = "/over_work.do";} 
-    else if(page==4){location.href = "/day_off.do"; }  
+    else if(page==3){location.href = "/overtime_work.do";} 
+    else if(page==4){location.href = "/dayoff_work.do"; }  
 }

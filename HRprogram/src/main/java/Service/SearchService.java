@@ -8,7 +8,9 @@ import model.EmployeeDTO;
 import model.HolidayRecordDTO;
 
 public class SearchService {
+
 /*
+
 	public Map<String,String> Remove_Dcode(ArrayList<HolidayRecordDTO> list, Map<String,String> staff){
 		
 		for(int i=0;i<list.size();i++) {
@@ -24,6 +26,7 @@ public class SearchService {
 		return staff;
 	}
 */	
+	
 	public ArrayList<HolidayRecordDTO> Remove_Dcode(ArrayList<HolidayRecordDTO> list, String Dcode, Map<String,String> staff){
 		
 		for(int i=0;i<list.size();i++) {
@@ -95,25 +98,26 @@ public class SearchService {
 		
 	}//Remove_Date() end
 	
-	public ArrayList<HolidayRecordDTO> Remove_EcodeNeame(ArrayList<HolidayRecordDTO> list, String Position, Map<String,String> staff){
+	public ArrayList<HolidayRecordDTO> Remove_EcodeNeame(ArrayList<HolidayRecordDTO> list, ArrayList<HolidayRecordDTO> EcodeName_list){
 		
-		for(int i=0;i<list.size();i++) {
-			HolidayRecordDTO dto = list.get(i);
-			String Ecode = staff.get(dto.getEcode()+"_Ecode");			
-			if(Ecode!=null && dto.getEcode().equals(Ecode)) { // map에 Ecode값이 있고, 휴가레코드의 사원코드와 일치하면 실행
-				String map_position = staff.get(Ecode+"_Dcode");
-				if(!map_position.equals(Position)) {
-				
-					//arraylist 삭제
-					list.remove(i);
-					i--;
+		for(int x=0;x<list.size();x++) {
+			HolidayRecordDTO dto = list.get(x);
+			boolean eques_for = false;
+			for(int y=0;y<EcodeName_list.size();y++) {
+				HolidayRecordDTO Ecode_dto = EcodeName_list.get(y);
+				if(Ecode_dto.getEcode().equals(dto.getEcode())) {
+					eques_for = true;
+					break;
 				}
-			}			
-			
+			}
+			if(!eques_for) { list.remove(x); --x; }
 		}
 		
 		return list;
 		
 	}//Remove_EcodeNeame() end
 		
+	
+	
+	
 }

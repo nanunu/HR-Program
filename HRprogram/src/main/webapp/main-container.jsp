@@ -9,7 +9,6 @@
    String position = (String) session.getAttribute("position");
    String pname = (String) session.getAttribute("Pname");
    
-
 %>
     <div class="main-container">
         <div class="left-container">
