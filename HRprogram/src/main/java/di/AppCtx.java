@@ -30,9 +30,6 @@ public class AppCtx {
 	public LoginController loginController() { return new LoginController(); }
 	
 	@Bean
-	public StaffController StaffController() { return new StaffController(); }
-	
-	@Bean
 	public FlextimeController flextimeController() { return new FlextimeController(); }
 	
 	@Bean

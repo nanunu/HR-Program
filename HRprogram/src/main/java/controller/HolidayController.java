@@ -96,7 +96,7 @@ public class HolidayController {
 		
 		if(Hcode_first.equals("H0")) {												
 			//우선 탄력근무제인지 아닌지 검사.
-			if(flexTime_DAO.Select_WeekDay(Hcode, Hcode_first)==0) { message = holidayService.hasFlexTime(map,Hcode,false); }
+			if(flexTime_DAO.Select_WeekDay(Hcode, map.get("startday"))==0) { message = holidayService.hasFlexTime(map,Hcode,false); }
 			else { message = holidayService.hasFlexTime(map, Hcode, true); }
 		}
 		else { message = holidayService.Hcode_event(map,Hcode); }// 결혼/조사일경우 , 초과근무일자가 겹치면 해당 초과근무 삭제.

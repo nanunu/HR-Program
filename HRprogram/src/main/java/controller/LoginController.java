@@ -50,7 +50,7 @@ public class LoginController {
 			dao.CmTime(Ecode,"CmAtTime"); // 출근처리 insert실행.
 			
 			int checking_counting =dao.Cmtime_checking(Ecode);// 오늘 출근 - 퇴근했는지 확인하는 함수 
-			/*
+			
 			if(checking_counting > 1) { 
 				// 오늘 출근-퇴근한적있는지 체크하고 예외발생시킬것.
 				// 결과가 1초과 (2)일경우, 오늘 날짜로 출근을하고, 퇴근까지한 경우인데 추가로 출근까지 시도했음.
@@ -58,10 +58,16 @@ public class LoginController {
 				return "redirect:/error.do"; // 예외처리 뷰를 출력하기.
 			}
 			else if(checking_counting == 1) { // 오늘 처음으로 출근한경우.			
-				session.setAttribute("SessionDTO", dto); //session 에 DTO저장.
+				//session.setAttribute("SessionDTO", dto); //session 에 DTO저장. ==> Session에 DTO를 저장할 경우 서버가 재시작 되었을 때 session이 유지되지 않음
+				session.setAttribute("Ecode", dto.getEcode());//session에 사원코드
+				session.setAttribute("Ename", dto.getEname());//session에 사워명
+				session.setAttribute("Dcode", dto.getDcode());//session에 부서코드
+				session.setAttribute("Dname", dao.getDname(dto.getDcode()));//session에 부서이름 //부서코드를 통해 부서이름 찾기.
+				session.setAttribute("position", dto.getPosition());//session에 직급
+				session.setAttribute("Pname", dao.getPname(dto.getPosition()));// session직급이름찾기.
 				return "redirect:/go_record.do";	
 			}
-			*/
+			else {
 			 // insert취소해야됨!!!!
 				//오늘하루 출근처리는 하였으나 퇴근처리는 안되었을경우.
 				session.setAttribute("Ecode", dto.getEcode());//session에 사원코드
@@ -72,7 +78,7 @@ public class LoginController {
 				session.setAttribute("Pname", dao.getPname(dto.getPosition()));// session직급이름찾기.
 
 				return "redirect:/go_record.do";
-			
+			}
 		}
 	}
 	
