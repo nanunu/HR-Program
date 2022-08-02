@@ -24,7 +24,7 @@
                     <div class="read-only">
                         <div class="title">
                             <label>부서명</label>
-                            <label>직급<label>                                      
+                            <label>직급</label>                                      
                             <label>사원번호</label>
                             <label>사원명</label>                                
                         </div>
