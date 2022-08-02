@@ -12,19 +12,19 @@ insert into PositionT(position, Pname) values('CCC', '사원');
 /* 직급 : B - 팀장, C - 사원*/
 /* 이사 : CEO_A, CEO_B*/
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, licence, bank, bankbook, depositor, car)
-      values('CEO_A', '최여진', 'A001', 'AAA', '930601', '6k5bsy@kakao.com', '12-01-01', '010-6564-7809', '930601', '10101', '경남 창원시 의창구', '여', '대졸', false, '미혼', '운전면허2종보통', '우리', '100-1000-11111', '최여진', '63두4167');
+      values('CEO_A', '최여진', 'A001', 'AAA', '000000', '#', '12-01-01', '010-1111-1111', '000000', '10101', '경남 창원시 의창구', '여', '대졸', false, '미혼', '운전면허2종보통', '우리', '100-1000-11111', '최여진', '00두0000');
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, licence, bank, bankbook, depositor)
-      values('CEO_B', '김은아', 'B001', 'AAA', '940103', '6k5bsy1@kakao.com', '12-01-01', '010-2183-0258', '940103', '10111', '경남 창원시 마산합포구', '여', '고졸', false,'미혼', '운전면허2종보통', '신한', '123-1234-12345', '김은아');
+      values('CEO_B', '김은아', 'B001', 'AAA', '000000', '#', '12-01-01', '010-1111-1111', '000000', '10111', '경남 창원시 마산합포구', '여', '고졸', false,'미혼', '운전면허2종보통', '신한', '123-1234-12345', '김은아');
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, licence, bank, bankbook, depositor, car)
-      values('160301A001z01', '박해빈', 'A001', 'BBB', '931011', '6k5bsy2@kakao.com', '16-03-01', '010-5199-7400', '931011', '99999', '경남 창원시 마산합포구', '여', '대졸', false, '미혼', '운전면허2종보통', '국민', '66666-777-4444', '박해빈', '16루9115');
+      values('160301A001z01', '박해빈', 'A001', 'BBB', '000000', '#', '16-03-01', '010-1111-1111', '000000', '99999', '경남 창원시 마산합포구', '여', '대졸', false, '미혼', '운전면허2종보통', '국민', '66666-777-4444', '박해빈', '00루0000');
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, licence, bank, bankbook, depositor, car)
-      values('140701A001z01', '김현일', 'A001', 'CCC', '920831', '6k5bsy3@kakao.com', '14-07-01', '010-7456-4742', '920831', '12345', '경남 창원시 성산구', '남', '초대졸', true, '미혼', '운전면허1종보통', '경남', '313-1000-12345', '김현일', '11구6526');
+      values('140701A001z01', '김현일', 'A001', 'CCC', '000000', '#', '14-07-01', '010-1111-1111', '000000', '12345', '경남 창원시 성산구', '남', '초대졸', true, '미혼', '운전면허1종보통', '경남', '313-1000-12345', '김현일', '00구0000');
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, licence, bank, bankbook, depositor)
-      values('160201B001z01', '이창기', 'B001', 'BBB', '920507', '6k5bsy4@kakao.com', '16-02-01', '010-2250-4312', '920507', '55555', '경남 창원시 마산합포구', '남', '대졸', true, '기혼', '운전면허1종보통', '카카오', '9999-9999-99999', '이창기');
+      values('160201B001z01', '이창기', 'B001', 'BBB', '000000', '#', '16-02-01', '010-1111-1111', '000000', '55555', '경남 창원시 마산합포구', '남', '대졸', true, '기혼', '운전면허1종보통', '카카오', '9999-9999-99999', '이창기');
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, bank, bankbook, depositor)
-      values('220701A001z02', '박민후', 'A001', 'CCC', '940926', '6k5bsy5@kakao.com', '22-07-01', '010-5168-8790', '940926', '11111', '경남 함안군 입곡길86', '남', '대졸', true, '미혼', '농협', '811-1224-2821', '박민후');
+      values('220701A001z02', '박민후', 'A001', 'CCC', '000000', '#', '22-07-01', '010-1111-1111', '000000', '11111', '경남 함안군 입곡길86', '남', '대졸', true, '미혼', '농협', '811-1224-2821', '박민후');
 insert into Employee(Ecode, Ename, Dcode, position, password, email, joinday, phone, birth, zipcode, address, sex, education, military, maritalStatus, bank, bankbook, depositor)
-      values('220701B001z01', '김민호', 'B001', 'CCC', '960919', '6k5bsy6@kakao.com', '22-07-01', '010-1111-1111', '960919', '11112', '경남 창원시 마산회원구', '남', '대졸', true, '미혼', '신한', '222-2222-2222', '김민호'); 
+      values('220701B001z01', '김민호', 'B001', 'CCC', '000000', '#', '22-07-01', '010-1111-1111', '000000', '11112', '경남 창원시 마산회원구', '남', '대졸', true, '미혼', '신한', '222-2222-2222', '김민호'); 
 
       
 /*3. 휴가 : 휴가코드, 휴가명칭, 부여시간, 부여일*/
