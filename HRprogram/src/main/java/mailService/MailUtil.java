@@ -11,7 +11,6 @@ public class MailUtil {
 		String hostSMTP = "smtp.naver.com";
 		String hostSMTPid = "아이디";
 		String hostSMTPpwd = "비밀번호";
-		//본인의 아이디와 비밀번호로 수정하세요!
 		
 		String fromEmail = "아이디@naver.com";
 		String fromName = "관리자";
