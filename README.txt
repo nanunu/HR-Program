@@ -1,5 +1,5 @@
 * Lombok이 설치되어있지 않다면 반드시 Lombok을 설치하고 실행해주세요!
-* java>mailService>MailUtil.java의 hostSMTPpwd는 메일로 문의해주세요!
+* java>mailService>MailUtil.java의 hostSTTPid와 hostSMTPpwd는 본인의 naver아이디와 비밀번호를 사용하세요!
 
 1. 시작 전 DATABASE 삽입
 위치 : /resources/sql

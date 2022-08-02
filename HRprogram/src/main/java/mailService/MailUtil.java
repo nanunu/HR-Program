@@ -9,11 +9,11 @@ public class MailUtil {
 		
 		String charSet="utf-8";
 		String hostSMTP = "smtp.naver.com";
-		String hostSMTPid = "kopo_kapc";
-		String hostSMTPpwd = "";
-		//비밀번호는 메일로 문의해주세요!
+		String hostSMTPid = "아이디";
+		String hostSMTPpwd = "비밀번호";
+		//본인의 아이디와 비밀번호로 수정하세요!
 		
-		String fromEmail = "kopo_kapc@naver.com";
+		String fromEmail = "아이디@naver.com";
 		String fromName = "관리자";
 		
 		String subject = "";
