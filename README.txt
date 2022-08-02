@@ -3,6 +3,8 @@
 
 * java>mailService>MailUtil.java의 hostSTTPid와 hostSMTPpwd는 본인의 naver아이디와 비밀번호를 사용하세요!
 
+	- nave메일의 환경설정에서 'POP3/IMAP'과 'IMAP/SMTP'을 사용함으로 변경해주세요!! 
+
 * 비밀번호찾기 서비스를 이용하실 경우 email주소를 본인이 사용하실 주소로 바꿔주세요!
 sql 쿼리문 : update Employee set email='사용할 이메일 주소' where Ecode='160201B001z01';
 
