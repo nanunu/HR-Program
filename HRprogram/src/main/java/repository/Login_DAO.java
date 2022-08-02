@@ -14,11 +14,11 @@ import model.SessionDTO;
 
 @Repository
 public class Login_DAO {
-	
-	public Login_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
-	
+
 	private JdbcTemplate jt;
 	
+	public Login_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
+		
 	public SessionDTO login(String Ecode, String password) {// 사원코드와 비밀번호로 조회
 		String sql = "select Ecode,Ename,Dcode,position from Employee where Ecode=? and password=?";
 		

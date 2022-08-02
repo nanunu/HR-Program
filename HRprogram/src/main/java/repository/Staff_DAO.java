@@ -17,11 +17,9 @@ import model.PositionDTO;
 import model.SessionDTO;
 
 public class Staff_DAO {
-
-	public Staff_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
 	
 	private JdbcTemplate jt;
-	
+
 	RowMapper<EmployeeDTO> mapper = new RowMapper<EmployeeDTO>() {
 
 		@Override
@@ -49,6 +47,8 @@ public class Staff_DAO {
 			return dto;
 		}
 	};
+
+	public Staff_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
 	
 	/*부서DTO를 리스트로 돌려주는 함수*/
 	public List<DepartmentDTO> getDepartmentList() {

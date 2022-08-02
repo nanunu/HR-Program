@@ -1,9 +1,6 @@
 package controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -17,11 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Service.*;
 import repository.*;
-import model.DepartmentDTO;
-import model.EmployeeDTO;
 import model.FormSearchCMD;
 import model.HolidayRecordDTO;
-import model.PositionDTO;
 
 
 @Controller
@@ -35,12 +29,6 @@ public class HolidayController {
 
 	@Autowired
 	HolidayService holidayService;
-	
-	@Autowired
-	OverTimeService overTimeService;
-	
-	@Autowired
-	OverTime_DAO overTime_DAO;
 	
 	@Autowired
 	Flextime_DAO flexTime_DAO;
