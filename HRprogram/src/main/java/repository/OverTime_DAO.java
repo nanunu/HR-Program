@@ -1,10 +1,16 @@
 package repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import model.OverTimeDTO;
 
 @Repository
 public class OverTime_DAO {
@@ -12,6 +18,34 @@ public class OverTime_DAO {
 	JdbcTemplate jt;
 	
 	public OverTime_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
+	
+	
+	public ArrayList<OverTimeDTO> Select_OverTime(String EcodeName){
+		
+		String sql = "select * from HoliRecord where Ecode like '%"+EcodeName+"%' or Ecode in (select Ecode from Employee where Ename like '%"+EcodeName+"%')";
+		
+		RowMapper<OverTimeDTO> mapper = new RowMapper<OverTimeDTO>() {
+
+			@Override
+			public OverTimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				OverTimeDTO dto = new OverTimeDTO();
+				dto.setOtCode(rs.getInt(1));
+				dto.setEcode(rs.getString(2));
+				dto.setOtDay(rs.getString(3));
+				dto.setOtStartTime(rs.getString(4));
+				dto.setOtEndTime(rs.getString(5));
+				dto.setTimeSum(rs.getInt(6));
+				dto.setOtReason(rs.getString(7));
+				dto.setOtApproval(rs.getString(8));
+				return dto;
+			}
+			
+		};
+		
+		ArrayList<OverTimeDTO> list = (ArrayList<OverTimeDTO>) jt.query(sql, mapper);
+		
+		return list;
+	}
 	
 	// 사원코드와 초과근무시작일을 기준으로 검색.
 	public Integer Select_OverTime(String Ecode, String OTday) { 
@@ -55,5 +89,31 @@ public class OverTime_DAO {
 		return jt.update(sql, Ecode, startday, endday);
 	}
 
+	//초과근무한 모든 직원 가져오기
+	public ArrayList<OverTimeDTO> Select_AllOverTime(){
+		String sql = "select * from OverTime";
+		RowMapper<OverTimeDTO> mapper = new RowMapper<OverTimeDTO>() {
+
+			@Override
+			public OverTimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				OverTimeDTO dto = new OverTimeDTO();
+				dto.setOtCode(rs.getInt(1));
+				dto.setEcode(rs.getString(2));
+				dto.setOtDay(rs.getString(3));
+				dto.setOtStartTime(rs.getString(4));
+				dto.setOtEndTime(rs.getString(5));
+				dto.setTimeSum(rs.getInt(6));
+				dto.setOtReason(rs.getString(7));
+				dto.setOtApproval(rs.getString(8));
+				return dto;
+			}
+			
+		};
 		
+		ArrayList<OverTimeDTO> list = (ArrayList<OverTimeDTO>) jt.query(sql, mapper);
+		
+		return list;
+	}
+	
+	
 }

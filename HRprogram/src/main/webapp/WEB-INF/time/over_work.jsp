@@ -1,4 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.time.*" %>
+<%@ page import="model.*" %>
+<%
+	ArrayList<DepartmentDTO> DepartList = (ArrayList<DepartmentDTO>) request.getAttribute("DepartLIST");
+	ArrayList<PositionDTO> PositionList = (ArrayList<PositionDTO>) request.getAttribute("PositionLIST");
+	ArrayList<OverTimeDTO> SearchList = (ArrayList<OverTimeDTO>) request.getAttribute("SearchLIST");
+	Map<String,String> Allstaff = (Map<String,String>) request.getAttribute("Allstaff");
+	String modle_Dcode = request.getParameter("Dcode");
+	String modle_Position = request.getParameter("Position");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,23 +22,34 @@
 	<%@ include file="/main-container.jsp" %>
 		            <div class="nav-giude">근태관리 > 초과근무제 내역 및 신청</div>
             <div class="filter-form">
-                <form action="#" class="form-control align">
+                <form action="over_work.do" class="form-control align">
                     <div class="form-box">
                         <label class="classfy">
                             <span class="classfy-title">부서별</span>
                             <select name="dcode" class="form-select-sm">
                                 <option value="all">전체</option>
-                                <option value="business">경영(인사)부</option>
-                                <option value="development">개발부</option>
+                                <%
+                                	for(int i=0;i<DepartList.size();i++){
+                                		DepartmentDTO dto = DepartList.get(i);                                		
+                                		if(modle_Dcode!=null&&modle_Dcode.equals(dto.getDcode())){  out.print("<option value='"+dto.getDcode()+"' selected >"+dto.getDname()+"</option>");  }
+                                		else if(dcode.equals(dto.getDcode())){ out.print("<option value='"+dto.getDcode()+"' selected >"+dto.getDname()+"</option>");  }
+                                		else{ out.print("<option value='"+dto.getDcode()+"' >"+dto.getDname()+"</option>"); }
+                                	}
+                                %>
                             </select>
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">직급별</span>
                             <select name="position" class="form-select-sm">
                                 <option value="all">전체</option>
-                                <option value="staff">사원</option>
-                                <option value="general">팀장</option>
-                                <option value="ceo">대표이사</option>
+                                <%
+                                	for(int i=0;i<PositionList.size();i++){
+                                		PositionDTO dto = PositionList.get(i);
+                                		String selected="";
+                                		if(modle_Position!=null&&modle_Position.equals(dto.getPosition())){ selected="selected"; }
+                                		out.print("<option value='"+dto.getPosition()+"' "+selected+" >"+dto.getPname()+"</option>");
+                                	}
+                                %>
                             </select>
                         </label>
                         <label class="classfy">
@@ -36,7 +58,7 @@
                         </label>
                         <label class="classfy">
                             <span class="classfy-title">사원번호 혹은 사원명</span>
-                            <input type="text" name="ecodeNename" />
+                            <input type="text" name="ecodeN" value="" />
                         </label>
                         <input type="button" class="btn-white search-btn" value="조회하기"/>
                     </div>
@@ -53,48 +75,40 @@
                         <div class="table-title confirm-width">승인여부</div>
                         <div class="table-title etc">신청사유</div>
                     </div>
-
+					<%
+						for(int i=0; i < SearchList.size(); i++){
+							OverTimeDTO dto = SearchList.get(i);							
+							LocalDate date =  LocalDate.parse(dto.getOtDay());// 적용 시작일							
+							String Ecode = dto.getEcode();
+							String condition = dto.getOtApproval();
+							
+							String viewtext="";
+							if(condition.equals("waiting")){ viewtext = "결제대기"; }
+							else if(condition.equals("cancel")){ viewtext = "결제반려"; }								
+							else{ viewtext="승인완료"; }
+							
+							String position_text="";
+							if(Allstaff.get(Ecode+"_Position")=="CCC"){ position_text="사원"; }
+							else if(Allstaff.get(Ecode+"_Position")=="BBB"){ position_text="팀장"; }
+							else{ position_text="대표이사"; }
+							
+							String class_text="";
+							if(Allstaff.get(Ecode+"Dcode")=="A001"){ class_text="경영인사팀";}
+							else{ class_text="개발팀"; }
+					%>	
                     <div class="row">                
-                        <div class="content-text">경영(인사)부</div>
-                        <div class="content-text">220101A001B</div>
-                        <div class="content-text">김현일</div>
-                        <div class="content-text">팀장</div>
-                        <div class="content-text">2022.07.06</div>                                            
-                        <div class="content-text">승인완료</div>
+						<div class="content-text"><%=class_text%></div>
+                        <div class="content-text"><%=Ecode%></div>
+                        <div class="content-text"><%=Allstaff.get(Ecode+"_Ename") %></div>
+                        <div class="content-text"><%=position_text %></div>
+                        <div class="content-text"><%=date.toString()%></div>                                            
+                        <div class="content-text"><%=viewtext %></div>
                         <!--사원번호 들고 이동함(사원번호 , 페이지명)-->
-                        <div class="content-text" onclick="description('220101A001B','over')">상세내역보기</div>
+                        <div class="content-text" onclick="description('<%=Ecode%>','over')">상세내역보기</div>
                     </div>
-
-                    <div class="row">                
-                        <div class="content-text">경영(인사)부</div>
-                        <div class="content-text">220523A001C</div>
-                        <div class="content-text">박민후</div>
-                        <div class="content-text">사원</div>
-                        <div class="content-text">2022.07.19</div>                                            
-                        <div class="content-text">대기중</div>
-                        <div class="content-text" onclick="description('220523A001C','over')">상세내역보기</div>
-                    </div>
-
-                    <div class="row">                
-                        <div class="content-text">개발부</div>
-                        <div class="content-text">220101B001B</div>
-                        <div class="content-text">이창기</div>
-                        <div class="content-text">팀장</div>
-                        <div class="content-text">2022.07.19</div>                                            
-                        <div class="content-text">승인거부</div>
-                        <div class="content-text" onclick="description('220101B001B','over')">상세내역보기</div>                           
-                    </div>
-
-                    <div class="row">                
-                        <div class="content-text">개발부</div>
-                        <div class="content-text">220523B001C</div>
-                        <div class="content-text">김민호</div>
-                        <div class="content-text">사원</div>
-                        <div class="content-text">2022.07.19</div>                                            
-                        <div class="content-text">승인완료</div>
-                        <div class="content-text" onclick="description('220523B001C','over')">상세내역보기</div>                       
-                    </div>
-
+					<%
+						}
+					%>
                 </div><!-- container end -->
 
             </div><!-- view-container end -->

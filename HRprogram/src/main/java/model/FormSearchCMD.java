@@ -5,7 +5,7 @@ public class FormSearchCMD {
 	private String dcode;
 	private String position;
 	private String date;
-	private String ecodeNeame;
+	private String ecodeN;
 	
 	public String getDcode() {
 		return dcode;
@@ -25,11 +25,11 @@ public class FormSearchCMD {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getEcodeNeame() {
-		return ecodeNeame;
+	public String getEcodeN() {
+		return ecodeN;
 	}
-	public void setEcodeNeame(String ecodeNeame) {
-		this.ecodeNeame = ecodeNeame;
+	public void setEcodeN(String ecodeN) {
+		this.ecodeN = ecodeN;
 	}
 	
 	

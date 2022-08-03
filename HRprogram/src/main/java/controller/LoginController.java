@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ public class LoginController {
 	UserMailService user;
 	
 	@PostMapping("/login.do")
+	@Transactional
 	public String process_login(@RequestParam(value="Ecode") String Ecode, @RequestParam(value="password") String password,HttpSession session,HttpServletResponse response) throws IOException {
 		
 		response.setCharacterEncoding("UTF-8");
@@ -46,18 +48,16 @@ public class LoginController {
 			print.close();
 			return "";
 		}
-		else { 
+		else {
+			
 			dao.CmTime(Ecode,"CmAtTime"); // 출근처리 insert실행.
 			
-			int checking_counting =dao.Cmtime_checking(Ecode);// 오늘 출근 - 퇴근했는지 확인하는 함수 
+			String checking_Ecode =dao.Cmtime_checking(Ecode);// 오늘 출근 - 퇴근했는지 확인하는 함수 
 			
-			if(checking_counting > 1) { 
-				// 오늘 출근-퇴근한적있는지 체크하고 예외발생시킬것.
-				// 결과가 1초과 (2)일경우, 오늘 날짜로 출근을하고, 퇴근까지한 경우인데 추가로 출근까지 시도했음.
-				// 트랜젝션 적용해볼것.!!!!!!!!!!!!!!
+			if(checking_Ecode == null) {
 				return "redirect:/error.do"; // 예외처리 뷰를 출력하기.
 			}
-			else if(checking_counting == 1) { // 오늘 처음으로 출근한경우.			
+			else  { // 오늘 처음으로 출근한경우.			
 				//session.setAttribute("SessionDTO", dto); //session 에 DTO저장. ==> Session에 DTO를 저장할 경우 서버가 재시작 되었을 때 session이 유지되지 않음
 				session.setAttribute("Ecode", dto.getEcode());//session에 사원코드
 				session.setAttribute("Ename", dto.getEname());//session에 사워명
@@ -65,10 +65,12 @@ public class LoginController {
 				session.setAttribute("Dname", dao.getDname(dto.getDcode()));//session에 부서이름 //부서코드를 통해 부서이름 찾기.
 				session.setAttribute("position", dto.getPosition());//session에 직급
 				session.setAttribute("Pname", dao.getPname(dto.getPosition()));// session직급이름찾기.
-				return "redirect:/go_record.do";	
+				return "redirect:/go_record.do";
+								
 			}
+			/*
 			else {
-			 // insert취소해야됨!!!!
+				// insert취소해야됨!!!!
 				//오늘하루 출근처리는 하였으나 퇴근처리는 안되었을경우.
 				session.setAttribute("Ecode", dto.getEcode());//session에 사원코드
 				session.setAttribute("Ename", dto.getEname());//session에 사워명
@@ -79,6 +81,7 @@ public class LoginController {
 
 				return "redirect:/go_record.do";
 			}
+			*/
 		}
 	}
 	
@@ -87,12 +90,9 @@ public class LoginController {
 		
 		String Ecode = (String) session.getAttribute("Ecode");
 	
-		if(Ecode!=null) {			
-			session.invalidate();
-	         return "redirect:/login.jsp";
-	         /*
+		if(Ecode!=null) {	         
 	         // 오늘 출근 - 퇴근하였는지 확인하는 함수
-	         if(dao.Cmtime_checking(Ecode) == 0) { //출근은하였으나 퇴근처리가 되지않은 상태. 0값
+	         if(dao.Cmtime_checking(Ecode) != null) { //출근은하였으나 퇴근처리가 되지않은 상태. 0값
 	            dao.CmTime(Ecode,"CmGetoffTime");//퇴근처리하기
 	            session.invalidate();//세션 삭제
 	            return "redirect:/login.jsp";
@@ -100,7 +100,8 @@ public class LoginController {
 	         else { // 0값이 아닐경우 무조건 예외처리!
 	            return "redirect:/error.do"; // 예외처리 뷰출력
 	         }
-			*/
+	         
+			
 		}
 		//if문에 부합하지 않으면 session의 문제가 있다는것.
 		return "redirect:/error.do"; // 예외처리 뷰출력

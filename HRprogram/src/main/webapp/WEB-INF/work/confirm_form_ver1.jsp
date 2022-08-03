@@ -10,13 +10,8 @@
 </head>
 <body>
 	<%	
-		if(request.getParameter("message")!=null){
+		if(request.getParameter("message")!=null){	out.print("<script>alert('"+request.getParameter("message")+"');</script>"); }
 	%>
-			<script>alert('<%=request.getParameter("message")%>');</script>
-	<%
-		}
-	%>
-
 	<%@ include file="/main-container.jsp" %>
 	            <!-- content 내용 출력구분.  -->
 
@@ -25,28 +20,28 @@
                     <div class="read-only">
                         <div class="title">
                             <label>부서명</label>
-                            <label>직급<label>                                      
+                            <label>직급</label>                                      
                             <label>사원번호</label>
                             <label>사원명</label>                                
                         </div>
                         <div class="content">
-                            <input type="text" class="form-control update-not" name="Dname" value="<%=dname %>" readonly />
-                            <input type="text" class="form-control update-not" name="position" value="<%=position %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ecode" value="<%=ecode %>" readonly />
-                            <input type="text" class="form-control update-not" name="Ename" value="<%=ename %>" readonly />                                
-                        </div>                          
+                            <input type="text" class="form-control update-not" name="Dname" value="<%=dname%>" readonly />
+                            <input type="text" class="form-control update-not" name="Pname" value="<%=pname%>" readonly />
+                            <input type="text" class="form-control update-not" name="Ecode" value="<%=ecode%>" readonly />
+                            <input type="text" class="form-control update-not" name="Ename" value="<%=ename%>" readonly />  
+                        </div>                         
                     </div>
                     <div class="confirm_class">
                         <div class="title">
                             <label>근무신청유형</label>
                             <label>근무코드</label>
                         </div>
-                        <div>                                
+                        <div>
                             <select name="work" id = "confirm_select" class="form-select first-select" onchange="Confirm_select(this)">                                                       
                                 <option value="OverTime">초과근무신청</option>                                
                                 <option value="HoliRecord">휴가근무신청</option>                                                             
                             </select>                                                         
-                            <select name="Hcode" id = "Hcode_select" class="form-select second-select" disabled >                                                                                  
+                            <select name="Hcode" id = "Hcode_select" class="form-select second-select">                                                                                  
                                 <option value="H0001">연차</option>
                                 <option value="H0002">반차</option> 
                                 <option value="H0003">외출</option> 
@@ -58,6 +53,15 @@
                             </select>
                         </div>
                     </div>
+                    <script type="text/javascript">
+                    	let type_tmp = document.getElementById("confirm_select");
+	                    let type = type_tmp[type_tmp.selectedIndex].value;        
+	                    let code_tmp=document.getElementById('Hcode_select');	                    
+	                    if(type!="HoliRecord"){
+	                    	code_tmp.value=null; 
+	                 		code_tmp.setAttribute("disabled",false);
+	                    }
+                    </script>
                     <div class="confirm_date">
                         <div class="title">
                             <label>신청일자</label>                                
@@ -77,9 +81,7 @@
                             <label>신청사유</label>                                
                         </div>
                         <div>
-                            <textarea class="form-control" col="20" name="Reason">
-
-                            </textarea>
+                            <textarea class="form-control" col="20" name="Reason"></textarea>
                         </div>
                     </div>
                     <div class="btn-align">

@@ -76,7 +76,7 @@ public class HolidayController {
 		
 		
 		// 해당날짜에 휴가 등록이 먼저 되어있는지 확인할것.
-		if(holiday_DAO.Select_HolidayRecord(map.get("Ecode"), map.get("startday"))==null) {
+		if(holiday_DAO.Select_HolidayRecord(map.get("Ecode"), map.get("startday"))!=null) {
 			redirect.addAttribute("message","먼저 신청하신 휴가가 있습니다.");
 			return "redirect:/form_ver1.do";
 		}
@@ -96,57 +96,51 @@ public class HolidayController {
 	}//process_Holirecode()end
 	
 	@RequestMapping("/day_off.do")
-	public String process_dayoff(FormSearchCMD cmd, Model modle, HttpSession session) {
+	public String process_dayoff(FormSearchCMD cmd, Model model, HttpSession session) {		
 		String Dcode = (String)session.getAttribute("Dcode");		
-		if(cmd.getDcode()!=null) { Dcode = cmd.getDcode(); }
+		if(cmd.getDcode()!=null) { 
+			Dcode = cmd.getDcode();
+			model.addAttribute("Dcode",Dcode);
+		}
 		
 		String Position = "all";
-		if(cmd.getPosition()!=null) { Position = cmd.getPosition(); }
+		if(cmd.getPosition()!=null) { 
+			Position = cmd.getPosition();
+			model.addAttribute("Position",Position);
+		}
 		
 		String Date = null;
 		if(cmd.getDate()!=null&&cmd.getDate()!="") { Date = cmd.getDate(); }
 		
-		String EcodeName = null;
-		if(cmd.getEcodeNeame()!=null&&cmd.getEcodeNeame()!="") { EcodeName = cmd.getEcodeNeame(); }
-		
-		System.out.println(cmd.getDcode()+"cmd.getDcode()");
-		System.out.println(cmd.getPosition()+"cmd.getPosition()");
-		System.out.println(cmd.getDate()+"cmd.getDate()");
-		System.out.println(cmd.getEcodeNeame()+"cmd.getEcodeNeame()");
-		
+		String EcodeName = "";
+		if(cmd.getEcodeN()!=null) {  EcodeName = cmd.getEcodeN(); }
+
 		//휴가레코드 전체 데이터 가져오기. + 사원정보와 비교를위해 사원전체 데이터가져오기
 		ArrayList<HolidayRecordDTO> holiday_list = holiday_DAO.Select_AllHoliRecord();
-		System.out.println("--------------------SearchList");
-		System.out.println(holiday_list);
-		//ArrayList<EmployeeDTO> staff_list = staff_DAO.getEmployList();
+
 		Map<String,String> staff_list = staff_DAO.Select_EmployMap();
 		
-		if(!Dcode.equals("all")) { // 부서명으로 검색했을시 실행 할 함수
-			System.out.println("부서명 검색");			
+		if(!Dcode.equals("all")) { // 부서명으로 검색했을시 실행 할 함수						
 			holiday_list = searchService.Remove_Dcode(holiday_list,Dcode,staff_list);
 		}
-		if(!Position.equals("all")) {// 직급명으로 검색했을시 실행 할 함수
-			System.out.println("직급별 검색");			
+		if(!Position.equals("all")) {// 직급명으로 검색했을시 실행 할 함수						
 			holiday_list = searchService.Remove_Position(holiday_list, Position, staff_list);
 		}		
-		if(Date!=null) { // 날짜별로 검색했을시 실행 할 함수
-			System.out.println("날짜별 검색");
+		if(Date!=null) { // 날짜별로 검색했을시 실행 할 함수			
 			holiday_list = searchService.Remove_Date(holiday_list, Date, staff_list);
 		}
-		if(EcodeName!=null) { // 사원코드 혹은 사원명으로 검색했을시
-			System.out.println("사원코드검색");
+
+		if(EcodeName!="") { // 사원코드 혹은 사원명으로 검색했을시			
 			//사원코드 이거나 사원명으로 검색하였을시 나올 list
-			ArrayList<HolidayRecordDTO> EcodeName_list = holiday_DAO.Select_HoliRecord(cmd.getEcodeNeame().trim());//좌우 공백제거			
+			ArrayList<HolidayRecordDTO> EcodeName_list = holiday_DAO.Select_HoliRecord(EcodeName.trim());//좌우 공백제거			
 			holiday_list = searchService.Remove_EcodeNeame(holiday_list, EcodeName_list);
 		}
-		System.out.println("--------------------SearchList");
-		System.out.println(holiday_list);
 		
-		modle.addAttribute("SearchLIST", holiday_list);// 검색결과 리스트 모델에 저장
-		modle.addAttribute("DepartLIST",staff_DAO.getDepartmentList());// 부서리스트가져오는함수
-		modle.addAttribute("PositionLIST",staff_DAO.getPositionList());// 직급리스트가져오는함수
-		modle.addAttribute("Allstaff",staff_list); // 모든 사원정보 
-		
+		model.addAttribute("SearchLIST", holiday_list);// 검색결과 리스트 모델에 저장
+		model.addAttribute("DepartLIST",staff_DAO.getDepartmentList());// 부서리스트가져오는함수
+		model.addAttribute("PositionLIST",staff_DAO.getPositionList());// 직급리스트가져오는함수
+		model.addAttribute("Allstaff",staff_list); // 모든 사원정보 
+
 		return "time/day_off";
 
 	}// process_dayoff() end

@@ -3,6 +3,9 @@ package di;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import Service.*;
 import controller.*;
@@ -12,6 +15,7 @@ import mailService.UserMailService;
 
 
 @Configuration
+@EnableTransactionManagement
 public class AppCtx {
 	
 	@Bean(destroyMethod = "close")
@@ -23,7 +27,11 @@ public class AppCtx {
 		ds.setPassword("1234");
 		return ds;
 	}
-
+	
+	//로그인에 트랜젝션적용
+	@Bean
+	public PlatformTransactionManager platform() { return new DataSourceTransactionManager(dataSource()); }
+	
 	
 	// Controller
 	@Bean
@@ -39,8 +47,7 @@ public class AppCtx {
 	public HolidayController HolidayController() { return new HolidayController(); }
 
 	
-	// DAO
-	
+	// DAO	
 	@Bean
 	public Login_DAO login_DAO() { return new Login_DAO(dataSource()); }
 
@@ -56,8 +63,7 @@ public class AppCtx {
 	@Bean
 	public Holiday_DAO holiday_DAO() { return new Holiday_DAO(dataSource()); }
 
-	// Service
-	
+	// Service	
 	@Bean
 	public MailUtil mailUtil() { return new MailUtil(); }
 	
