@@ -8,30 +8,47 @@
 
 function Confirm_startday(start_day){
 	let end_day = document.getElementById("endday");
-	alert(start_day);
 	let start = new Date(start_day.value);
-	let end = new Date(start_day.value);
-	let type = document.getElementById("work")[document.getElementById("work").selectedIndex].value;
-	alert(type);
-	
-	if(type=="OverTime"){
+	let end = new Date(start_day.value);	
+	let type = document.getElementById("confirm_select").options[document.getElementById("confirm_select").selectedIndex].value;
+	let code = document.getElementById("Hcode_select");
+		
+	if(type=="OverTime"){		
 	 	let MM = end.getMonth()+1; 
         let dd = end.getDate();  
         
         //MM 이 1~9월이면 if문 실행
         //+1을 해주는 이유 - Date객체는 월을 0부터 시작함.
-        if(end.getMonth()+1 < 10) { MM = "0"+(end.getMonth()+1); }// 01...09 형식으로 변환.
+        if(MM < 10) { MM = "0"+MM; }// 01...09 형식으로 변환.
         
         //dd가 9일이하면 if 문 실행
         //일자를 가져오는 함수. 
-        if(end.getDate() < 10) { dd = "0"+end.getDate(); }// 01...09 형식으로 변환.
+        if(dd < 10) { dd = "0"+dd; }// 01...09 형식으로 변환.
 
         var text = end.getFullYear()+"-"+MM+"-"+dd; // yyyy-mm-dd형식으로 만듦.        
         end_day.value = text; // input date태그에 값 넣기
-	}
+	}	
 	else{
-		let code_value = HolidayDay_getvalue;
-		alert(code_value);
+		let code_value = code.options[code.selectedIndex].value;
+		let MM = end.getMonth()+1; 
+	    let dd = end.getDate();  
+		
+		if(code_value=="H1001"){
+		    
+	        //MM 이 1~9월이면 if문 실행
+	        //+1을 해주는 이유 - Date객체는 월을 0부터 시작함.
+	        if(MM < 10) { MM = "0"+MM; }// 01...09 형식으로 변환.
+	        
+	        //dd가 9일이하면 if 문 실행
+	        //일자를 가져오는 함수.
+	        dd = dd + 5;
+	        alert(dd); 
+	        if(dd < 10) { dd = "0"+dd; }// 01...09 형식으로 변환.
+			alert(dd);
+	        var text = end.getFullYear()+"-"+MM+"-"+dd; // yyyy-mm-dd형식으로 만듦.        
+	        end_day.value = text; // input date태그에 값 넣기
+		}
+		
 	}
 	
 }
@@ -41,6 +58,7 @@ function Confirm_startday(start_day){
 function Holiday_getvalue(){
 	return document.getElementById("Hcode_select")[document.getElementById("Hcode_select").selectIndex].value;
 }
+
 
 /*
     근무신청 유형 select값에 따라 근무코드 활성화/비활성화 시키는 함수
@@ -57,9 +75,9 @@ function Confirm_select(type_tmp){
     //근무신청유형이 휴가근무신청이 아닐경우 근무코드 비활성화시키는 함수.
     if(type!="HoliRecord"){ 
 		code_tmp.value=null; 
-		code_tmp.setAttribute("disabled",null);
+		code_tmp.setAttribute("disabled",false);
 	}
-    else{ code_tmp.removeAttribute("disabled",null); }
+    else{ code_tmp.removeAttribute("disabled",true); }
 
 }
 

@@ -57,7 +57,7 @@ public class Login_DAO {
 		return jt.queryForObject(sql, String.class, position);
 	}
 	
-	public Integer Cmtime_checking(String Ecode) { //퇴근 시간이 null값인 오늘 날짜로 검색
+	public String Cmtime_checking(String Ecode) { //퇴근 시간이 null값인 오늘 날짜로 검색
 		LocalDateTime datetime = LocalDateTime.now();
 		
 		String month;
@@ -67,9 +67,10 @@ public class Login_DAO {
 		
 		String date = datetime.getYear()+"-"+month+"-"+datetime.getDayOfMonth();
 		
-		String sql = "select count(Ecode) from Commute where CmDay=? and Ecode=?";
+		String sql = "select distinct Ecode from Commute where CmDay=? and Ecode=? and CmGetoffTime is null";
+		// null값을 검색하고 싶을때에는 is null // is not null 로 조건이 들어가야함
 		
-		return jt.queryForObject(sql, Integer.class, date, Ecode);		
+		return jt.queryForObject(sql, String.class, date, Ecode);		
 	}
 		
 	public int CmTime(String Ecode, String type) {
