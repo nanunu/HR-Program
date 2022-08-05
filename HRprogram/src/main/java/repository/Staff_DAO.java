@@ -132,10 +132,10 @@ public class Staff_DAO {
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				String Ecode = rs.getString("Ecode");
-				map.put(Ecode+"_Ecode",rs.getString("Ecode"));
-				map.put(Ecode+"_Dcode",rs.getString("Dcode"));
-				map.put(Ecode+"_position",rs.getString("position"));
-				map.put(Ecode+"_Ename",rs.getString("Ename"));
+				map.put(Ecode+"_Ecode",rs.getString("Ecode"));//사원번호
+				map.put(Ecode+"_Dcode",rs.getString("Dcode"));//부서코드
+				map.put(Ecode+"_position",rs.getString("position"));//직급
+				map.put(Ecode+"_Ename",rs.getString("Ename"));//사원명
 				return "";
 			}
 			

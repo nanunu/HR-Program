@@ -33,7 +33,7 @@ public class OverTimeController {
 	OverTimeController overTimeController;
 	
 	@Autowired
-	OverTime_DAO overTimeDAO;
+	OverTime_DAO overTime_DAO;
 	
 	@Autowired
 	OverTimeService overTimeService;
@@ -69,7 +69,6 @@ public class OverTimeController {
 	 * */
 	
 	@RequestMapping("/OverTime.do")
-
 	public String process_OverTime(@RequestParam Map<String,String> map, Model model) {
 		
 		String message="";
@@ -95,7 +94,7 @@ public class OverTimeController {
 		}
 		
 		// 오늘 날짜를 기준으로 이미 신청했는지 확인
-		if(overTimeDAO.Select_OverTime(map.get("Ecode"),map.get("startday"))==0) {			
+		if(overTime_DAO.Select_OverTime(map.get("Ecode"),map.get("startday"))==0) {			
 			LocalDate date = LocalDate.parse(map.get("startday"));
 			LocalDate now = LocalDate.parse(map.get("startday"));		
 			now = now.minusDays(4);//1이 월요일...
@@ -135,57 +134,51 @@ public class OverTimeController {
 			
 	}//process_OverTime end
 	
-	@RequestMapping("/over_work.do")
-	public String process_dayoff(FormSearchCMD cmd, Model model, HttpSession session) {
+	@RequestMapping("/OverTime_record.do")
+	public String process_record(FormSearchCMD cmd, Model model) {
 		
-		String Dcode = (String)session.getAttribute("Dcode");		
-		if(cmd.getDcode()!=null) { 
-			Dcode = cmd.getDcode();
-			model.addAttribute("Dcode",Dcode);
-		}
-		
-		String Position = "all";
-		if(cmd.getPosition()!=null) { 
-			Position = cmd.getPosition();
-			model.addAttribute("Position",Position);
-		}
-		
-		String Date = null;
-		if(cmd.getDate()!=null&&cmd.getDate()!="") { Date = cmd.getDate(); }
-		
-		String EcodeName = "";
-		if(cmd.getEcodeN()!=null) {  EcodeName = cmd.getEcodeN(); }
-		
-		OverTime_DAO overTime_DAO;
 		//휴가레코드 전체 데이터 가져오기. + 사원정보와 비교를위해 사원전체 데이터가져오기
-		ArrayList<OverTimeDTO> overtime_list = overTimeDAO.Select_AllOverTime();
-
+		ArrayList<OverTimeDTO> overtime_list = overTime_DAO.Select_AllOverTime();
 		Map<String,String> staff_list = staff_DAO.Select_EmployMap();
-		
-		if(!Dcode.equals("all")) { // 부서명으로 검색했을시 실행 할 함수						
-			overtime_list = searchService.Remove_Dcode_OverTime(overtime_list,Dcode,staff_list);
-		}
-		if(!Position.equals("all")) {// 직급명으로 검색했을시 실행 할 함수						
-			overtime_list = searchService.Remove_Position_OverTime(overtime_list, Position, staff_list);
+				
+		if(cmd.getDcode()!=null) {	// 부서명으로 검색했을시 실행 할 함수
+			model.addAttribute("Dcode",cmd.getDcode());						
+			overtime_list = searchService.Remove_Dcode_OverTime(overtime_list,cmd.getDcode(),staff_list);
 		}		
-		if(Date!=null) { // 날짜별로 검색했을시 실행 할 함수			
-			overtime_list = searchService.Remove_Date_OverTime(overtime_list, Date, staff_list);
-		}
-
-		if(EcodeName!="") { // 사원코드 혹은 사원명으로 검색했을시			
-			//사원코드 이거나 사원명으로 검색하였을시 나올 list
-			ArrayList<OverTimeDTO> EcodeName_list = overTimeDAO.Select_OverTime(EcodeName.trim());//좌우 공백제거			
-			overtime_list = searchService.Remove_EcodeNeame_OverTime(overtime_list, EcodeName_list);
+		
+		if(cmd.getPosition()!=null) {// 직급명으로 검색했을시 실행 할 함수
+			model.addAttribute("Position",cmd.getPosition());
+			overtime_list = searchService.Remove_Position_OverTime(overtime_list, cmd.getPosition(), staff_list);
+		}		
+		
+		if(cmd.getDate()!=null&&cmd.getDate()!="") {// 날짜별로 검색했을시 실행 할 함수
+			overtime_list = searchService.Remove_Date_OverTime(overtime_list, cmd.getDate(), staff_list);
 		}
 		
+		if(cmd.getEcodeN()!=null) {  // 사원코드 혹은 사원명으로 검색했을시
+			//사원코드 이거나 사원명으로 검색하였을시 나올 list
+			ArrayList<OverTimeDTO> EcodeName_list = overTime_DAO.Select_OverTime(cmd.getEcodeN().trim());//좌우 공백제거			
+			overtime_list = searchService.Remove_EcodeNeame_OverTime(overtime_list, EcodeName_list);
+		}			
 		
 		model.addAttribute("SearchLIST", overtime_list);// 검색결과 리스트 모델에 저장
 		model.addAttribute("DepartLIST",staff_DAO.getDepartmentList());// 부서리스트가져오는함수
 		model.addAttribute("PositionLIST",staff_DAO.getPositionList());// 직급리스트가져오는함수
 		model.addAttribute("Allstaff",staff_list); // 모든 사원정보 
 		
-		return "time/over_work";
+		return "time/OverTime_record";
 	}
 	
+	@RequestMapping("/OverTimecard.do")
+	public String process_card(@RequestParam String pknum, @RequestParam String Ecode, Model model) {
+		//해당사원의 휴가 정보를 모델에 담음
+		model.addAttribute("SearchDTO", overTime_DAO.Select_OverTime(Integer.parseInt(pknum)));
+		model.addAttribute("DepartLIST",staff_DAO.getDepartmentList());// 부서리스트가져오는함수
+		model.addAttribute("PositionLIST",staff_DAO.getPositionList());// 직급리스트가져오는함수
+		model.addAttribute("StaffDTO",staff_DAO.getEmployeeInfo(Ecode));
+		model.addAttribute("Card_class","OverTime");
+		
+		return "work/desc_card_ver1";
+	}
 
 }//class end

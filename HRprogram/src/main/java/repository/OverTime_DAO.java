@@ -3,6 +3,7 @@ package repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -19,10 +20,38 @@ public class OverTime_DAO {
 	
 	public OverTime_DAO(DataSource ds) { this.jt = new JdbcTemplate(ds); }
 	
+	//테이블 no로 사원정보 찾기
+	public OverTimeDTO Select_OverTime(int pknum) {
+		String sql = "select * from OverTime where OTCode =?";
+		
+		RowMapper<OverTimeDTO> mapper = new RowMapper<OverTimeDTO>() {
+
+			@Override
+			public OverTimeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				OverTimeDTO dto = new OverTimeDTO();
+				dto.setOtCode(rs.getInt(1));
+				dto.setEcode(rs.getString(2));
+				dto.setOtDay(rs.getString(3));
+				dto.setOtStartTime(rs.getString(4));
+				dto.setOtEndTime(rs.getString(5));
+				dto.setTimeSum(rs.getInt(6));
+				dto.setOtReason(rs.getString(7));
+				dto.setOtApproval(rs.getString(8));
+				return dto;
+			}
+			
+		};
+		
+		List<OverTimeDTO> list = jt.query(sql, mapper, pknum);
+		
+		if(list!=null) { return list.get(0); }
+		else { return null; }
+	}
 	
+	//사원명 + 사원번호로 초과근무 리스트 작성
 	public ArrayList<OverTimeDTO> Select_OverTime(String EcodeName){
 		
-		String sql = "select * from HoliRecord where Ecode like '%"+EcodeName+"%' or Ecode in (select Ecode from Employee where Ename like '%"+EcodeName+"%')";
+		String sql = "select * from OverTime where Ecode like '%"+EcodeName+"%' or Ecode in (select Ecode from Employee where Ename like '%"+EcodeName+"%')";
 		
 		RowMapper<OverTimeDTO> mapper = new RowMapper<OverTimeDTO>() {
 

@@ -47,11 +47,11 @@ insert into EH(Ecode, numOfmyholiday) values('220701B001z01', 6.000);
 
 /*5. 휴가 기록 : 휴가기록코드, 사원코드, 휴가코드, 적용일, 시작시간, 종료시간, 사용시간, 사유, 결재상태*/
 insert into holiRecord(holiRcode, Ecode, holicode, holiRuseday, holiRstarttime, holiRendtime, holiRusetime, HoliRreason, holiRapproval)
-		values(1, '140701A001z01', 'H0004', '22-06-13', '09:00', '10:00', 1, '개인사유', '결재승인');
+		values(1, '140701A001z01', 'H0004', '22-06-13', '09:00', '10:00', 1, '개인사유', 'completed');
 insert into holiRecord(holiRcode, Ecode, holicode, holiRuseday, holiRdays, holiRreason, holiRapproval) 
-		values(2, '140701A001z01', 'H0001', '22-06-20', '5', '개인사유', '결재승인');
+		values(2, '140701A001z01', 'H0001', '22-06-20', '5', '개인사유', 'completed');
 insert into holiRecord(holiRcode, Ecode, holicode, holiRuseday, holiRstarttime, holiRendtime, holiRusetime, HoliRreason, holiRapproval)
-		values(3, '140701A001z01', 'H0003', '22-06-14', '14:00', '16:00', 2, '개인사유', '반려');
+		values(3, '140701A001z01', 'H0003', '22-06-14', '14:00', '16:00', 2, '개인사유', 'back');
 
 /*6. 출퇴근 기록 : 출퇴근기록코드, 사원코드, 일자, 출근시간, 퇴근시간*/
 insert into Commute(Cmcode, Ecode, CmDay, CmAtTime, CmGetoffTime) values(1, '160301A001z01', '22-07-05', '07:50', '17:02');
@@ -86,7 +86,18 @@ insert into PayStub(PScode, Ecode, PsMonth, AllPayCode, AllDeCode, Sum, send, PS
 insert into PayStub(PScode, Ecode, PsMonth, AllPayCode, AllDeCode, Sum, send, PSStatus) values(7, '220701B001z01', 6, 'P0003,P0004', 'D0001,D0002,D0003,D0004', 2200000, true, true);
 
 /*10. 초과근무기록 : 초과근무기록코드, 사원코드, 초과근무일, 시작시간, 종료시간, 총 초과근무시간, 결재상태*/
-insert into OverTime(OTCode, Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values(1, '160201B001z01', '22-06-07', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('160201B001z01', '22-06-08', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('160201B001z01', '22-06-09', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('160201B001z01', '22-06-10', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('160301A001z01', '22-06-11', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('160301A001z01', '22-06-12', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('140701A001z01', '22-06-13', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('140701A001z01', '22-06-14', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('220701A001z02', '22-06-15', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('220701A001z02', '22-06-16', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('220701B001z01', '22-06-17', '17:00', '21:00', 4, 'completed');
+insert into OverTime(Ecode, OTDay, OTstartTime, OTendTime, TimeSum, OTapproval) values('220701B001z01', '22-06-18', '17:00', '21:00', 4, 'completed');
+select * from overtime;
 
 /*11. 탄력근무신청 : 탄력근무기록코드, 사원코드, 탄력근무시작일, 탄력근무종료일, (월)근무시작시간, (월)근무종료시간, (화)근무시작시간, (화)근무종료시간, (수)근무시작시간, (수)근무종료시간, (목)근무시작시간, (목)근무종료시간, (금)근무시작시간, (금)근무종료시간*/
 insert into FlexTime(FTCode, Ecode, FTstartday, Ftendday, MonStart, MonEnd, TueStart, TueEnd, WedStart, WedEnd, ThuStart, ThuEnd, FriStart, FriEnd, FTapproval, AdmissionDate)

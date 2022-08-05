@@ -2,16 +2,17 @@ var menu_chek ;
 
 function submenu_open(menu){        
     var open = document.getElementById("sub-menubar");
-    if(open.style.display == "block"& menu_chek==menu){ open.style.display = "none"; }
+    
+    if(open.style.display == "block" & menu_chek==menu){ open.style.display = "none"; }
     else{ open.style.display = "block"; menu_chek=menu; }
 
     var sub_title_1 = ["근무기록조회","탄력근무제 조회/승인","초과근무 조회/승인","휴가/결근 조회/승인"];
     var sub_title_2 = ["급여명세서조회(본인)","사원급여정산"];
     var sub_title_3 = ["사원전체조회","신입사원등록"];
-    var sub_title_4 = ["휴가 부여","연차확인","menu1_sub2"];
   
     var li_box = document.getElementById('ul');
     while(li_box.hasChildNodes()) { li_box.removeChild(li_box.firstChild); }
+
 
     if(menu == "time"){ 
         for(var i=0;i<sub_title_1.length;i++){            
@@ -34,6 +35,7 @@ function submenu_open(menu){
             li_box.appendChild(li_plus);      
         }
      }
+     /* 추가 메뉴 구상예정
      else if(menu == "etc"){
         for(var i=0;i<sub_title_4.length;i++){            
             var li_plus = document.createElement("sub-menu");
@@ -41,6 +43,7 @@ function submenu_open(menu){
             li_box.appendChild(li_plus);      
         }
      }
+     */
 
 }
 
@@ -54,8 +57,8 @@ function page(page){
 function timepage(page){     
     if(page==1){location.href = "work_record.do";}
     else if(page==2){location.href = "free_work.do";} 
-    else if(page==3){location.href = "over_work.do";} 
-    else if(page==4){location.href = "day_off.do"; }    
+    else if(page==3){location.href = "OverTime_record.do";} 
+    else if(page==4){location.href = "Holiday_record.do"; }    
 }    
 
 function moneypage(page){
@@ -69,8 +72,7 @@ function viewpage(page){
 }
 
 function etcpage(page){
-    if(page==1){location.href = "/work_record.do";}
-    else if(page==2){location.href = "/free_work.do";} 
-    else if(page==3){location.href = "/overtime_work.do";} 
-    else if(page==4){location.href = "/dayoff_work.do"; }  
+ /*
+ 	추가 예정 
+ */  
 }

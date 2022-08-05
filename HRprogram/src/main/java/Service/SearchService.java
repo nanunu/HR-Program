@@ -4,30 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
-import model.EmployeeDTO;
+import org.springframework.stereotype.Service;
+
 import model.HolidayRecordDTO;
 import model.OverTimeDTO;
 
+@Service
 public class SearchService {
 
-/*
-
-	public Map<String,String> Remove_Dcode(ArrayList<HolidayRecordDTO> list, Map<String,String> staff){
-		
-		for(int i=0;i<list.size();i++) {
-			HolidayRecordDTO dto = list.get(i);
-			String Ecode = staff.get(dto.getEcode()+"_Ecode");
-			if(Ecode == null) {
-				staff.remove(dto.getEcode()+"_Ecode", Ecode);
-				staff.remove(dto.getEcode()+"_Dcode", Ecode);
-				staff.remove(dto.getEcode()+"_position", Ecode);
-				staff.remove(dto.getEcode()+"_Ename", Ecode);
-			}
-		}
-		return staff;
-	}
-*/	
-	
 	public ArrayList<HolidayRecordDTO> Remove_Dcode(ArrayList<HolidayRecordDTO> list, String Dcode, Map<String,String> staff){
 		
 		for(int i=0;i<list.size();i++) {
@@ -72,7 +56,7 @@ public class SearchService {
 			HolidayRecordDTO dto = list.get(i);
 			String Ecode = staff.get(dto.getEcode()+"_Ecode");			
 			if(Ecode!=null && dto.getEcode().equals(Ecode)) { // map에 Ecode값이 있고, 휴가레코드의 사원코드와 일치하면 실행
-				String map_position = staff.get(Ecode+"_Dcode");
+				String map_position = staff.get(Ecode+"_position");
 				if(!map_position.equals(Position)) {
 					//arraylist 삭제
 					list.remove(i);
@@ -90,8 +74,10 @@ public class SearchService {
 		for(int i=0;i<list.size();i++) {
 			OverTimeDTO dto = list.get(i);
 			String Ecode = staff.get(dto.getEcode()+"_Ecode");			
-			if(Ecode!=null && dto.getEcode().equals(Ecode)) { // map에 Ecode값이 있고, 휴가레코드의 사원코드와 일치하면 실행
-				String map_position = staff.get(Ecode+"_Dcode");
+			if(Ecode!=null && dto.getEcode().equals(Ecode)) { 
+				String map_position = staff.get(Ecode+"_position");
+				System.out.println(map_position+"-------------사원의 직급");
+				System.out.println(Position+"------------내가 선택한 직급");
 				if(!map_position.equals(Position)) {
 					//arraylist 삭제
 					list.remove(i);

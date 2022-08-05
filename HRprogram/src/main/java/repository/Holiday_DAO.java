@@ -63,38 +63,7 @@ public class Holiday_DAO {
 		String sql = "insert into HoliRecord(Ecode,Holicode,HoliRuseday,HoliRstarttime,HoliRendtime,HoliRusetime,HoliRdays,HoliRreason) values(?,?,?,?,?,?,?,?)";
 		return jt.update(sql,Ecode,Hcode,useday,String.format("%s:00:00", starttime),String.format("%s:00:00", endtime),settime,Rday,reason);
 	}
-	
-	//특정사원의 특정기간의 휴가레코드 가져오기 
-	public HolidayRecordDTO Select_HolidayRecord(String Ecode, String startday) {
-		String sql = "select * from HoliRecord where Ecode=? and holiRuseday >= ? and ? <= holiRuseday ";
-		
-		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
 
-			@Override
-			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {				
-				HolidayRecordDTO dto = new HolidayRecordDTO();
-				dto.setHoliRcode(rs.getInt("holiRcode"));
-				dto.setEcode(rs.getString("Ecode"));
-				dto.setHolicode(rs.getString("holicode"));
-				dto.setHoliRuseday(rs.getString("holiRuseday"));
-				dto.setHoliRstarttime(rs.getString("holiRstarttime"));
-				dto.setHoliRendtime(rs.getString("holiRendtime"));
-				dto.setHoliRusetime(rs.getInt("holiRusetime"));
-				dto.setHoliRdays(rs.getInt("holiRdays"));
-				dto.setHoliRreason(rs.getString("holiRreason"));
-				dto.setHoliRapproval(rs.getString("holiRapproval"));
-				return dto;
-			}
-			
-		};
-		
-		List<HolidayRecordDTO> list = jt.query(sql, mapper, Ecode, startday, startday);
-		
-		if(list==null||list.size()==0) { return null; }
-		else { return list.get(0); }
-		
-	} 
-	
 	//휴가코드가져오기
 	public String Select_Hcode(String Ecode, String startday) {
 		String sql = "select Hcode from HoliRecored where Ecode=? and holiRuseday >= ? and ? <= holiRuseday";	
@@ -164,6 +133,69 @@ public class Holiday_DAO {
 		if(list==null) { return new ArrayList<HolidayRecordDTO>(); }
 		else { return list; }
 	}
+	
+	//사원의 휴가정보 가져오기 Ecode가 아닌 테이블 no로 가져오기
+	public HolidayRecordDTO Select_HolidayRecord(String pknum) {
+
+		String sql = "select * from HoliRecord where holiRcode=?";
+		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
+
+			@Override 
+			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				HolidayRecordDTO dto = new HolidayRecordDTO();
+				dto.setHoliRcode(rs.getInt(1));
+				dto.setEcode(rs.getString(2));
+				dto.setHolicode(rs.getString(3));
+				dto.setHoliRuseday(rs.getString(4));
+				dto.setHoliRstarttime(rs.getString(5));
+				dto.setHoliRendtime(rs.getString(6));
+				dto.setHoliRusetime(rs.getInt(7));
+				dto.setHoliRdays(rs.getInt(8));
+				dto.setHoliRreason(rs.getString(9));
+				dto.setHoliRapproval(rs.getString(10));
+				return dto;
+			}
+			
+		};
+		
+		List<HolidayRecordDTO> list = jt.query(sql,mapper, pknum);
+		
+		if(list!=null) { return list.get(0); }
+		else { return null; }
+		
+	}
+	
+	//특정사원의 특정기간의 휴가레코드 가져오기 
+	public HolidayRecordDTO Select_HolidayRecord(String Ecode, String startday) {
+		String sql = "select * from HoliRecord where Ecode=? and holiRuseday >= ? and ? <= holiRuseday ";
+		
+		RowMapper<HolidayRecordDTO> mapper = new RowMapper<HolidayRecordDTO>() {
+
+			@Override
+			public HolidayRecordDTO mapRow(ResultSet rs, int rowNum) throws SQLException {				
+				HolidayRecordDTO dto = new HolidayRecordDTO();
+				dto.setHoliRcode(rs.getInt("holiRcode"));
+				dto.setEcode(rs.getString("Ecode"));
+				dto.setHolicode(rs.getString("holicode"));
+				dto.setHoliRuseday(rs.getString("holiRuseday"));
+				dto.setHoliRstarttime(rs.getString("holiRstarttime"));
+				dto.setHoliRendtime(rs.getString("holiRendtime"));
+				dto.setHoliRusetime(rs.getInt("holiRusetime"));
+				dto.setHoliRdays(rs.getInt("holiRdays"));
+				dto.setHoliRreason(rs.getString("holiRreason"));
+				dto.setHoliRapproval(rs.getString("holiRapproval"));
+				return dto;
+			}
+			
+		};
+		
+		List<HolidayRecordDTO> list = jt.query(sql, mapper, Ecode, startday, startday);
+		
+		if(list==null||list.size()==0) { return null; }
+		else { return list.get(0); }
+		
+	} 
+	
 	
 }//class end
 

@@ -72,7 +72,7 @@
                             <input type="date" class="form-control" name="endday" id="endday" />
                         </div>                            
                         <div class="title">
-                            <label>적용시간</label>                                
+                            <label style="width:500px">적용시간 * 오후 1시부터 13시로 표시해주세요</label>                                
                         </div>
                         <div class="flex-input content">
                         	<input type="number" name="starttime" id="starttime" class="form-control" /> ~ <input type="number" name="endtime" class="form-control" />

@@ -65,6 +65,7 @@ public class LoginController {
 				session.setAttribute("Dname", dao.getDname(dto.getDcode()));//session에 부서이름 //부서코드를 통해 부서이름 찾기.
 				session.setAttribute("position", dto.getPosition());//session에 직급
 				session.setAttribute("Pname", dao.getPname(dto.getPosition()));// session직급이름찾기.
+				session.setMaxInactiveInterval(24*60*60);//sesssion 유효시간설정 24시간
 				return "redirect:/go_record.do";
 								
 			}
