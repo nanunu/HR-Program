@@ -13,8 +13,8 @@ sql 쿼리문 : update Employee set email='사용할 이메일 주소' where Eco
 1. 시작 전 DATABASE 삽입
 위치 : /resources/sql
 
-	- 회원의 초기비밀번호는 생년월일입니다.
-	- 사원 Ecode(id) : 16201B001z01, 비밀번호 : 000000
+	- 회원의 초기비밀번호는 '1234' 입니다.
+	- 사원 Ecode(id) : 16201B001z01, 비밀번호 : 1234
 	- 다른 사원의 정보는 DB를 참조해주세요!
 
 2. 첫 시작페이지 : login.jsp
