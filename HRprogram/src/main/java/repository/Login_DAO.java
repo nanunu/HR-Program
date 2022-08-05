@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -57,7 +58,8 @@ public class Login_DAO {
 		return jt.queryForObject(sql, String.class, position);
 	}
 	
-	public String Cmtime_checking(String Ecode) { //퇴근 시간이 null값인 오늘 날짜로 검색
+	//출근여부 확인하기
+	public Integer Cmtime_checking(String Ecode) { //퇴근 시간이 null값인 오늘 날짜로 검색
 		LocalDateTime datetime = LocalDateTime.now();
 		
 		String month;
@@ -67,13 +69,26 @@ public class Login_DAO {
 		
 		String date = datetime.getYear()+"-"+month+"-"+datetime.getDayOfMonth();
 		
-		String sql = "select distinct Ecode from Commute where CmDay=? and Ecode=? and CmGetoffTime is null";
+		String sql = "select Ecode from Commute where CmDay=? and Ecode=? and CmGetoffTime is null";
 		// null값을 검색하고 싶을때에는 is null // is not null 로 조건이 들어가야함
 		
-		return jt.queryForObject(sql, String.class, date, Ecode);		
+		RowMapper<String> mapper = new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("Ecode");
+			}
+			
+		};
+		
+		List<String> list = jt.query(sql, mapper, date, Ecode);
+		
+		if(list!=null) { return list.size(); }
+		else { return null; }		
+		
 	}
 		
-	public int CmTime(String Ecode, String type) {
+	public int Insert_CmTime(String Ecode, String type) {
 		LocalDateTime datetime = LocalDateTime.now();
 		
 		String sql = "insert into Commute(Ecode,CmDay,CmAtTime) values(?,?,?)"; //기본값 출근처리용
@@ -100,7 +115,7 @@ public class Login_DAO {
 		
 	}
 	
-	//휴가신청시 미리 출석값 넣어주는 함수. 부작용 --> 해당날짜에 로그인이 되질않음.
+	//휴가신청 승인완료시 미리 출석값 넣어주는 함수. 부작용 --> 해당날짜에 로그인이 되질않음.
 	public int Insert_alreadyLogin(String Ecode, String CmDay, String CmAtTime, String CmGetoffTime) {
 		String sql = "insert into Commute(Ecode,CmDay,CmAtTime,CmGetoffTime) values(?,?,?,?)";
 		return jt.update(sql,Ecode,CmDay,CmAtTime,CmGetoffTime);
@@ -116,7 +131,17 @@ public class Login_DAO {
 		jt.update("update Employee set password=? where email=?", pw, email);
 	}
 	
+	// 오늘 마지막으로 로그인한 pknum 가져오기 --> 후에 삭제예정
+	public int Select_LastLogin(String Ecode, LocalDate today) {
+		String sql ="Select Cmcode from Commute where Ecode=? and Cmday";
+		return jt.queryForObject(sql,Integer.class,Ecode,today.toString());
+	}
 	
+	// pknum 삭제하기 사원의 오늘날짜 마지막로그인 수동삭제...
+	public int Delete_LastLogin(int pknum) {
+		String sql = "Delete from Commute where Cmcode=?";
+		return jt.update(sql,pknum);		
+	}
 
 	
 }
