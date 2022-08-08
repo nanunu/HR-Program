@@ -48,7 +48,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		
 		registry.addViewController(".desc_card_ver1.do").setViewName("work/desc_card_ver1");
 		//registry.addViewController("/desc_card_ver2.do").setViewName("work/desc_card_ver2");
-		
+		registry.addViewController("/lost_pw.do").setViewName("lost_pw.jsp");
 	}
 	
 	
